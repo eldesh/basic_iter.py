@@ -15,9 +15,8 @@ class NotFound:
 
 
 def find (e, xs):
-    for x in xs:
-        if x == e:
-            return x
+    if e in xs:
+        return e
     return NotFound(e)
 
 
