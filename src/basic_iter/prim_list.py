@@ -20,10 +20,11 @@ class NotFound(Generic[T]):
     When any element are not found, 'NotFound' is returned from find family.
     'NotFound' is evaluated to 'False' constantly. However, it is possible to distinguish the searched value from a False value.
 
-    >>> m = find(False, [False])
-    >>> if not isinstance(m, NotFound):
-    ...     print('found False')
-    found False
+    Examples:
+      >>> m = find(False, [False])
+      >>> if not isinstance(m, NotFound):
+      ...     print('found False')
+      found False
     """
 
     def __init__ (self, cond: Union[T, Predicate[T]]):
@@ -34,10 +35,11 @@ class NotFound(Generic[T]):
         Evaluated to 'False' constantly.
         Then, we can check if the value is found or not in the if statement.
 
-        >>> m = find(42, [1,2,3])
-        >>> if not m:
-        ...     print('not found')
-        not found
+        Examples:
+          >>> m = find(42, [1,2,3])
+          >>> if not m:
+          ...     print('not found')
+          not found
         """
         return False
 
@@ -58,9 +60,9 @@ def find (e: T, xs: List[T]) -> Found[T]:
     
     Returns:
       T:
-          The value found in the list <xs>.
+        The value found in the list <xs>.
       NotFound:
-          No values equal to the value <e>, returns <NotFound>.
+        No values equal to the value <e>, returns <NotFound>.
     """
     if e in xs:
         return e
@@ -75,9 +77,18 @@ def find_if (p: Predicate[T], xs: List[T]) -> Found[T]:
 
     Returns:
       T:
-          The value found in the list <xs>.
+        The value found in the list <xs>.
       NotFound:
-          No values equal to the value <e>, returns <NotFound>.
+        No values equal to the value <e>, returns <NotFound>.
+
+    Examples:
+      >>> find (1, [1,2,3])
+      1
+      >>> find (42, [41,42,43])
+      42
+      >>> str(find (5, [0,2,4,6,8,10]))
+      'Not found equals to the value 5'
+
     """
     for x in xs:
         if p(x):
