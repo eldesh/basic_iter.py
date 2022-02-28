@@ -97,10 +97,38 @@ def find_if (p: Predicate[T], xs: List[T]) -> Found[T]:
 
 
 def append (xs: List[T], ys: List[T]) -> List[T]:
+    """
+    Append xs and ys.
+
+    Returns:
+      List[T]:
+        A list where <xs> is followed by <ys>.
+
+    Examples:
+      >>> xs = [1,2,3]; ys = [4,5,6]; zs = append (xs, ys); zs
+      [1, 2, 3, 4, 5, 6]
+
+      An empty list is a right/left identity.
+      >>> append ([1,2,3], [])
+      [1, 2, 3]
+      >>> append ([], [1,2,3])
+      [1, 2, 3]
+      >>> xs = [1,2,3]; ys = [4,5,6]; zs = append (xs, ys); zs
+      [1, 2, 3, 4, 5, 6]
+    """
     return xs + ys
 
 
 def map (f: Callable[[T], U], xs: List[T]) -> List[U]:
+    """
+    Mapping all elements in the list <xs> to the result list with a mapping function <f>.
+
+    Examples:
+      >>> map (lambda x: x * 2, [1,2,3])
+      [2, 4, 6]
+      >>> map (lambda x: str(x), [1,2,3])
+      ['1', '2', '3']
+    """
     return [ f(x) for x in xs ]
 
 
