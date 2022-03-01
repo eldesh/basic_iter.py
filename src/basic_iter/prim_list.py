@@ -126,17 +126,46 @@ def map (f: Callable[[T], U], xs: List[T]) -> List[U]:
     Examples:
       >>> map (lambda x: x * 2, [1,2,3])
       [2, 4, 6]
-      >>> map (lambda x: str(x), [1,2,3])
+      >>> map (str, [1,2,3])
       ['1', '2', '3']
     """
     return [ f(x) for x in xs ]
 
 
 def reverse (xs: List[T]) -> List[T]:
+    """
+    Reverse the list <xs>.
+
+    Returns:
+      List[T]:
+        A list of <xs> elements in reverse order.
+
+    Examples:
+      >>> reverse([1,2,3])
+      [3, 2, 1]
+      >>> reverse('foobarbaz')
+      'zabraboof'
+    """
     return xs[-1:-len(xs)-1:-1]
 
 
 def foldl (f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
+    """
+    Folding left-to-right the list <xs> with the function <f> start from <e>.
+    For the list <xs> is [ x0, x1, x2, ... , x(n-1), xn ],
+    a calculation equivalent to the following expression is performed:
+      f (xn, f (x(n-1), ... f (x2, f (x1, f (x0, e)))))
+
+    Returns:
+      U:
+        A left-to-right folding of the list <xs> with the function <f>.
+
+    Examples:
+      >>> foldl (lambda x, acc: x + acc, 0, list(range(1, 11)))
+      55
+      >>> foldl (lambda x, acc: [x] + acc, [0], list(range(1, 6)))
+      [5, 4, 3, 2, 1, 0]
+    """
     acc = e
     for x in xs:
         acc = f (x, acc)
