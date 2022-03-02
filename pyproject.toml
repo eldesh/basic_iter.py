@@ -1,7 +1,25 @@
-[build-system]
-requires = [
-	"setuptools>=42",
-	"wheel"
+[tool.poetry]
+name = "basic_iter"
+version = "0.0.2"
+description = "A basic set of functions on iterators"
+authors = ["Takayuki Goto <nephits@gmail.com>"]
+maintainers = ["Takayuki Goto <nephits@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries",
+    "Typing :: Typed"
 ]
-build-backend = "setuptools.build_meta"
 
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+hypothesis = "^6.39.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
