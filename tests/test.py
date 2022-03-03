@@ -19,6 +19,10 @@ class TestPrimList(unittest.TestCase):
         self.assertEqual([(1,'foo'), (2,'bar')], L.append([(1,'foo')], [(2,'bar')]))
 
     @given(st.lists(st.integers()))
+    def test_foldlcons_is_rev(self, xs):
+        self.assertEqual(L.reverse(xs), L.foldl(lambda x, acc: [x] + acc, [], xs))
+
+    @given(st.lists(st.integers()))
     def test_append_id(self, xs):
         self.assertEqual(xs, L.append([], xs))
         self.assertEqual(xs, L.append(xs, []))
