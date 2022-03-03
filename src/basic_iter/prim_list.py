@@ -7,9 +7,9 @@ Some basic functions on the primitive list are provided.
 from typing import TypeVar, List, Callable, Union, Tuple, Optional, Generic
 
 
-T = TypeVar('T')
-U = TypeVar('U')
-S = TypeVar('S')
+T = TypeVar("T")
+U = TypeVar("U")
+S = TypeVar("S")
 
 
 Predicate = Callable[[T], bool]
@@ -27,10 +27,10 @@ class NotFound(Generic[T]):
       found False
     """
 
-    def __init__ (self, cond: Union[T, Predicate[T]]):
+    def __init__(self, cond: Union[T, Predicate[T]]):
         self.cond = cond
 
-    def __bool__ (self) -> bool:
+    def __bool__(self) -> bool:
         """
         Evaluated to 'False' constantly.
         Then, we can check if the value is found or not in the if statement.
@@ -43,7 +43,7 @@ class NotFound(Generic[T]):
         """
         return False
 
-    def __str__ (self) -> str:
+    def __str__(self) -> str:
         if callable(self.cond):
             return f"Not found satisfies the condition {self.cond}"
         else:
@@ -53,11 +53,11 @@ class NotFound(Generic[T]):
 Found = Union[T, NotFound[T]]
 
 
-def find (e: T, xs: List[T]) -> Found[T]:
+def find(e: T, xs: List[T]) -> Found[T]:
     """
     Search a value in the list <xs> from the left to right.
     The value is equals to the value <e>.
-    
+
     Returns:
       T:
         The value found in the list <xs>.
@@ -69,7 +69,7 @@ def find (e: T, xs: List[T]) -> Found[T]:
     return NotFound(e)
 
 
-def find_if (p: Predicate[T], xs: List[T]) -> Found[T]:
+def find_if(p: Predicate[T], xs: List[T]) -> Found[T]:
     """
     Generalized <find>.
     Search a value in the list <xs> from the left to right.
@@ -96,7 +96,7 @@ def find_if (p: Predicate[T], xs: List[T]) -> Found[T]:
     return NotFound(p)
 
 
-def append (xs: List[T], ys: List[T]) -> List[T]:
+def append(xs: List[T], ys: List[T]) -> List[T]:
     """
     Append xs and ys.
 
@@ -119,7 +119,7 @@ def append (xs: List[T], ys: List[T]) -> List[T]:
     return xs + ys
 
 
-def map (f: Callable[[T], U], xs: List[T]) -> List[U]:
+def map(f: Callable[[T], U], xs: List[T]) -> List[U]:
     """
     Mapping all elements in the list <xs> to the result list with a mapping function <f>.
 
@@ -129,10 +129,10 @@ def map (f: Callable[[T], U], xs: List[T]) -> List[U]:
       >>> map (str, [1,2,3])
       ['1', '2', '3']
     """
-    return [ f(x) for x in xs ]
+    return [f(x) for x in xs]
 
 
-def reverse (xs: List[T]) -> List[T]:
+def reverse(xs: List[T]) -> List[T]:
     """
     Reverse the list <xs>.
 
@@ -146,10 +146,10 @@ def reverse (xs: List[T]) -> List[T]:
       >>> reverse('foobarbaz')
       'zabraboof'
     """
-    return xs[-1:-len(xs)-1:-1]
+    return xs[-1 : -len(xs) - 1 : -1]
 
 
-def foldl (f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
+def foldl(f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
     """
     Folding left-to-right the list <xs> with the function <f> start from <e>.
     For the list <xs> is [ x0, x1, x2, ... , x(n-1), xn ],
@@ -168,11 +168,11 @@ def foldl (f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
     """
     acc = e
     for x in xs:
-        acc = f (x, acc)
+        acc = f(x, acc)
     return acc
 
 
-def scanl (f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
+def scanl(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
     """
     Folding left-to-right a list and returns a list of the intermediate values.
     For the input list <xs> and the result list are [ x0, x1, x2, ... , x(n-1), xn ] and [ r0, r1, ..., r(n-1), rn, r(n+1) ],
@@ -195,28 +195,28 @@ def scanl (f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
     acc = e
     res = [acc]
     for x in xs:
-        acc = f (x, acc)
+        acc = f(x, acc)
         res = [acc] + res
     return reverse(res)
 
 
-def foldr (f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
+def foldr(f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
     acc = e
     for x in reverse(xs):
-        acc = f (x, acc)
+        acc = f(x, acc)
     return acc
 
 
-def scanr (f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
+def scanr(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
     acc = e
     res = [acc]
     for x in reverse(xs):
-        acc = f (x, acc)
+        acc = f(x, acc)
         res = [acc] + res
     return res
 
 
-def zipWith (f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
+def zipWith(f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
     assert len(xs) == len(ys), "required to be the same length"
     itx = xs
     ity = ys
@@ -231,15 +231,15 @@ def zipWith (f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
     return res
 
 
-def zip (xs: List[T], ys: List[U]) -> List[Tuple[T, U]]:
-    return zipWith(lambda x,y: (x,y), xs, ys)
+def zip(xs: List[T], ys: List[U]) -> List[Tuple[T, U]]:
+    return zipWith(lambda x, y: (x, y), xs, ys)
 
 
-def unfoldr (f: Callable[[T], Optional[Tuple[U, T]]], init: T) -> List[U]:
+def unfoldr(f: Callable[[T], Optional[Tuple[U, T]]], init: T) -> List[U]:
     res: List[U] = []
     elm = init
     while True:
-        r = f (elm)
+        r = f(elm)
         if r:
             (x, e) = r
             res = [x] + res
@@ -252,4 +252,5 @@ def unfoldr (f: Callable[[T], Optional[Tuple[U, T]]], init: T) -> List[U]:
 
 if __name__ == "__main__":
     import doctest
+
     doctest.testmod()

@@ -3,6 +3,15 @@
 This package provides basic functions on iterators.
 
 
+## Format Checking
+
+For format checking by black:
+
+```sh
+basic_iter$ poetry run black --check src tests
+```
+
+
 ## Type Checking
 
 For type checking by mypy:

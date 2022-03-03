@@ -1,3 +1,1 @@
-
-__all__ = ['prim_list']
-
+__all__ = ["prim_list"]
