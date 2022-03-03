@@ -173,6 +173,25 @@ def foldl (f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
 
 
 def scanl (f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
+    """
+    Folding left-to-right a list and returns a list of the intermediate values.
+    For the input list <xs> and the result list are [ x0, x1, x2, ... , x(n-1), xn ] and [ r0, r1, ..., r(n-1), rn, r(n+1) ],
+    r0 is calculated from foldl f e [],
+    r1 is calculated from foldl f r0 [x0]
+    ...
+    rn is calculated from foldl f r(n-1) [x(n-1)]
+    r(n+1) is calculated from foldl f rn [xn].
+
+    Returns:
+      List[U]:
+        A list of intermediate foldl values with the function <f>.
+
+    Examples:
+      >>> scanl (lambda x, acc: x + acc, 0, list(range(1, 6)))
+      [0, 1, 3, 6, 10, 15]
+      >>> scanl (lambda x, acc: [x] + acc, [], list(range(1, 6)))
+      [[], [1], [2, 1], [3, 2, 1], [4, 3, 2, 1], [5, 4, 3, 2, 1]]
+    """
     acc = e
     res = [acc]
     for x in xs:
