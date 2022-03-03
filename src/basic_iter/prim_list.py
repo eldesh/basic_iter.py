@@ -50,7 +50,7 @@ class NotFound(Generic[T]):
             return f"Not found equals to the value {self.cond}"
 
 
-Found = Union[T, NotFound]
+Found = Union[T, NotFound[T]]
 
 
 def find (e: T, xs: List[T]) -> Found[T]:
