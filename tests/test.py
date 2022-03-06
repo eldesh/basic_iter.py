@@ -31,6 +31,18 @@ class TestPrimList(unittest.TestCase):
     def test_revrev_id(self, xs):
         self.assertEqual(L.reverse(L.reverse(xs)), xs)
 
+    @given(st.lists(st.lists(st.integers())))
+    def test_flatten_preserve_len(self, xxs):
+        self.assertEqual(sum(L.map(len, xxs)), len(L.flatten(xxs)))
+
+    @given(st.lists(st.lists(st.integers())).filter(lambda x: len(x) >= 1))
+    def test_flatten_preserve_element(self, xxs):
+        self.assertTrue(L.prefix_of(L.flatten(xxs), xxs[0]))
+
+    @given(st.lists(st.integers()), st.lists(st.integers()))
+    def test_prefix_of (self, ls, rs):
+        self.assertTrue(L.prefix_of(ls + rs, ls))
+
 
 if __name__ == "__main__":
     unittest.main()

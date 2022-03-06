@@ -250,6 +250,43 @@ def unfoldr(f: Callable[[T], Optional[Tuple[U, T]]], init: T) -> List[U]:
     return res
 
 
+def flatten (xxs: List[List[T]]) -> List[T]:
+    """
+    Construct a list from the list of list <xxs>.
+    This is a directly concatenated list of elements of the list <xxs>.
+
+    Returns:
+      List[T]:
+        A concatenated list of elements of the list <xxs>.
+
+    Examples:
+      >>> flatten([[1,2,3], [4,5,6], [7,8,9]])
+      [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    """
+    res: List[T] = []
+    for xs in xxs:
+        for x in xs:
+            res = [x] + res
+    res.reverse()
+    return res
+
+
+def prefix_of (xs: List[T], ys: List[T]) -> bool:
+    """
+    Check the list <ys> is equals to the prefix of the list <xs>.
+
+    Examples:
+      >>> prefix_of ([1,2,3,4,5], [1,2,3])
+      True
+      >>> prefix_of ([1,2,3,4,5], [3,4,5])
+      False
+      >>> prefix_of ([3,42], [3,42,5])
+      False
+    """
+    return len(xs) >= len(ys) and xs[0:len(ys)] == ys
+
+
+
 if __name__ == "__main__":
     import doctest
 
