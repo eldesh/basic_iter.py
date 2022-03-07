@@ -217,6 +217,19 @@ def scanr(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
 
 
 def zipWith(f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
+    """
+    Returns:
+      List[S]:
+        A Zipped list from lists <xs> and <ys> by the function <f>.
+
+    Examples:
+      >>> zipWith (lambda x, y: x + y, [1,2,3], [4,5,6])
+      [5, 7, 9]
+      >>> import re
+      >>> zipWith (lambda r,p: re.search(r,p) is None
+      ...         , [r'abc',r'^192',r'txt$'], ['ABC','192.168.1.1','note.txt'])
+      [True, False, False]
+    """
     assert len(xs) == len(ys), "required to be the same length"
     itx = xs
     ity = ys
