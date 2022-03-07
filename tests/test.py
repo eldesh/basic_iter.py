@@ -1,5 +1,5 @@
 import unittest
-from hypothesis import given, strategies as st
+from hypothesis import given, example, strategies as st
 
 from src.basic_iter import prim_list as L
 
@@ -18,20 +18,28 @@ class TestPrimList(unittest.TestCase):
         self.assertEqual("helloworld", L.append("hello", "world"))
         self.assertEqual([(1, "foo"), (2, "bar")], L.append([(1, "foo")], [(2, "bar")]))
 
+    @given(st.lists(st.integers()), st.lists(st.integers()))
+    def test_append_iso_len(self, xs, ys):
+        self.assertEqual(len(xs) + len(ys), len(L.append(xs, ys)))
+
     @given(st.lists(st.integers()))
     def test_foldlcons_is_rev(self, xs):
         self.assertEqual(L.reverse(xs), L.foldl(lambda x, acc: [x] + acc, [], xs))
 
     @given(st.lists(st.integers()))
+    @example([])
     def test_append_id(self, xs):
         self.assertEqual(xs, L.append([], xs))
         self.assertEqual(xs, L.append(xs, []))
 
     @given(st.lists(st.integers()))
+    @example([])
     def test_revrev_id(self, xs):
         self.assertEqual(L.reverse(L.reverse(xs)), xs)
 
     @given(st.lists(st.lists(st.integers())))
+    @example([])
+    @example([[]])
     def test_flatten_preserve_len(self, xxs):
         self.assertEqual(sum(L.map(len, xxs)), len(L.flatten(xxs)))
 
