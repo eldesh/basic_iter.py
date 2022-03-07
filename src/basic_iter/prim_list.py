@@ -271,19 +271,19 @@ def flatten (xxs: List[List[T]]) -> List[T]:
     return res
 
 
-def prefix_of (xs: List[T], ys: List[T]) -> bool:
+def is_prefix (xs: List[T], ys: List[T]) -> bool:
     """
-    Check the list <ys> is equals to the prefix of the list <xs>.
+    Check the list <xs> is equals to the prefix of the list <ys>.
 
     Examples:
-      >>> prefix_of ([1,2,3,4,5], [1,2,3])
+      >>> is_prefix ([1,2,3], [1,2,3,4,5])
       True
-      >>> prefix_of ([1,2,3,4,5], [3,4,5])
+      >>> is_prefix ([3,4,5], [1,2,3,4,5])
       False
-      >>> prefix_of ([3,42], [3,42,5])
+      >>> is_prefix ([3,42,5], [3,42])
       False
     """
-    return len(xs) >= len(ys) and xs[0:len(ys)] == ys
+    return len(ys) >= len(xs) and ys[0:len(xs)] == xs
 
 
 

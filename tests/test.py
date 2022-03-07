@@ -37,12 +37,13 @@ class TestPrimList(unittest.TestCase):
 
     @given(st.lists(st.lists(st.integers())).filter(lambda x: len(x) >= 1))
     def test_flatten_preserve_element(self, xxs):
-        self.assertTrue(L.prefix_of(L.flatten(xxs), xxs[0]))
+        self.assertTrue(L.is_prefix(xxs[0], L.flatten(xxs)))
 
     @given(st.lists(st.integers()), st.lists(st.integers()))
-    def test_prefix_of (self, ls, rs):
-        self.assertTrue(L.prefix_of(ls + rs, ls))
+    def test_is_prefix (self, ls, rs):
+        self.assertTrue(L.is_prefix(ls, ls + rs))
 
 
 if __name__ == "__main__":
     unittest.main()
+
