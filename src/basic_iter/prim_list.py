@@ -154,7 +154,7 @@ def foldl(f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
     Folding left-to-right the list <xs> with the function <f> start from <e>.
     For the list <xs> is [ x0, x1, x2, ... , x(n-1), xn ],
     a calculation equivalent to the following expression is performed:
-      f (xn, f (x(n-1), ... f (x2, f (x1, f (x0, e)))))
+    f (xn, f (x(n-1), ... f (x2, f (x1, f (x0, e)))))
 
     Returns:
       U:
