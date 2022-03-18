@@ -61,7 +61,7 @@ def find(e: T, xs: List[T]) -> Found[T]:
     Returns:
       T:
         The value found in the list <xs>.
-      NotFound:
+      NotFound[T]:
         No values equal to the value <e>, returns <NotFound>.
     """
     if e in xs:
@@ -78,7 +78,7 @@ def find_if(p: Predicate[T], xs: List[T]) -> Found[T]:
     Returns:
       T:
         The value found in the list <xs>.
-      NotFound:
+      NotFound[T]:
         No values equal to the value <e>, returns <NotFound>.
 
     Examples:
