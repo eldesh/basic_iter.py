@@ -48,10 +48,9 @@ class TestPrimList(unittest.TestCase):
         self.assertTrue(L.is_prefix(xxs[0], L.flatten(xxs)))
 
     @given(st.lists(st.integers()), st.lists(st.integers()))
-    def test_is_prefix (self, ls, rs):
+    def test_is_prefix(self, ls, rs):
         self.assertTrue(L.is_prefix(ls, ls + rs))
 
 
 if __name__ == "__main__":
     unittest.main()
-

@@ -263,7 +263,7 @@ def unfoldr(f: Callable[[T], Optional[Tuple[U, T]]], init: T) -> List[U]:
     return res
 
 
-def flatten (xxs: List[List[T]]) -> List[T]:
+def flatten(xxs: List[List[T]]) -> List[T]:
     """
     Construct a list from the list of list <xxs>.
     This is a directly concatenated list of elements of the list <xxs>.
@@ -284,7 +284,7 @@ def flatten (xxs: List[List[T]]) -> List[T]:
     return res
 
 
-def is_prefix (xs: List[T], ys: List[T]) -> bool:
+def is_prefix(xs: List[T], ys: List[T]) -> bool:
     """
     Check the list <xs> is equals to the prefix of the list <ys>.
 
@@ -296,8 +296,7 @@ def is_prefix (xs: List[T], ys: List[T]) -> bool:
       >>> is_prefix ([3,42,5], [3,42])
       False
     """
-    return len(ys) >= len(xs) and ys[0:len(xs)] == xs
-
+    return len(ys) >= len(xs) and ys[0 : len(xs)] == xs
 
 
 if __name__ == "__main__":
