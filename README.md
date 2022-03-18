@@ -3,6 +3,14 @@
 This package provides basic functions on iterators.
 
 
+## Generate documents
+
+```sh
+basic_iter$ sphinx-apidoc -o docs/source src
+basic_iter$ make html -C docs
+```
+
+
 ## Format Checking
 
 For format checking by black:
