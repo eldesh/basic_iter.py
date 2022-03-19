@@ -128,6 +128,19 @@ def map(f: Callable[[T], U], xs: List[T]) -> List[U]:
     return [f(x) for x in xs]
 
 
+def filter (p: Predicate[T], xs: List[T]) -> List[T]:
+    """
+    Examples:
+      >>> filter (lambda x: x % 2 == 0, list(range(10)))
+      [0, 2, 4, 6, 8]
+    """
+    ys: List[T] = []
+    for x in xs:
+        if p(x):
+            ys.append(x)
+    return ys
+
+
 def reverse(xs: List[T]) -> List[T]:
     """
     Reverse the list <xs>.
