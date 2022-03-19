@@ -218,6 +218,9 @@ def zipWith(f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
       List[S]:
         A Zipped list from lists <xs> and <ys> by the function <f>.
 
+    Raises:
+      AssertionError: <xs> and <ys> have different lengths.
+
     Examples:
       >>> zipWith (lambda x, y: x + y, [1,2,3], [4,5,6])
       [5, 7, 9]
@@ -241,6 +244,10 @@ def zipWith(f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
 
 
 def zip(xs: List[T], ys: List[U]) -> List[Tuple[T, U]]:
+    """
+    Raises:
+      AssertionError: <xs> and <ys> have different lengths.
+    """
     return zipWith(lambda x, y: (x, y), xs, ys)
 
 
