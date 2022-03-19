@@ -105,8 +105,6 @@ def append(xs: List[T], ys: List[T]) -> List[T]:
     Examples:
       >>> xs = [1,2,3]; ys = [4,5,6]; zs = append (xs, ys); zs
       [1, 2, 3, 4, 5, 6]
-
-      An empty list is a right/left identity.
       >>> append ([1,2,3], [])
       [1, 2, 3]
       >>> append ([], [1,2,3])
