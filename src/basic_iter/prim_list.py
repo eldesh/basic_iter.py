@@ -302,6 +302,41 @@ def is_prefix(xs: List[T], ys: List[T]) -> bool:
     return len(ys) >= len(xs) and ys[0 : len(xs)] == xs
 
 
+def group_by(f: Predicate[Tuple[T, T]], xs: List[T]) -> List[List[T]]:
+    """
+    Examples:
+      >>> group_by (lambda x,y: x == y, [1,1,1,2,2,3,3,3,3])
+      [[1, 1, 1], [2, 2], [3, 3, 3, 3]]
+      >>> group_by (lambda x,y: x == y,  [])
+      []
+      >>> group_by (lambda x,y: x <= y, [1,2,2,3,1,2,0,4,5,2])
+      [[1, 2, 2, 3], [1, 2], [0, 4, 5], [2]]
+      >>> group_by (is_prefix, ['a','ab','abra','ra','racata','racatabra'])
+      [['a', 'ab', 'abra'], ['ra', 'racata', 'racatabra']]
+    """
+    if not xs:
+        return []
+
+    gs: List[List[T]] = [[xs[0]]]
+    for x in xs[1:]:
+        if f(gs[-1][-1], x):
+            gs[-1].append(x)
+        else:
+            gs.append([x])
+    return gs
+
+
+def group(xs: List[T]) -> List[List[T]]:
+    """
+    Examples:
+      >>> group ([1,1,1,2,2,3,3,3,3])
+      [[1, 1, 1], [2, 2], [3, 3, 3, 3]]
+      >>> group ([])
+      []
+    """
+    return group_by(lambda x,y: x == y, xs)
+
+
 if __name__ == "__main__":
     import doctest
 
