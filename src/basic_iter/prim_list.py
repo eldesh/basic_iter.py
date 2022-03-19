@@ -59,10 +59,9 @@ def find(e: T, xs: List[T]) -> Found[T]:
     The value is equals to the value <e>.
 
     Returns:
-      T:
+      Found[T]:
         The value found in the list <xs>.
-      NotFound[T]:
-        No values equal to the value <e>, returns <NotFound>.
+        If no values equal to the value <e>, returns <NotFound>.
     """
     if e in xs:
         return e
@@ -76,10 +75,9 @@ def find_if(p: Predicate[T], xs: List[T]) -> Found[T]:
     The value satisfies the predicate <p>.
 
     Returns:
-      T:
+      Found[T]:
         The value found in the list <xs>.
-      NotFound[T]:
-        No values equal to the value <e>, returns <NotFound>.
+        If no values satisfies <p>, returns <NotFound>.
 
     Examples:
       >>> find (1, [1,2,3])
