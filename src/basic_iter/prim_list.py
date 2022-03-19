@@ -339,7 +339,7 @@ def group_by(f: Predicate[Tuple[T, T]], xs: List[T]) -> List[List[T]]:
 
     gs: List[List[T]] = [[xs[0]]]
     for x in xs[1:]:
-        if f(gs[-1][-1], x):
+        if f((gs[-1][-1], x)):
             gs[-1].append(x)
         else:
             gs.append([x])
@@ -354,7 +354,9 @@ def group(xs: List[T]) -> List[List[T]]:
       >>> group ([])
       []
     """
-    return group_by(lambda x,y: x == y, xs)
+    def eq (xy: Tuple[T,T]) -> bool:
+        return xy[0] == xy[1]
+    return group_by(eq, xs)
 
 
 if __name__ == "__main__":
