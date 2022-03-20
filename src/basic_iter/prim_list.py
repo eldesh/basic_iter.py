@@ -321,6 +321,8 @@ def zipWith(f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
 
 def zip(xs: List[T], ys: List[U]) -> List[Tuple[T, U]]:
     """
+    Equivalent to calling `zipWith` on a tuple constructor like `lambda x,y: (x,y)`.
+
     Raises:
       AssertionError: <xs> and <ys> have different lengths.
     """
@@ -402,6 +404,8 @@ def group_by(f: Callable[[T, T], bool], xs: List[T]) -> List[List[T]]:
 
 def group(xs: List[T]) -> List[List[T]]:
     """
+    Equivalent to calling `group_by` on `==`.
+
     Examples:
       >>> group ([1,1,1,2,2,3,3,3,3])
       [[1, 1, 1], [2, 2], [3, 3, 3, 3]]
