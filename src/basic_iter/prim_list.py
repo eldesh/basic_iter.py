@@ -130,6 +130,12 @@ def map(f: Callable[[T], U], xs: List[T]) -> List[U]:
 
 def filter (p: Predicate[T], xs: List[T]) -> List[T]:
     """
+    Filter out elements from the list <xs> that do not satisfy the predicate <p> .
+
+    Returns:
+      List[T]:
+        List of elements satisfy <p>.
+
     Examples:
       >>> filter (lambda x: x % 2 == 0, list(range(10)))
       [0, 2, 4, 6, 8]
