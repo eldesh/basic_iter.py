@@ -190,6 +190,8 @@ def foldl(f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
       55
       >>> foldl (lambda x, acc: [x] + acc, [0], list(range(1, 6)))
       [5, 4, 3, 2, 1, 0]
+      >>> foldl (lambda x, acc: [x] + [acc], [0], list(range(1, 6)))
+      [5, [4, [3, [2, [1, [0]]]]]]
     """
     acc = e
     for x in xs:
@@ -199,13 +201,14 @@ def foldl(f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
 
 def scanl(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
     """
-    Folding left-to-right a list and returns a list of the intermediate values.
-    For the input list <xs> and the result list are [ x0, x1, x2, ... , x(n-1), xn ] and [ r0, r1, ..., r(n-1), rn, r(n+1) ],
-    r0 is calculated from foldl f e [],
-    r1 is calculated from foldl f r0 [x0]
-    ...
-    rn is calculated from foldl f r(n-1) [x(n-1)]
-    r(n+1) is calculated from foldl f rn [xn].
+    Folding left-to-right the list and returns a list of the intermediate values.
+    For the input list <xs> and the result list are [ x0, x1, x2, ... , x(n-1), xn ] and [ r0, r1, ..., r(n-1), rn, r(n+1) ]::
+
+      r0     is calculated from foldl f e      [  ]
+      r1     is calculated from foldl f r0     [x0]
+      ...
+      rn     is calculated from foldl f r(n-1) [x(n-1)]
+      r(n+1) is calculated from foldl f rn     [xn].
 
     Returns:
       List[U]:
@@ -226,6 +229,28 @@ def scanl(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
 
 
 def foldr(f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
+    """
+    Folding right-to-left the list <xs> with the function <f> start from <e>.
+    For the list <xs> is [ x0, x1, x2, ... , x(n-1), xn ],
+    a calculation equivalent to the following expression is performed:
+    f (x0, f (x1, ... f (x(n-2), f (x(n-1), f (xn, e)))))
+
+    Returns:
+      U:
+        A right-to-left folding of the list <xs> with the function <f>.
+
+    Example:
+      Sum all values in a list.
+
+      >>> foldr (lambda x, acc: x + acc, 100, list(range(10)))
+      145
+
+    Examples:
+      >>> foldr (lambda x, acc: [x] + acc, [5], list(range(5)))
+      [0, 1, 2, 3, 4, 5]
+      >>> foldr (lambda x, acc: [x] + [acc], [5], list(range(5)))
+      [0, [1, [2, [3, [4, [5]]]]]]
+    """
     acc = e
     for x in reverse(xs):
         acc = f(x, acc)
@@ -233,6 +258,28 @@ def foldr(f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
 
 
 def scanr(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
+    """
+    Folding right-to-left the list and returns a list of the intermediate values.
+    For the input list <xs> and the result list are [ x0, x1, x2, ... , x(n-1), xn ] and [ r0, r1, ..., r(n-1), rn, r(n+1) ]::
+
+      r0     is calculated from foldr f r1     [x0]
+      r1     is calculated from foldr f r2     [x1]
+      ...
+      rn     is calculated from foldr f r(n+1) [xn]
+      r(n+1) is calculated from foldr f e      [  ]
+
+    Returns:
+      List[U]:
+        A list of intermediate foldr values with the function <f>.
+
+    Examples:
+      >>> scanr (lambda x, acc: x + acc, 5, list(range(1, 5)))
+      [15, 14, 12, 9, 5]
+      >>> scanr (lambda x, acc: [x] + acc, [], list(range(1, 6)))
+      [[1, 2, 3, 4, 5], [2, 3, 4, 5], [3, 4, 5], [4, 5], [5], []]
+      >>> scanr (max, 18, [3,6,12,4,55,11])
+      [55, 55, 55, 55, 55, 18, 18]
+    """
     acc = e
     res = [acc]
     for x in reverse(xs):
