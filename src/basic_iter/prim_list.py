@@ -103,14 +103,14 @@ def append(xs: List[T], ys: List[T]) -> List[T]:
         A list where <xs> is followed by <ys>.
 
     Examples:
-      >>> xs = [1,2,3]; ys = [4,5,6]; zs = append (xs, ys); zs
+      >>> xs = [1,2,3]; ys = [4,5,6]; append (xs, ys)
       [1, 2, 3, 4, 5, 6]
       >>> append ([1,2,3], [])
       [1, 2, 3]
       >>> append ([], [1,2,3])
       [1, 2, 3]
-      >>> xs = [1,2,3]; ys = [4,5,6]; zs = append (xs, ys); zs
-      [1, 2, 3, 4, 5, 6]
+      >>> append ('hello', ' world')
+      'hello world'
     """
     return xs + ys
 
@@ -143,7 +143,7 @@ def filter (p: Predicate[T], xs: List[T]) -> List[T]:
 
 def null(xs: List[T]) -> bool:
     """
-    Check the list <xs> is empty.
+    Checks if the list <xs> is empty.
 
     Returns:
       bool: the list is empty or not.
@@ -335,7 +335,7 @@ def group_by(f: Callable[[T, T], bool], xs: List[T]) -> List[List[T]]:
       >>> group_by (is_prefix, ['a','ab','abra','ra','racata','racatabra'])
       [['a', 'ab', 'abra'], ['ra', 'racata', 'racatabra']]
     """
-    if not xs:
+    if null(xs):
         return []
 
     gs: List[List[T]] = [[xs[0]]]
