@@ -323,7 +323,7 @@ def is_prefix(xs: List[T], ys: List[T]) -> bool:
     return len(ys) >= len(xs) and ys[0 : len(xs)] == xs
 
 
-def group_by(f: Predicate[Tuple[T, T]], xs: List[T]) -> List[List[T]]:
+def group_by(f: Callable[[T, T], bool], xs: List[T]) -> List[List[T]]:
     """
     Examples:
       >>> group_by (lambda x,y: x == y, [1,1,1,2,2,3,3,3,3])
@@ -340,7 +340,7 @@ def group_by(f: Predicate[Tuple[T, T]], xs: List[T]) -> List[List[T]]:
 
     gs: List[List[T]] = [[xs[0]]]
     for x in xs[1:]:
-        if f((gs[-1][-1], x)):
+        if f(gs[-1][-1], x):
             gs[-1].append(x)
         else:
             gs.append([x])
@@ -355,9 +355,7 @@ def group(xs: List[T]) -> List[List[T]]:
       >>> group ([])
       []
     """
-    def eq (xy: Tuple[T,T]) -> bool:
-        return xy[0] == xy[1]
-    return group_by(eq, xs)
+    return group_by(lambda x,y: x == y, xs)
 
 
 if __name__ == "__main__":
