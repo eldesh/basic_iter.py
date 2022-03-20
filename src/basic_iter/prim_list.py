@@ -289,7 +289,7 @@ def unfoldr(f: Callable[[T], Optional[Tuple[U, T]]], init: T) -> List[U]:
     return res
 
 
-def flatten(xxs: List[List[T]]) -> List[T]:
+def concat(xxs: List[List[T]]) -> List[T]:
     """
     Construct a list from the list of list <xxs>.
     This is a directly concatenated list of elements of the list <xxs>.
@@ -299,14 +299,12 @@ def flatten(xxs: List[List[T]]) -> List[T]:
         A concatenated list of elements of the list <xxs>.
 
     Examples:
-      >>> flatten([[1,2,3], [4,5,6], [7,8,9]])
+      >>> concat([[1,2,3], [4,5,6], [7,8,9]])
       [1, 2, 3, 4, 5, 6, 7, 8, 9]
     """
     res: List[T] = []
     for xs in xxs:
-        for x in xs:
-            res = [x] + res
-    res.reverse()
+        res += xs
     return res
 
 

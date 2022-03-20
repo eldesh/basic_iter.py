@@ -40,12 +40,12 @@ class TestPrimList(unittest.TestCase):
     @given(st.lists(st.lists(st.integers())))
     @example([])
     @example([[]])
-    def test_flatten_preserve_len(self, xxs):
-        self.assertEqual(sum(L.map(len, xxs)), len(L.flatten(xxs)))
+    def test_concat_preserve_len(self, xxs):
+        self.assertEqual(sum(L.map(len, xxs)), len(L.concat(xxs)))
 
     @given(st.lists(st.lists(st.integers())).filter(lambda x: len(x) >= 1))
-    def test_flatten_preserve_element(self, xxs):
-        self.assertTrue(L.is_prefix(xxs[0], L.flatten(xxs)))
+    def test_concat_preserve_element(self, xxs):
+        self.assertTrue(L.is_prefix(xxs[0], L.concat(xxs)))
 
     @given(st.lists(st.integers()), st.lists(st.integers()))
     def test_is_prefix(self, ls, rs):
