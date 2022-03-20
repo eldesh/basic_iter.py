@@ -154,7 +154,7 @@ def null(xs: List[T]) -> bool:
     Returns:
       bool: the list is empty or not.
     """
-    return True if xs else False
+    return True if not xs else False
 
 
 def reverse(xs: List[T]) -> List[T]:
