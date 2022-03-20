@@ -141,11 +141,14 @@ def filter (p: Predicate[T], xs: List[T]) -> List[T]:
     return ys
 
 
-def product(xs: List[complex]) -> complex:
-    p: complex = 1+0j
-    for x in xs:
-        p = p * x
-    return p
+def null(xs: List[T]) -> bool:
+    """
+    Check the list <xs> is empty.
+
+    Returns:
+      bool: the list is empty or not.
+    """
+    return True if xs else False
 
 
 def reverse(xs: List[T]) -> List[T]:
