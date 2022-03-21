@@ -128,7 +128,7 @@ def map(f: Callable[[T], U], xs: List[T]) -> List[U]:
     return [f(x) for x in xs]
 
 
-def filter (p: Predicate[T], xs: List[T]) -> List[T]:
+def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     Filter out elements from the list <xs> that do not satisfy the predicate <p> .
 
@@ -431,7 +431,7 @@ def group(xs: List[T]) -> List[List[T]]:
       >>> group ([])
       []
     """
-    return group_by(lambda x,y: x == y, xs)
+    return group_by(lambda x, y: x == y, xs)
 
 
 if __name__ == "__main__":
