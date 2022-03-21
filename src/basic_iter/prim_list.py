@@ -363,6 +363,25 @@ def concat(xxs: List[List[T]]) -> List[T]:
     return res
 
 
+def concat_map(f: Callable[[T], U], xxs: List[List[T]]) -> List[U]:
+    """
+    Construct a list from the list of list <xxs>.
+    This is a concatenated list of elements with <f> of the list <xxs>.
+
+    Returns:
+      List[U]:
+        A concatinated list of mapped elements of the list <xxs>.
+
+    Examples:
+      >>> concat_map(str, [[1,2,3], [4,5,6]])
+      ['1', '2', '3', '4', '5', '6']
+    """
+    res: List[U] = []
+    for xs in xxs:
+        res += map(f, xs)
+    return res
+
+
 def is_prefix(xs: List[T], ys: List[T]) -> bool:
     """
     Check the list <xs> is equals to the prefix of the list <ys>.
