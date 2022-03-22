@@ -1,5 +1,5 @@
 import unittest
-from hypothesis import given, example, strategies as st
+from hypothesis import assume, given, example, strategies as st
 
 from src.basic_iter import prim_list as L
 
@@ -50,6 +50,27 @@ class TestPrimList(unittest.TestCase):
     @given(st.lists(st.integers()), st.lists(st.integers()))
     def test_is_prefix(self, ls, rs):
         self.assertTrue(L.is_prefix(ls, ls + rs))
+
+    def test_group_by_empty_id(self):
+        self.assertEqual([], L.group_by(lambda x,y: True, []))
+
+    @given(st.lists(st.integers()))
+    def test_group_by_true_id(self, xs):
+        assume(xs)
+        self.assertEqual([xs], L.group_by(lambda x,y: True, xs))
+
+    def test_group_empty_id(self):
+        self.assertEqual([], L.group([]))
+
+    @given(st.lists(st.integers()))
+    @example([])
+    def test_group_preserve_len(self, xs):
+        self.assertEqual(len(xs), sum(L.map(len, L.group(xs))))
+
+    @given(st.lists(st.integers()))
+    @example([])
+    def test_group_specific_group_by(self, xs):
+        self.assertEqual(L.group_by(lambda x,y: x == y, xs), L.group(xs))
 
 
 if __name__ == "__main__":

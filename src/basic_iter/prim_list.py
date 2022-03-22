@@ -402,7 +402,7 @@ def group_by(f: Callable[[T, T], bool], xs: List[T]) -> List[List[T]]:
     Examples:
       >>> group_by (lambda x,y: x == y, [1,1,1,2,2,3,3,3,3])
       [[1, 1, 1], [2, 2], [3, 3, 3, 3]]
-      >>> group_by (lambda x,y: x == y,  [])
+      >>> group_by (lambda x,y: x == y, [])
       []
       >>> group_by (lambda x,y: x <= y, [1,2,2,3,1,2,0,4,5,2])
       [[1, 2, 2, 3], [1, 2], [0, 4, 5], [2]]
