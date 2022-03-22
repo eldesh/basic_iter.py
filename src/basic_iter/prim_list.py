@@ -5,6 +5,7 @@ Some basic functions on the primitive list are provided.
 """
 
 from typing import TypeVar, List, Callable, Union, Tuple, Optional, Generic
+from .not_found import NotFound
 
 
 T = TypeVar("T")
@@ -13,41 +14,6 @@ S = TypeVar("S")
 
 
 Predicate = Callable[[T], bool]
-
-
-class NotFound(Generic[T]):
-    """
-    When any element are not found, 'NotFound' is returned from find family.
-    'NotFound' is evaluated to 'False' constantly. However, it is possible to distinguish the searched value from a False value.
-
-    Examples:
-      >>> m = find(False, [False])
-      >>> if not isinstance(m, NotFound):
-      ...     print('found False')
-      found False
-    """
-
-    def __init__(self, cond: Union[T, Predicate[T]]):
-        self.cond = cond
-
-    def __bool__(self) -> bool:
-        """
-        Evaluated to 'False' constantly.
-        Then, we can check if the value is found or not in the if statement.
-
-        Examples:
-          >>> m = find(42, [1,2,3])
-          >>> if not m:
-          ...     print('not found')
-          not found
-        """
-        return False
-
-    def __str__(self) -> str:
-        if callable(self.cond):
-            return f"Not found satisfies the condition {self.cond}"
-        else:
-            return f"Not found equals to the value {self.cond}"
 
 
 Found = Union[T, NotFound[T]]
@@ -62,6 +28,17 @@ def find(e: T, xs: List[T]) -> Found[T]:
       Found[T]:
         The value found in the list <xs>.
         If no values equal to the value <e>, returns <NotFound>.
+
+    Example:
+      >>> m = find(42, [0, 1, 15, 42])
+      >>> if m:
+      ...     print('found 42')
+      found 42
+
+      >>> m = find(False, [False])
+      >>> if not isinstance(m, NotFound):
+      ...     print('found False')
+      found False
     """
     if e in xs:
         return e
