@@ -19,6 +19,39 @@ Predicate = Callable[[T], bool]
 Found = Union[T, NotFound[T]]
 
 
+def last(xs: List[T]) -> T:
+    """
+    Extract the last element of a list, which must be non-empty.
+
+    Raises:
+      AssertionError: <xs> is not empty.
+    """
+    assert not (null(xs)), "must not to be empty"
+    return xs[-1]
+
+
+def tail(xs: List[T]) -> List[T]:
+    """
+    Extract elements after the head of the list <xs>, which must be non-empty.
+
+    Raises:
+      AssertionError: <xs> is not empty.
+    """
+    assert not (null(xs)), "must not to be empty"
+    return xs[1:]
+
+
+def init(xs: List[T]) -> List[T]:
+    """
+    Extract elements except the last element of the list <xs>, which must be non-empty.
+
+    Raises:
+      AssertionError: <xs> is not empty.
+    """
+    assert not (null(xs)), "must not to be empty"
+    return xs[0 : len(xs) - 1]
+
+
 def find(e: T, xs: List[T]) -> Found[T]:
     """
     Search a value in the list <xs> from the left to right.
