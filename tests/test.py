@@ -9,21 +9,24 @@ from src.basic_iter import prim_list as L
 
 import pkgutil
 
+
 def test_targets(pkg) -> pkgutil.ModuleInfo:
     """
     Enumerate modules under `pkg` recursively.
     """
-    return pkgutil.walk_packages(path=pkg.__path__, prefix=pkg.__name__+'.')
+    return pkgutil.walk_packages(path=pkg.__path__, prefix=pkg.__name__ + ".")
+
 
 def load_tests(loader, tests, ignore):
     """
     Scan and register all test cases defined as doctests in the `src.basic_iter` module.
     """
     for (_, name, _) in test_targets(src.basic_iter):
-        print(f'loading doctests in {name}...')
+        print(f"loading doctests in {name}...")
         importlib.import_module(name)
         tests.addTests(doctest.DocTestSuite(name))
     return tests
+
 
 class TestPrimList(unittest.TestCase):
     def test_find(self):
@@ -73,12 +76,12 @@ class TestPrimList(unittest.TestCase):
         self.assertTrue(L.is_prefix(ls, ls + rs))
 
     def test_group_by_empty_id(self):
-        self.assertEqual([], L.group_by(lambda x,y: True, []))
+        self.assertEqual([], L.group_by(lambda x, y: True, []))
 
     @given(st.lists(st.integers()))
     def test_group_by_true_id(self, xs):
         assume(xs)
-        self.assertEqual([xs], L.group_by(lambda x,y: True, xs))
+        self.assertEqual([xs], L.group_by(lambda x, y: True, xs))
 
     def test_group_empty_id(self):
         self.assertEqual([], L.group([]))
@@ -91,7 +94,7 @@ class TestPrimList(unittest.TestCase):
     @given(st.lists(st.integers()))
     @example([])
     def test_group_specific_group_by(self, xs):
-        self.assertEqual(L.group_by(lambda x,y: x == y, xs), L.group(xs))
+        self.assertEqual(L.group_by(lambda x, y: x == y, xs), L.group(xs))
 
 
 if __name__ == "__main__":

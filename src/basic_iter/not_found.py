@@ -1,4 +1,3 @@
-
 from typing import TypeVar, Callable, Union, Generic
 
 T = TypeVar("T")
@@ -49,6 +48,7 @@ class NotFound(Generic[T]):
             return f"Not found satisfies the condition {self.cond}"
         else:
             return f"Not found equals to the value {self.cond}"
+
 
 if __name__ == "__main__":
     import doctest
