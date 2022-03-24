@@ -18,6 +18,7 @@ Predicate = Callable[[T], bool]
 
 Found = Union[T, NotFound[T]]
 
+
 def last(xs: List[T]) -> T:
     """
     Extract the last element of a list, which must be non-empty.
@@ -25,7 +26,7 @@ def last(xs: List[T]) -> T:
     Raises:
       AssertionError: <xs> is not empty.
     """
-    assert not(null(xs)), "must not to be empty"
+    assert not (null(xs)), "must not to be empty"
     return xs[-1]
 
 
@@ -47,7 +48,7 @@ def tail(xs: List[T]) -> List[T]:
     Raises:
       AssertionError: <xs> is not empty.
     """
-    assert not(null(xs)), "must not to be empty"
+    assert not (null(xs)), "must not to be empty"
     return xs[1:]
 
 
@@ -58,8 +59,8 @@ def init(xs: List[T]) -> List[T]:
     Raises:
       AssertionError: <xs> is not empty.
     """
-    assert not(null(xs)), "must not to be empty"
-    return xs[0:len(xs)-1]
+    assert not (null(xs)), "must not to be empty"
+    return xs[0 : len(xs) - 1]
 
 
 def uncons(xs: List[T]) -> Optional[Tuple[T, List[T]]]:
