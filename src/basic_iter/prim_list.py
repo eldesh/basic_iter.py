@@ -229,7 +229,7 @@ def intercalate(xs: List[T], xxs: List[List[T]]) -> List[T]:
 
     Examples:
       >>> intercalate(" and ", ["apple", "orange", "grape"])
-      "apple and orange and grape"
+      'apple and orange and grape'
     """
     if null(xxs):
         return []
