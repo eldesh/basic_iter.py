@@ -476,22 +476,21 @@ def concat(xxs: List[List[T]]) -> List[T]:
     return res
 
 
-def concat_map(f: Callable[[T], U], xxs: List[List[T]]) -> List[U]:
+def concat_map(f: Callable[[T], List[U]], xs: List[T]) -> List[U]:
     """
-    Construct a list from the list of list <xxs>.
-    This is a concatenated list of elements with <f> of the list <xxs>.
+    Map the function <f> over all elements of the list <xs>, and concatenate the resulting lists.
 
     Returns:
       List[U]:
-        A concatinated list of mapped elements of the list <xxs>.
+        A concatinated list of mapped elements of the list <xs>.
 
     Examples:
-      >>> concat_map(str, [[1,2,3], [4,5,6]])
-      ['1', '2', '3', '4', '5', '6']
+      >>> concat_map(lambda x: [x, x+1], [1,2,3,4,5])
+      [1, 2, 2, 3, 3, 4, 4, 5, 5, 6]
     """
     res: List[U] = []
-    for xs in xxs:
-        res += map(f, xs)
+    for x in xs:
+        res += f(x)
     return res
 
 

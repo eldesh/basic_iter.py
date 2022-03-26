@@ -71,6 +71,11 @@ class TestPrimList(unittest.TestCase):
     def test_concat_preserve_element(self, xxs):
         self.assertTrue(L.is_prefix(xxs[0], L.concat(xxs)))
 
+    @given(st.lists(st.integers()))
+    @example([])
+    def test_concat_map(self, xs):
+        self.assertEqual(len(xs) * 2, len(L.concat_map(lambda x: [x, x+1], xs)))
+
     @given(st.lists(st.integers()), st.lists(st.integers()))
     def test_is_prefix(self, ls, rs):
         self.assertTrue(L.is_prefix(ls, ls + rs))
