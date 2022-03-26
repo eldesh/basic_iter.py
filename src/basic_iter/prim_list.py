@@ -4,6 +4,8 @@ This is the primitive list module.
 Some basic functions on the primitive list are provided.
 """
 
+import copy
+
 from typing import TypeVar, List, Callable, Union, Tuple, Optional, Generic
 from .not_found import NotFound
 
@@ -179,6 +181,48 @@ def map(f: Callable[[T], U], xs: List[T]) -> List[U]:
     return [f(x) for x in xs]
 
 
+def reverse(xs: List[T]) -> List[T]:
+    """
+    Reverse the list <xs>.
+
+    Returns:
+      List[T]:
+        A list of <xs> elements in reverse order.
+
+    Examples:
+      >>> reverse([1,2,3])
+      [3, 2, 1]
+      >>> reverse('foobarbaz')
+      'zabraboof'
+    """
+    return xs[-1 : -len(xs) - 1 : -1]
+
+
+def intersperse(e: T, xs: List[T]) -> List[T]:
+    """
+    Intersperses an element <e> between the elements of the list <xs>.
+
+    Examples:
+      >>> intersperse (',', [])
+      []
+      >>> intersperse (',', 'abcde')
+      'a,b,c,d,e'
+      >>> intersperse (',', 'a')
+      'a'
+    """
+    if null(xs):
+        return []
+
+    res: List[T] = [xs[0]]
+    for x in xs[1:]:
+        res += [e]
+        res += [x]
+    if isinstance(e, str):
+        return "".join(res)
+    else:
+        return res
+
+
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     Filter out elements from the list <xs> that do not satisfy the predicate <p> .
@@ -196,23 +240,6 @@ def filter(p: Predicate[T], xs: List[T]) -> List[T]:
         if p(x):
             ys.append(x)
     return ys
-
-
-def reverse(xs: List[T]) -> List[T]:
-    """
-    Reverse the list <xs>.
-
-    Returns:
-      List[T]:
-        A list of <xs> elements in reverse order.
-
-    Examples:
-      >>> reverse([1,2,3])
-      [3, 2, 1]
-      >>> reverse('foobarbaz')
-      'zabraboof'
-    """
-    return xs[-1 : -len(xs) - 1 : -1]
 
 
 def foldl(f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
