@@ -37,7 +37,7 @@ def head(xs: List[T]) -> T:
     Raises:
       AssertionError: <xs> is not empty.
     """
-    assert null(xs), "must not to be empty"
+    assert not null(xs), "must not to be empty"
     return xs[0]
 
 
