@@ -223,6 +223,26 @@ def intersperse(e: T, xs: List[T]) -> List[T]:
         return res
 
 
+def intercalate(xs: List[T], xxs: List[List[T]]) -> List[T]:
+    """
+    Intercalate <xs> between member lists in <xxs>.
+
+    Examples:
+      >>> intercalate(" and ", ["apple", "orange", "grape"])
+      "apple and orange and grape"
+    """
+    if null(xxs):
+        return []
+    res: List[T] = copy.copy(xxs[0])
+    for ys in xxs[1:]:
+        res += xs
+        res += ys
+    if isinstance(xs, str):
+        return "".join(res)
+    else:
+        return res
+
+
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     Filter out elements from the list <xs> that do not satisfy the predicate <p> .

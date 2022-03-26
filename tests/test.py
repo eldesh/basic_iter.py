@@ -96,6 +96,12 @@ class TestPrimList(unittest.TestCase):
     def test_group_specific_group_by(self, xs):
         self.assertEqual(L.group_by(lambda x, y: x == y, xs), L.group(xs))
 
+    @given(st.lists(st.integers()), st.lists(st.lists(st.integers())))
+    @example([], [])
+    @example([], [[]])
+    def test_intercalate(self, xs, xxs):
+        self.assertEqual(L.intercalate(xs, xxs), L.concat(L.intersperse(xs, xxs)))
+
 
 if __name__ == "__main__":
     unittest.main()
