@@ -494,6 +494,23 @@ def concat_map(f: Callable[[T], List[U]], xs: List[T]) -> List[U]:
     return res
 
 
+def all(p: Predicate[T], xs: List[T]) -> bool:
+    """
+    Check all elements of the list <xs> satisfy the predicate <p>.
+
+    Examples:
+      >>> all(lambda x: x % 2 == 0, [0,2,4,6,7])
+      False
+      >>> import re
+      >>> all(lambda x: re.search(r'a*b', x), ['abc', 'b', 'aaab'])
+      True
+    """
+    for x in xs:
+        if not(p(x)):
+            return False
+    return True
+
+
 def is_prefix(xs: List[T], ys: List[T]) -> bool:
     """
     Check the list <xs> is equals to the prefix of the list <ys>.
