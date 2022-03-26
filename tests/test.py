@@ -102,6 +102,13 @@ class TestPrimList(unittest.TestCase):
     def test_intercalate(self, xs, xxs):
         self.assertEqual(L.intercalate(xs, xxs), L.concat(L.intersperse(xs, xxs)))
 
+    @given(st.lists(st.lists(st.integers())))
+    @example([])
+    @example([[]])
+    @example([[], []])
+    def test_transpose(self, xxs):
+        self.assertEqual(sum(map(len, L.transpose(xxs))), sum(map(len, xxs)))
+
 
 if __name__ == "__main__":
     unittest.main()

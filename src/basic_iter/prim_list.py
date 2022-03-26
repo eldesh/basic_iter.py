@@ -243,6 +243,31 @@ def intercalate(xs: List[T], xxs: List[List[T]]) -> List[T]:
         return res
 
 
+def transpose(xxs: List[List[T]]) -> List[List[T]]:
+    """
+    Transpose rows and columns of <xxs>.
+    If some of the rows are shorter than the following rows, their elements are skipped:
+
+    Example:
+        >>> transpose ([[1,2,3],[4,5,6]])
+        [[1, 4], [2, 5], [3, 6]]
+        >>> transpose ([[10,11],[20],[],[30,31,32]])
+        [[10, 20, 30], [11, 31], [32]]
+    """
+    if null(xxs):
+        return []
+
+    col = max(map(len, xxs))
+    rss: List[List[T]] = []
+    for i in range(col):
+        # construct i-th line vector from i-th column elements
+        rs: List[T] = []
+        for xs in filter(lambda xs: len(xs) > i, xxs):
+            rs.append(xs[i])
+        rss += [rs]
+    return rss
+
+
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     Filter out elements from the list <xs> that do not satisfy the predicate <p> .
