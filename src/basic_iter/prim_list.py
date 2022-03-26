@@ -65,7 +65,17 @@ def init(xs: List[T]) -> List[T]:
 
 def uncons(xs: List[T]) -> Optional[Tuple[T, List[T]]]:
     """
-    Decompose a list into its head and tail. If the list is empty, returns Nothing. If the list is non-empty, returns Just (x, xs), where x is the head of the list and xs its tail.
+    Decompose a list into its head and tail. If the list is empty, returns Nothing. If the list is non-empty, returns (x, xs), where x is the head of the list and xs its tail.
+
+    Returns:
+      Optional[Tuple[T, List[T]]]:
+        If the list is empty, returns `None`.
+        If the list is non-empty, returns `(head(x), tail(xs))`.
+
+    Examples:
+      >>> uncons([])
+      >>> uncons([1,2,3])
+      (1, [2, 3])
     """
     if null(xs):
         return None
