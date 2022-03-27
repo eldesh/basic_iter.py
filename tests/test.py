@@ -114,6 +114,20 @@ class TestPrimList(unittest.TestCase):
     def test_transpose(self, xxs):
         self.assertEqual(sum(map(len, L.transpose(xxs))), sum(map(len, xxs)))
 
+    @given(st.lists(st.integers(), max_size = 13))
+    @example([])
+    def test_subsequences(self, xs):
+        def subseq(ys, zs):
+            if [] == ys:
+                return True
+            if [] == zs:
+                return False
+            if ys[0] == zs[0]:
+                return subseq(ys[1:], zs[1:])
+            else:
+                return subseq(ys, zs[1:])
+        self.assertTrue(L.all(lambda ss: subseq(ss, xs), L.subsequences(xs)))
+
 
 if __name__ == "__main__":
     unittest.main()

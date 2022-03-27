@@ -268,6 +268,27 @@ def transpose(xxs: List[List[T]]) -> List[List[T]]:
     return rss
 
 
+def subsequences(xs: List[T]) -> List[List[T]]:
+    """
+    Examples:
+      >>> subsequences([])
+      [[]]
+      >>> subsequences("abc")
+      ['', 'a', 'ab', 'abc', 'ac', 'b', 'bc', 'c']
+    """
+    def go(xs: List[T]) -> List[List[T]]:
+        res: List[List[T]] = [[]]
+        for i, x in enumerate(xs):
+            res += map(lambda ys: [x] + ys, go(xs[i+1:]))
+        return res
+
+    res = go(xs)
+    if len(res) > 1 and len(res[1]) > 0 and isinstance(res[1][0], str):
+        return map(lambda xs: "".join(xs), res)
+    else:
+        return res
+
+
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     Filter out elements from the list <xs> that do not satisfy the predicate <p> .
