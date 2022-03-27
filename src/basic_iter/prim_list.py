@@ -276,10 +276,11 @@ def subsequences(xs: List[T]) -> List[List[T]]:
       >>> subsequences("abc")
       ['', 'a', 'ab', 'abc', 'ac', 'b', 'bc', 'c']
     """
+
     def go(xs: List[T]) -> List[List[T]]:
         res: List[List[T]] = [[]]
         for i, x in enumerate(xs):
-            res += map(lambda ys: [x] + ys, go(xs[i+1:]))
+            res += map(lambda ys: [x] + ys, go(xs[i + 1 :]))
         return res
 
     res = go(xs)
@@ -527,7 +528,7 @@ def all(p: Predicate[T], xs: List[T]) -> bool:
       True
     """
     for x in xs:
-        if not(p(x)):
+        if not (p(x)):
             return False
     return True
 

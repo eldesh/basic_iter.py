@@ -74,7 +74,7 @@ class TestPrimList(unittest.TestCase):
     @given(st.lists(st.integers()))
     @example([])
     def test_concat_map(self, xs):
-        self.assertEqual(len(xs) * 2, len(L.concat_map(lambda x: [x, x+1], xs)))
+        self.assertEqual(len(xs) * 2, len(L.concat_map(lambda x: [x, x + 1], xs)))
 
     @given(st.lists(st.integers()), st.lists(st.integers()))
     def test_is_prefix(self, ls, rs):
@@ -114,7 +114,7 @@ class TestPrimList(unittest.TestCase):
     def test_transpose(self, xxs):
         self.assertEqual(sum(map(len, L.transpose(xxs))), sum(map(len, xxs)))
 
-    @given(st.lists(st.integers(), max_size = 13))
+    @given(st.lists(st.integers(), max_size=13))
     @example([])
     def test_subsequences(self, xs):
         def subseq(ys, zs):
@@ -126,6 +126,7 @@ class TestPrimList(unittest.TestCase):
                 return subseq(ys[1:], zs[1:])
             else:
                 return subseq(ys, zs[1:])
+
         self.assertTrue(L.all(lambda ss: subseq(ss, xs), L.subsequences(xs)))
 
 
