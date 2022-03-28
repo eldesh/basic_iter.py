@@ -290,6 +290,28 @@ def subsequences(xs: List[T]) -> List[List[T]]:
         return res
 
 
+def permutations(xs: List[T]) -> List[List[T]]:
+    """
+    Returns:
+      List[List[T]]:
+        The list of permutations of the list <xs>.
+
+    Examples:
+      >>> permutations([1,2,3])
+      [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]
+    """
+    if null(xs):
+        return [[]]
+
+    res: List[List[T]] = []
+    ys: List[T] = copy.copy(xs)
+    for i in range(len(xs)):
+        y = ys.pop(i)
+        res += map(lambda xs: [y] + xs, permutations(ys))
+        ys.insert(i, y)
+    return res
+
+
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     Filter out elements from the list <xs> that do not satisfy the predicate <p> .

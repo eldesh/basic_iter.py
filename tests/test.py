@@ -129,6 +129,22 @@ class TestPrimList(unittest.TestCase):
 
         self.assertTrue(L.all(lambda ss: subseq(ss, xs), L.subsequences(xs)))
 
+    @given(st.lists(st.integers(), max_size=5))
+    @example([])
+    def test_permutations_size(self, xs):
+        def fact(n):
+            return 1 if n <= 1 else n * fact(n - 1)
+
+        self.assertEqual(fact(len(xs)), len(L.permutations(xs)))
+
+    @given(st.lists(st.integers(), max_size=5))
+    @example([])
+    @example([0])
+    def test_permutations_elem(self, xs):
+        self.assertTrue(
+            L.all(lambda ps: L.all(lambda p: p in xs, ps), L.permutations(xs))
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
