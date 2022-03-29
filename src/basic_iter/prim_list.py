@@ -584,6 +584,46 @@ def scanr(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
     return res
 
 
+def mapAccumL(f: Callable[[T, U], Tuple[T, S]], e: T, xs: List[U]) -> Tuple[T, List[S]]:
+    """
+    mapAccumL transforms the list <xs> with <f> and simultaneously accumulates its elements from left-to-right into a value of <T>.
+
+    Returns:
+      Tuple[T, List[S]]:
+        A tuple of the accumulated value and the transformed list.
+
+    Examples:
+      >>> mapAccumL(lambda acc, x: (x+acc, str(x)), 0, range(1,5))
+      (10, ['1', '2', '3', '4'])
+    """
+    acc: T = e
+    ys: List[V] = []
+    for x in xs:
+        acc, c = f(acc, x)
+        ys += c
+    return (acc, ys)
+
+
+def mapAccumR(f: Callable[[T, U], Tuple[T, S]], e: T, xs: List[U]) -> Tuple[T, List[S]]:
+    """
+    mapAccumR transforms the list <xs> with <f> and simultaneously accumulates its elements from right-to-left into a value of <T>.
+
+    Returns:
+      Tuple[T, List[S]]:
+        A tuple of the accumulated value and the transformed list.
+
+    Examples:
+      >>> mapAccumR(lambda acc, x: (x+acc, str(x)), 0, range(1,5))
+      (10, ['4', '3', '2', '1'])
+    """
+    acc: T = e
+    ys: List[V] = []
+    for x in reverse(xs):
+        acc, c = f(acc, x)
+        ys += c
+    return (acc, ys)
+
+
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     Filter out elements from the list <xs> that do not satisfy the predicate <p> .
