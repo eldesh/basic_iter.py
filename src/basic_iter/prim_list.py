@@ -452,6 +452,30 @@ def concat_map(f: Callable[[T], List[U]], xs: List[T]) -> List[U]:
     return res
 
 
+def and_list(xs: List[bool]) -> bool:
+    """
+    Returns:
+      bool:
+        Whether the all elements of the list <xs> is True.
+    """
+    for x in xs:
+        if not x:
+            return False
+    return True
+
+
+def or_list(xs: List[bool]) -> bool:
+    """
+    Returns:
+      bool:
+        Whether any elements of the list <xs> is True.
+    """
+    for x in xs:
+        if x:
+            return True
+    return False
+
+
 def scanl(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
     """
     Folding left-to-right the list and returns a list of the intermediate values.
