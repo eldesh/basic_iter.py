@@ -48,7 +48,7 @@ class TestPrimList(unittest.TestCase):
 
     @given(st.lists(st.integers()))
     def test_foldlcons_is_rev(self, xs):
-        self.assertEqual(L.reverse(xs), L.foldl(lambda x, acc: [x] + acc, [], xs))
+        self.assertEqual(L.reverse(xs), L.foldl(lambda acc, x: [x] + acc, [], xs))
 
     @given(st.lists(st.integers()))
     @example([])

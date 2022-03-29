@@ -312,26 +312,7 @@ def permutations(xs: List[T]) -> List[List[T]]:
     return res
 
 
-def filter(p: Predicate[T], xs: List[T]) -> List[T]:
-    """
-    Filter out elements from the list <xs> that do not satisfy the predicate <p> .
-
-    Returns:
-      List[T]:
-        List of elements satisfy <p>.
-
-    Examples:
-      >>> filter (lambda x: x % 2 == 0, list(range(10)))
-      [0, 2, 4, 6, 8]
-    """
-    ys: List[T] = []
-    for x in xs:
-        if p(x):
-            ys.append(x)
-    return ys
-
-
-def foldl(f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
+def foldl(f: Callable[[U, T], U], e: U, xs: List[T]) -> U:
     """
     Folding left-to-right the list <xs> with the function <f> start from <e>.
     For the list <xs> is [ x0, x1, x2, ... , x(n-1), xn ],
@@ -343,46 +324,41 @@ def foldl(f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
         A left-to-right folding of the list <xs> with the function <f>.
 
     Examples:
-      >>> foldl (lambda x, acc: x + acc, 0, list(range(1, 11)))
+      >>> foldl (lambda acc, x: x + acc, 0, list(range(1, 11)))
       55
-      >>> foldl (lambda x, acc: [x] + acc, [0], list(range(1, 6)))
+      >>> foldl (lambda acc, x: [x] + acc, [0], list(range(1, 6)))
       [5, 4, 3, 2, 1, 0]
-      >>> foldl (lambda x, acc: [x] + [acc], [0], list(range(1, 6)))
+      >>> foldl (lambda acc, x: [x] + [acc], [0], list(range(1, 6)))
       [5, [4, [3, [2, [1, [0]]]]]]
     """
     acc = e
     for x in xs:
-        acc = f(x, acc)
+        acc = f(acc, x)
     return acc
 
 
-def scanl(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
+def foldl1(f: Callable[[U, T], U], xs: List[T]) -> U:
     """
-    Folding left-to-right the list and returns a list of the intermediate values.
-    For the input list <xs> and the result list are [ x0, x1, x2, ... , x(n-1), xn ] and [ r0, r1, ..., r(n-1), rn, r(n+1) ]::
-
-      r0     is calculated from foldl f e      [  ]
-      r1     is calculated from foldl f r0     [x0]
-      ...
-      rn     is calculated from foldl f r(n-1) [x(n-1)]
-      r(n+1) is calculated from foldl f rn     [xn].
+    A variant of <foldl> that has no base case.
+    Thus, this may only be applied to non-empty lists.
 
     Returns:
-      List[U]:
-        A list of intermediate foldl values with the function <f>.
+      U:
+        A left-to-right folding of the list <xs> with the function <f>.
+
+    Raises:
+      AssertionError: <xs> is empty.
 
     Examples:
-      >>> scanl (lambda x, acc: x + acc, 0, list(range(1, 6)))
-      [0, 1, 3, 6, 10, 15]
-      >>> scanl (lambda x, acc: [x] + acc, [], list(range(1, 6)))
-      [[], [1], [2, 1], [3, 2, 1], [4, 3, 2, 1], [5, 4, 3, 2, 1]]
+      >>> foldl1 (lambda acc, x: x + acc, list(range(1, 11)))
+      55
+      >>> foldl1 (lambda acc, x: [x] + ([acc] if 1 == acc else acc), list(range(1, 6)))
+      [5, 4, 3, 2, 1]
+      >>> foldl1 (lambda acc, x: [x] + [acc], list(range(1, 6)))
+      [5, [4, [3, [2, 1]]]]
     """
-    acc = e
-    res = [acc]
-    for x in xs:
-        acc = f(x, acc)
-        res = [acc] + res
-    return reverse(res)
+    assert xs, "required to be a non-empty list"
+    return foldl(f, xs[0], xs[1:])
 
 
 def foldr(f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
@@ -414,6 +390,97 @@ def foldr(f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
     return acc
 
 
+def foldr1(f: Callable[[T, U], U], xs: List[T]) -> U:
+    """
+    Folding right-to-left the non-empty list <xs> with the function <f>.
+    For the list <xs> is [ x0, x1, x2, ... , x(n-1), xn ],
+    a calculation equivalent to the following expression is performed:
+    f (x0, f (x1, ... f (x(n-2), f (x(n-1), f (xn, e)))))
+
+    Returns:
+      U:
+        A right-to-left folding of the list <xs> with the function <f>.
+
+    Example:
+      Sum all values in a list.
+
+      >>> foldr1 (lambda x, acc: x + acc, list(range(10)))
+      45
+
+    Examples:
+      >>> foldr1 (lambda x, acc: [x] + [acc], list(range(5)))
+      [0, [1, [2, [3, 4]]]]
+    """
+    assert xs, "required to be a non-empty list"
+    return foldr(f, last(xs), init(xs))
+
+
+def concat(xxs: List[List[T]]) -> List[T]:
+    """
+    Construct a list from the list of list <xxs>.
+    This is a directly concatenated list of elements of the list <xxs>.
+
+    Returns:
+      List[T]:
+        A concatenated list of elements of the list <xxs>.
+
+    Examples:
+      >>> concat([[1,2,3], [4,5,6], [7,8,9]])
+      [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    """
+    res: List[T] = []
+    for xs in xxs:
+        res += xs
+    return res
+
+
+def concat_map(f: Callable[[T], List[U]], xs: List[T]) -> List[U]:
+    """
+    Map the function <f> over all elements of the list <xs>, and concatenate the resulting lists.
+
+    Returns:
+      List[U]:
+        A concatinated list of mapped elements of the list <xs>.
+
+    Examples:
+      >>> concat_map(lambda x: [x, x+1], [1,2,3,4,5])
+      [1, 2, 2, 3, 3, 4, 4, 5, 5, 6]
+    """
+    res: List[U] = []
+    for x in xs:
+        res += f(x)
+    return res
+
+
+def scanl(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
+    """
+    Folding left-to-right the list and returns a list of the intermediate values.
+    For the input list <xs> and the result list are [ x0, x1, x2, ... , x(n-1), xn ] and [ r0, r1, ..., r(n-1), rn, r(n+1) ]::
+
+      r0     is calculated from foldl f e      [  ]
+      r1     is calculated from foldl f r0     [x0]
+      ...
+      rn     is calculated from foldl f r(n-1) [x(n-1)]
+      r(n+1) is calculated from foldl f rn     [xn].
+
+    Returns:
+      List[U]:
+        A list of intermediate foldl values with the function <f>.
+
+    Examples:
+      >>> scanl (lambda x, acc: x + acc, 0, list(range(1, 6)))
+      [0, 1, 3, 6, 10, 15]
+      >>> scanl (lambda x, acc: [x] + acc, [], list(range(1, 6)))
+      [[], [1], [2, 1], [3, 2, 1], [4, 3, 2, 1], [5, 4, 3, 2, 1]]
+    """
+    acc = e
+    res = [acc]
+    for x in xs:
+        acc = f(x, acc)
+        res = [acc] + res
+    return reverse(res)
+
+
 def scanr(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
     """
     Folding right-to-left the list and returns a list of the intermediate values.
@@ -443,6 +510,25 @@ def scanr(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
         acc = f(x, acc)
         res = [acc] + res
     return res
+
+
+def filter(p: Predicate[T], xs: List[T]) -> List[T]:
+    """
+    Filter out elements from the list <xs> that do not satisfy the predicate <p> .
+
+    Returns:
+      List[T]:
+        List of elements satisfy <p>.
+
+    Examples:
+      >>> filter (lambda x: x % 2 == 0, list(range(10)))
+      [0, 2, 4, 6, 8]
+    """
+    ys: List[T] = []
+    for x in xs:
+        if p(x):
+            ys.append(x)
+    return ys
 
 
 def zipWith(f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
@@ -498,43 +584,6 @@ def unfoldr(f: Callable[[T], Optional[Tuple[U, T]]], init: T) -> List[U]:
         else:
             break
     res.reverse()
-    return res
-
-
-def concat(xxs: List[List[T]]) -> List[T]:
-    """
-    Construct a list from the list of list <xxs>.
-    This is a directly concatenated list of elements of the list <xxs>.
-
-    Returns:
-      List[T]:
-        A concatenated list of elements of the list <xxs>.
-
-    Examples:
-      >>> concat([[1,2,3], [4,5,6], [7,8,9]])
-      [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    """
-    res: List[T] = []
-    for xs in xxs:
-        res += xs
-    return res
-
-
-def concat_map(f: Callable[[T], List[U]], xs: List[T]) -> List[U]:
-    """
-    Map the function <f> over all elements of the list <xs>, and concatenate the resulting lists.
-
-    Returns:
-      List[U]:
-        A concatinated list of mapped elements of the list <xs>.
-
-    Examples:
-      >>> concat_map(lambda x: [x, x+1], [1,2,3,4,5])
-      [1, 2, 2, 3, 3, 4, 4, 5, 5, 6]
-    """
-    res: List[U] = []
-    for x in xs:
-        res += f(x)
     return res
 
 
