@@ -401,6 +401,9 @@ def foldr1(f: Callable[[T, U], U], xs: List[T]) -> U:
       U:
         A right-to-left folding of the list <xs> with the function <f>.
 
+    Raises:
+      AssertionError: <xs> is empty.
+
     Example:
       Sum all values in a list.
 
@@ -510,7 +513,7 @@ def all(p: Predicate[T], xs: List[T]) -> bool:
     return True
 
 
-def scanl(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
+def scanl(f: Callable[[U, T], U], e: U, xs: List[T]) -> List[U]:
     """
     Folding left-to-right the list and returns a list of the intermediate values.
     For the input list <xs> and the result list are [ x0, x1, x2, ... , x(n-1), xn ] and [ r0, r1, ..., r(n-1), rn, r(n+1) ]::
@@ -526,17 +529,28 @@ def scanl(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
         A list of intermediate foldl values with the function <f>.
 
     Examples:
-      >>> scanl (lambda x, acc: x + acc, 0, list(range(1, 6)))
+      >>> scanl (lambda acc, x: x + acc, 0, list(range(1, 6)))
       [0, 1, 3, 6, 10, 15]
-      >>> scanl (lambda x, acc: [x] + acc, [], list(range(1, 6)))
+      >>> scanl (lambda acc, x: [x] + acc, [], list(range(1, 6)))
       [[], [1], [2, 1], [3, 2, 1], [4, 3, 2, 1], [5, 4, 3, 2, 1]]
     """
     acc = e
     res = [acc]
     for x in xs:
-        acc = f(x, acc)
+        acc = f(acc, x)
         res = [acc] + res
     return reverse(res)
+
+
+def scanl1(f: Callable[[U, T], U], xs: List[T]) -> List[U]:
+    """
+    scanl1 is a variant of scanl that has no starting value argument
+
+    Raises:
+      AssertionError: <xs> is empty.
+    """
+    assert xs, "required to be a non-empty list"
+    return scanl(f, xs[0], xs[1:])
 
 
 def scanr(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:

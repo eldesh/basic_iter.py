@@ -51,6 +51,18 @@ class TestPrimList(unittest.TestCase):
         self.assertEqual(L.reverse(xs), L.foldl(lambda acc, x: [x] + acc, [], xs))
 
     @given(st.lists(st.integers()))
+    def test_scanl_is_foldl_trace(self, xs):
+        def add (x, y):
+            return x + y
+        self.assertEqual(list(L.foldl(add, 0, xs[0:x]) for x in range(len(xs)+1)), L.scanl(add, 0, xs))
+
+    @given(st.lists(st.integers()))
+    def test_scanl_last_is_foldl(self, xs):
+        def sub (x, y):
+            return x - y
+        self.assertEqual(L.last(L.scanl(sub, 0, xs)), L.foldl(sub, 0, xs))
+
+    @given(st.lists(st.integers()))
     @example([])
     def test_append_id(self, xs):
         self.assertEqual(xs, L.append([], xs))
