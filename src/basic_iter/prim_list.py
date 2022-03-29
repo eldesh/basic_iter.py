@@ -476,6 +476,40 @@ def or_list(xs: List[bool]) -> bool:
     return False
 
 
+def any(p: Predicate[T], xs: List[T]) -> bool:
+    """
+    Check any elements of the list <xs> satisfy the predicate <p>.
+
+    Examples:
+      >>> any(lambda x: x % 2 == 0, [1,3,5,7,9])
+      False
+      >>> import re
+      >>> any(lambda x: re.search(r'a*b{2}c', x), ['bc', 'ab', 'aaabbc'])
+      True
+    """
+    for x in xs:
+        if p(x):
+            return True
+    return False
+
+
+def all(p: Predicate[T], xs: List[T]) -> bool:
+    """
+    Check all elements of the list <xs> satisfy the predicate <p>.
+
+    Examples:
+      >>> all(lambda x: x % 2 == 0, [0,2,4,6,7])
+      False
+      >>> import re
+      >>> all(lambda x: re.search(r'a*b', x), ['abc', 'b', 'aaab'])
+      True
+    """
+    for x in xs:
+        if not (p(x)):
+            return False
+    return True
+
+
 def scanl(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
     """
     Folding left-to-right the list and returns a list of the intermediate values.
@@ -609,23 +643,6 @@ def unfoldr(f: Callable[[T], Optional[Tuple[U, T]]], init: T) -> List[U]:
             break
     res.reverse()
     return res
-
-
-def all(p: Predicate[T], xs: List[T]) -> bool:
-    """
-    Check all elements of the list <xs> satisfy the predicate <p>.
-
-    Examples:
-      >>> all(lambda x: x % 2 == 0, [0,2,4,6,7])
-      False
-      >>> import re
-      >>> all(lambda x: re.search(r'a*b', x), ['abc', 'b', 'aaab'])
-      True
-    """
-    for x in xs:
-        if not (p(x)):
-            return False
-    return True
 
 
 def is_prefix(xs: List[T], ys: List[T]) -> bool:
