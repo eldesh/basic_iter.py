@@ -624,6 +624,33 @@ def mapAccumR(f: Callable[[T, U], Tuple[T, S]], e: T, xs: List[U]) -> Tuple[T, L
     return (acc, ys)
 
 
+def replicate(n: int, x: T) -> List[T]:
+    """
+    Replicate the value <x> <n> times.
+    When the value of <n> is less than 0, an empty list is returned.
+
+    Returns:
+      List[T]:
+        The list of length <n> with <x> the value of every element.
+
+    Examples:
+      >>> replicate (0, 1)
+      []
+      >>> replicate (3, "foo")
+      ['foo', 'foo', 'foo']
+      >>> replicate (-5, 1)
+      []
+    """
+    if n < 0:
+        return []
+
+    xs: List[T] = []
+    for i in range(n):
+        xs.append(x)
+
+    return xs
+
+
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     Filter out elements from the list <xs> that do not satisfy the predicate <p> .

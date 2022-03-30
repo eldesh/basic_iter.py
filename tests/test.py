@@ -74,6 +74,20 @@ class TestPrimList(unittest.TestCase):
 
         self.assertEqual(L.head(L.scanr(add, 0, xs)), L.foldr(add, 0, xs))
 
+    @given(st.integers(max_value=65), st.integers())
+    @example(0, 0)
+    @example(-10, 0)
+    def test_replicate(self, n, v):
+        if n < 0:
+            self.assertEqual([], L.replicate(n, v))
+        else:
+            self.assertEqual(n, len(L.replicate(n, v)))
+
+    def test_unfoldr(self):
+        self.assertEqual(
+            list(range(10)), L.unfoldr(lambda x: None if x > 9 else (x, x + 1), 0)
+        )
+
     @given(st.lists(st.integers()))
     @example([])
     def test_append_id(self, xs):
