@@ -651,6 +651,28 @@ def replicate(n: int, x: T) -> List[T]:
     return xs
 
 
+def unfoldr(f: Callable[[T], Optional[Tuple[U, T]]], init: T) -> List[U]:
+    """
+    Builds a list from the seed value <init> with <f>.
+    The function <f> takes a seed value and returns None if it is done producing the list or tuple (u, t), in which case, the <u> value is next element of a list and the <t> is the seed value for the next element generating.
+
+    Examples:
+      >>> unfoldr (lambda x: None if x > 5 else (x, x+1), 0)
+      [0, 1, 2, 3, 4, 5]
+    """
+    res: List[U] = []
+    elm = init
+    while True:
+        r = f(elm)
+        if r:
+            (x, e) = r
+            res.append(x)
+            elm = e
+        else:
+            break
+    return res
+
+
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     Filter out elements from the list <xs> that do not satisfy the predicate <p> .
@@ -709,21 +731,6 @@ def zip(xs: List[T], ys: List[U]) -> List[Tuple[T, U]]:
       AssertionError: <xs> and <ys> have different lengths.
     """
     return zipWith(lambda x, y: (x, y), xs, ys)
-
-
-def unfoldr(f: Callable[[T], Optional[Tuple[U, T]]], init: T) -> List[U]:
-    res: List[U] = []
-    elm = init
-    while True:
-        r = f(elm)
-        if r:
-            (x, e) = r
-            res = [x] + res
-            elm = e
-        else:
-            break
-    res.reverse()
-    return res
 
 
 def is_prefix(xs: List[T], ys: List[T]) -> bool:

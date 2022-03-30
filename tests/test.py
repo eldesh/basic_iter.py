@@ -83,7 +83,7 @@ class TestPrimList(unittest.TestCase):
         else:
             self.assertEqual(n, len(L.replicate(n, v)))
 
-    def test_unfoldr(self):
+    def test_unfoldr_trivial(self):
         self.assertEqual(
             list(range(10)), L.unfoldr(lambda x: None if x > 9 else (x, x + 1), 0)
         )
