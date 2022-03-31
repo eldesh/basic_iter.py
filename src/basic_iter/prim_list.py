@@ -726,6 +726,46 @@ def splitAt(n: int, xs: List[T]) -> Tuple[List[T], List[T]]:
     return (take(n, xs), drop(n, xs))
 
 
+def takeWhile(p: Predicate[T], xs: List[T]) -> List[T]:
+    """
+    The longest prefix of the list <xs> of elements that satisfy <p>.
+
+    Examples:
+      >>> takeWhile (lambda n: n >= 10, [13, 12, 11, 10, 9, 8])
+      [13, 12, 11, 10]
+      >>> takeWhile (lambda n: n%2 == 0, [12, 10, 9, 8, 7])
+      [12, 10]
+      >>> takeWhile (lambda n: n < 0, [0, 3, -3, 5, -5])
+      []
+    """
+    res: List[T] = []
+    for i, x in enumerate(xs):
+        if not (p(x)):
+            return xs[0:i]
+        res.append(x)
+    return xs
+
+
+def dropWhile(p: Predicate[T], xs: List[T]) -> List[T]:
+    """
+    The suffix of the list <xs> remaining after `takeWhile(p, xs)`.
+
+    Examples:
+      >>> dropWhile (lambda n: n >= 10, [13, 12, 11, 10, 9, 8])
+      [9, 8]
+      >>> dropWhile (lambda n: n%2 == 0, [12, 10, 9, 8, 7])
+      [9, 8, 7]
+      >>> dropWhile (lambda n: n < 0, [0, 3, -3, 5, -5])
+      [0, 3, -3, 5, -5]
+    """
+    res: List[T] = []
+    for i, x in enumerate(xs):
+        if not (p(x)):
+            return xs[i:]
+        res.append(x)
+    return xs
+
+
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     Filter out elements from the list <xs> that do not satisfy the predicate <p> .
