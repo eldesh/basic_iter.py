@@ -673,6 +673,59 @@ def unfoldr(f: Callable[[T], Optional[Tuple[U, T]]], init: T) -> List[U]:
     return res
 
 
+def take(n: int, xs: List[T]) -> List[T]:
+    """
+    Returns:
+      List[T]:
+        The prefix of <xs> of length <n>.
+
+    Examples:
+      >>> take (3, [1,2,3,4,5])
+      [1, 2, 3]
+      >>> take (6, [1,2,3,4,5])
+      [1, 2, 3, 4, 5]
+      >>> take (-1, [1,2,3,4,5])
+      []
+    """
+    if n < 0:
+        return []
+    return xs[0:n]
+
+
+def drop(n: int, xs: List[T]) -> List[T]:
+    """
+    Returns:
+      List[T]:
+        The suffix of <xs> after the first <n> elements.
+
+    Examples:
+      >>> drop (3, [1,2,3,4,5])
+      [4, 5]
+      >>> drop (6, [1,2,3,4,5])
+      []
+      >>> drop (-1, [1,2,3,4,5])
+      [1, 2, 3, 4, 5]
+    """
+    if n < 0:
+        return xs
+    return xs[n:]
+
+
+def splitAt(n: int, xs: List[T]) -> Tuple[List[T], List[T]]:
+    """
+    Split the list <xs> into a tuple where first element is <xs> prefix of length <n> and second element is suffix of <xs> after the first <n> elements.
+
+    Examples:
+      >>> splitAt (3, [1,2,3,4,5])
+      ([1, 2, 3], [4, 5])
+      >>> splitAt (6, [1,2,3,4,5])
+      ([1, 2, 3, 4, 5], [])
+      >>> splitAt (-1, [1,2,3,4,5])
+      ([], [1, 2, 3, 4, 5])
+    """
+    return (take(n, xs), drop(n, xs))
+
+
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     Filter out elements from the list <xs> that do not satisfy the predicate <p> .

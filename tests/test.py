@@ -88,6 +88,13 @@ class TestPrimList(unittest.TestCase):
             list(range(10)), L.unfoldr(lambda x: None if x > 9 else (x, x + 1), 0)
         )
 
+    @given(st.integers(), st.lists(st.integers()))
+    def test_split_at(self, n, xs):
+        def app(xy):
+            return L.append(xy[0], xy[1])
+
+        self.assertEqual(xs, app(L.splitAt(n, xs)))
+
     @given(st.lists(st.integers()))
     @example([])
     def test_append_id(self, xs):
