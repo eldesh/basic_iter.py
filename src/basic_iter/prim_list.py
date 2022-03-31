@@ -738,11 +738,9 @@ def takeWhile(p: Predicate[T], xs: List[T]) -> List[T]:
       >>> takeWhile (lambda n: n < 0, [0, 3, -3, 5, -5])
       []
     """
-    res: List[T] = []
     for i, x in enumerate(xs):
         if not (p(x)):
             return xs[0:i]
-        res.append(x)
     return xs
 
 
@@ -758,12 +756,44 @@ def dropWhile(p: Predicate[T], xs: List[T]) -> List[T]:
       >>> dropWhile (lambda n: n < 0, [0, 3, -3, 5, -5])
       [0, 3, -3, 5, -5]
     """
-    res: List[T] = []
     for i, x in enumerate(xs):
         if not (p(x)):
             return xs[i:]
-        res.append(x)
-    return xs
+    return []
+
+
+def dropWhileEnd(p: Predicate[T], xs: List[T]) -> List[T]:
+    """
+    The suffix of the list <xs> remaining after `takeWhile(p, xs)`.
+
+    Examples:
+      >>> dropWhileEnd (lambda n: n >= 10, [13, 12, 11, 10, 9, 8])
+      [13, 12, 11, 10, 9, 8]
+      >>> dropWhileEnd (lambda n: n%2 != 0, [12, 10, 9, 8, 7])
+      [12, 10, 9, 8]
+      >>> dropWhileEnd (lambda n: n < 0, [0, 3, -3, 5, -5])
+      [0, 3, -3, 5]
+    """
+    n: int = len(xs)
+    for i, x in enumerate(reverse(xs)):
+        if not (p(x)):
+            return xs[0:n-i]
+    return []
+
+
+def span(p: Predicate[T], xs: List[T]) -> Tuple[List[T], List[T]]:
+    """
+    A tuple where first element is the longest prefix of <xs> of elements that satisfy <p> and second element is the remainder of the list.
+
+    Examples:
+      >>> span (lambda n: n >= 10, [13, 12, 11, 10, 9, 8])
+      ([13, 12, 11, 10], [9, 8])
+      >>> span (lambda n: n%2 != 0, [12, 10, 9, 8, 7])
+      ([], [12, 10, 9, 8, 7])
+      >>> span (lambda n: abs(n) < 10, [0, 3, -3, 5, -5])
+      ([0, 3, -3, 5, -5], [])
+    """
+    return (takeWhile(p, xs), dropWhile(p, xs))
 
 
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
