@@ -777,7 +777,7 @@ def dropWhileEnd(p: Predicate[T], xs: List[T]) -> List[T]:
     n: int = len(xs)
     for i, x in enumerate(reverse(xs)):
         if not (p(x)):
-            return xs[0:n-i]
+            return xs[0 : n - i]
     return []
 
 
