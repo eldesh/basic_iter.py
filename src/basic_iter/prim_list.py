@@ -973,6 +973,33 @@ def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     return ys
 
 
+def partition(p: Predicate[T], xs: List[T]) -> Tuple[List[T], List[T]]:
+    """
+    Partition the list <xs> into a tuple of 2 lists.
+    All elements of the first list satisfy <p> and all elements of the second list do not satisfy <p>.
+
+    Returns:
+      Tuple[List[T], List[T]]:
+        A pair of lists of elements which do and do not satisfy the predicate <p>.
+
+    Examples:
+      >>> partition(lambda x: x < 4, [0, 3, 1, 4, 6, 5, 2])
+      ([0, 3, 1, 2], [4, 6, 5])
+      >>> partition(lambda x: x < 0, [0, 3, 1, 4, 6, 5, 2])
+      ([], [0, 3, 1, 4, 6, 5, 2])
+      >>> partition(lambda x: x%2==0, [0, 3, 1, 4, 6, 5, 2])
+      ([0, 4, 6, 2], [3, 1, 5])
+    """
+    ys: List[T] = []
+    zs: List[T] = []
+    for x in xs:
+        if p(x):
+            ys.append(x)
+        else:
+            zs.append(x)
+    return (ys, zs)
+
+
 def zipWith(f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
     """
     Returns:
