@@ -960,6 +960,24 @@ def is_subsequence_of(xs: List[T], ys: List[T]) -> bool:
     return True
 
 
+def lookup(p: Predicate[T], xs: List[Tuple[T, U]]) -> Found[U]:
+    """
+    Search an element satisfy <p> and returns the associated element.
+
+    Examples:
+      >>> lookup (lambda x: x > 2, [(1,"one"), (2,"two"), (3,"three"), (4,"four")])
+      'three'
+      >>> n = lookup (lambda x: x < 0, [(1,"one"), (2,"two"), (3,"three"), (4,"four")])
+      >>> if isinstance(n, NotFound):
+      ...     print('not found x (< 0)')
+      not found x (< 0)
+    """
+    for x, y in xs:
+        if p(x):
+            return y
+    return NotFound(p)
+
+
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     Filter out elements from the list <xs> that do not satisfy the predicate <p> .
