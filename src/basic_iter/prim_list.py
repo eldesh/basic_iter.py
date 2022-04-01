@@ -848,6 +848,38 @@ def strip_prefix(xs: List[T], ys: List[T]) -> Optional[List[T]]:
         return None
 
 
+def inits(xs: List[T]) -> List[List[T]]:
+    """
+    Returns:
+      List[List[T]]:
+        A list of the prefix of the list <xs>, shortest first.
+
+    Examples:
+      >>> inits(['a', 'b', 'c'])
+      [[], ['a'], ['a', 'b'], ['a', 'b', 'c']]
+    """
+    res: List[List[T]] = []
+    for i in range(len(xs)+1):
+        res.append(xs[0:i])
+    return res
+
+
+def tails(xs: List[T]) -> List[List[T]]:
+    """
+    Returns:
+      List[List[T]]:
+        A list of all final segments of the list <xs>, longest first.
+
+    Examples:
+      >>> tails(['a', 'b', 'c'])
+      [['a', 'b', 'c'], ['b', 'c'], ['c'], []]
+    """
+    res: List[List[T]] = []
+    for i in range(len(xs)+1):
+        res.append(xs[i:])
+    return res
+
+
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     Filter out elements from the list <xs> that do not satisfy the predicate <p> .
