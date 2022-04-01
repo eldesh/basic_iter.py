@@ -910,6 +910,56 @@ def is_suffix_of(xs: List[T], ys: List[T]) -> bool:
     return len(ys) >= len(xs) and ys[len(ys) - len(xs) : len(ys)] == xs
 
 
+def is_infix_of(xs: List[T], ys: List[T]) -> bool:
+    """
+    Check the list <xs> is contained in the list <ys>.
+
+    Returns:
+      bool:
+        Returns True when the list <xs> is contained, wholly and intact, anywhere within the list <ys>.
+
+    Examples:
+      >>> is_infix_of ([1,2], [1,2,3,4,5])
+      True
+      >>> is_infix_of ([3,4,5], [1,2,3,4,5])
+      True
+      >>> is_infix_of ([2,3,4], [1,2,3,4,5])
+      True
+      >>> is_infix_of ([42,3], [3,42,7,9])
+      False
+    """
+    if len(xs) > len(ys):
+        return False
+    for i in range(len(ys) - len(xs) + 1):
+        if xs == ys[i : i + len(xs)]:
+            return True
+    return False
+
+
+def is_subsequence_of(xs: List[T], ys: List[T]) -> bool:
+    """
+    Check the all elements of the list <xs> occur in the list <ys>, in order.
+    The elements do not have to occur consecutively.
+
+    Examples:
+      >>> is_subsequence_of (list("GHC"), list("The Glorious Haskell Compiler"))
+      True
+      >>> is_subsequence_of (list("adefghi"), list("abcdefghi"))
+      True
+      >>> is_subsequence_of (list(range(1,10)), reverse(list(range(11))))
+      False
+    """
+    i: int = 0
+    for x in xs:
+        for j, y in enumerate(ys[i:]):
+            if x == y:
+                i += j + 1
+                break
+        else:
+            return False
+    return True
+
+
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     Filter out elements from the list <xs> that do not satisfy the predicate <p> .
