@@ -179,17 +179,9 @@ class TestPrimList(unittest.TestCase):
     @given(st.lists(st.integers(), max_size=13))
     @example([])
     def test_subsequences(self, xs):
-        def subseq(ys, zs):
-            if [] == ys:
-                return True
-            if [] == zs:
-                return False
-            if ys[0] == zs[0]:
-                return subseq(ys[1:], zs[1:])
-            else:
-                return subseq(ys, zs[1:])
-
-        self.assertTrue(L.all(lambda ss: subseq(ss, xs), L.subsequences(xs)))
+        self.assertTrue(
+            L.all(lambda ss: L.is_subsequence_of(ss, xs), L.subsequences(xs))
+        )
 
     @given(st.lists(st.integers(), max_size=5))
     @example([])
