@@ -140,7 +140,7 @@ class TestPrimList(unittest.TestCase):
 
     @given(st.lists(st.lists(st.integers())).filter(lambda x: len(x) >= 1))
     def test_concat_preserve_element(self, xxs):
-        self.assertTrue(L.is_prefix(xxs[0], L.concat(xxs)))
+        self.assertTrue(L.is_prefix_of(xxs[0], L.concat(xxs)))
 
     @given(st.lists(st.integers()))
     @example([])
@@ -148,8 +148,8 @@ class TestPrimList(unittest.TestCase):
         self.assertEqual(len(xs) * 2, len(L.concat_map(lambda x: [x, x + 1], xs)))
 
     @given(st.lists(st.integers()), st.lists(st.integers()))
-    def test_is_prefix(self, ls, rs):
-        self.assertTrue(L.is_prefix(ls, ls + rs))
+    def test_is_prefix_of(self, ls, rs):
+        self.assertTrue(L.is_prefix_of(ls, ls + rs))
 
     def test_group_by_empty_id(self):
         self.assertEqual([], L.group_by(lambda x, y: True, []))

@@ -859,7 +859,7 @@ def inits(xs: List[T]) -> List[List[T]]:
       [[], ['a'], ['a', 'b'], ['a', 'b', 'c']]
     """
     res: List[List[T]] = []
-    for i in range(len(xs)+1):
+    for i in range(len(xs) + 1):
         res.append(xs[0:i])
     return res
 
@@ -875,9 +875,39 @@ def tails(xs: List[T]) -> List[List[T]]:
       [['a', 'b', 'c'], ['b', 'c'], ['c'], []]
     """
     res: List[List[T]] = []
-    for i in range(len(xs)+1):
+    for i in range(len(xs) + 1):
         res.append(xs[i:])
     return res
+
+
+def is_prefix_of(xs: List[T], ys: List[T]) -> bool:
+    """
+    Check the list <xs> is equals to the prefix of the list <ys>.
+
+    Examples:
+      >>> is_prefix_of ([1,2,3], [1,2,3,4,5])
+      True
+      >>> is_prefix_of ([3,4,5], [1,2,3,4,5])
+      False
+      >>> is_prefix_of ([3,42,5], [3,42])
+      False
+    """
+    return len(ys) >= len(xs) and ys[0 : len(xs)] == xs
+
+
+def is_suffix_of(xs: List[T], ys: List[T]) -> bool:
+    """
+    Check the list <xs> is equals to the suffix of the list <ys>.
+
+    Examples:
+      >>> is_suffix_of ([3,4,5], [1,2,3,4,5])
+      True
+      >>> is_suffix_of ([2,3,4], [1,2,3,4,5])
+      False
+      >>> is_suffix_of ([], [3,42])
+      True
+    """
+    return len(ys) >= len(xs) and ys[len(ys) - len(xs) : len(ys)] == xs
 
 
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
@@ -940,21 +970,6 @@ def zip(xs: List[T], ys: List[U]) -> List[Tuple[T, U]]:
     return zipWith(lambda x, y: (x, y), xs, ys)
 
 
-def is_prefix(xs: List[T], ys: List[T]) -> bool:
-    """
-    Check the list <xs> is equals to the prefix of the list <ys>.
-
-    Examples:
-      >>> is_prefix ([1,2,3], [1,2,3,4,5])
-      True
-      >>> is_prefix ([3,4,5], [1,2,3,4,5])
-      False
-      >>> is_prefix ([3,42,5], [3,42])
-      False
-    """
-    return len(ys) >= len(xs) and ys[0 : len(xs)] == xs
-
-
 def group_by(f: Callable[[T, T], bool], xs: List[T]) -> List[List[T]]:
     """
     Examples:
@@ -964,7 +979,7 @@ def group_by(f: Callable[[T, T], bool], xs: List[T]) -> List[List[T]]:
       []
       >>> group_by (lambda x,y: x <= y, [1,2,2,3,1,2,0,4,5,2])
       [[1, 2, 2, 3], [1, 2], [0, 4, 5], [2]]
-      >>> group_by (is_prefix, ['a','ab','abra','ra','racata','racatabra'])
+      >>> group_by (is_prefix_of, ['a','ab','abra','ra','racata','racatabra'])
       [['a', 'ab', 'abra'], ['ra', 'racata', 'racatabra']]
     """
     if null(xs):
