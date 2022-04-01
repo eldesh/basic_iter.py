@@ -796,6 +796,21 @@ def span(p: Predicate[T], xs: List[T]) -> Tuple[List[T], List[T]]:
     return (takeWhile(p, xs), dropWhile(p, xs))
 
 
+def break_to(p: Predicate[T], xs: List[T]) -> Tuple[List[T], List[T]]:
+    """
+    A tuple where first element is the longest prefix of <xs> of elements that do not satisfy <p> and second element is the remainder of the list.
+
+    Examples:
+      >>> break_to (lambda x: x > 3, [1, 2, 3, 4, 1, 2, 3, 4])
+      ([1, 2, 3], [4, 1, 2, 3, 4])
+      >>> break_to (lambda x: x < 9, [1, 2, 3])
+      ([], [1, 2, 3])
+      >>> break_to (lambda x: x > 9, [1, 2, 3])
+      ([1, 2, 3], [])
+    """
+    return span(lambda x: not (p(x)), xs)
+
+
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     Filter out elements from the list <xs> that do not satisfy the predicate <p> .

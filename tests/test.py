@@ -95,6 +95,18 @@ class TestPrimList(unittest.TestCase):
 
         self.assertEqual(xs, app(L.splitAt(n, xs)))
 
+    @given(st.integers(max_value=100), st.lists(st.integers(max_value=100)))
+    def test_span(self, p, xs):
+        ys, zs = L.span(lambda x: x > p, xs)
+        self.assertEqual(len(xs), len(ys) + len(zs))
+        self.assertTrue(L.all(lambda x: x > p, ys))
+
+    @given(st.integers(max_value=100), st.lists(st.integers(max_value=100)))
+    def test_break_to(self, p, xs):
+        self.assertEqual(
+            L.break_to(lambda x: x > p, xs), L.span(lambda x: not (x > p), xs)
+        )
+
     @given(st.lists(st.integers()))
     @example([])
     def test_append_id(self, xs):
