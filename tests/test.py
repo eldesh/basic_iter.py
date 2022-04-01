@@ -107,6 +107,20 @@ class TestPrimList(unittest.TestCase):
             L.break_to(lambda x: x > p, xs), L.span(lambda x: not (x > p), xs)
         )
 
+    @given(st.lists(st.booleans()), st.lists(st.booleans()))
+    def test_strip_prefix(self, xs, ys):
+        zs = L.strip_prefix(xs, ys)
+        if not (zs is None):
+            self.assertEqual(xs + zs, ys)
+
+    def test_group_empty_id(self):
+        self.assertEqual([], L.group([]))
+
+    @given(st.lists(st.integers()))
+    @example([])
+    def test_group_preserve_len(self, xs):
+        self.assertEqual(len(xs), sum(L.map(len, L.group(xs))))
+
     @given(st.lists(st.integers()))
     @example([])
     def test_append_id(self, xs):
@@ -116,7 +130,7 @@ class TestPrimList(unittest.TestCase):
     @given(st.lists(st.integers()))
     @example([])
     def test_revrev_id(self, xs):
-        self.assertEqual(L.reverse(L.reverse(xs)), xs)
+        self.assertEqual(xs, L.reverse(L.reverse(xs)))
 
     @given(st.lists(st.lists(st.integers())))
     @example([])
@@ -144,14 +158,6 @@ class TestPrimList(unittest.TestCase):
     def test_group_by_true_id(self, xs):
         assume(xs)
         self.assertEqual([xs], L.group_by(lambda x, y: True, xs))
-
-    def test_group_empty_id(self):
-        self.assertEqual([], L.group([]))
-
-    @given(st.lists(st.integers()))
-    @example([])
-    def test_group_preserve_len(self, xs):
-        self.assertEqual(len(xs), sum(L.map(len, L.group(xs))))
 
     @given(st.lists(st.integers()))
     @example([])

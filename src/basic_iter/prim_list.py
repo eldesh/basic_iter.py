@@ -811,6 +811,43 @@ def break_to(p: Predicate[T], xs: List[T]) -> Tuple[List[T], List[T]]:
     return span(lambda x: not (p(x)), xs)
 
 
+def group(xs: List[T]) -> List[List[T]]:
+    """
+    Equivalent to calling `group_by` on `==`.
+
+    Examples:
+      >>> group ([1,1,1,2,2,3,3,3,3])
+      [[1, 1, 1], [2, 2], [3, 3, 3, 3]]
+      >>> group ([])
+      []
+    """
+    return group_by(lambda x, y: x == y, xs)
+
+
+def strip_prefix(xs: List[T], ys: List[T]) -> Optional[List[T]]:
+    """
+    Strip of the prefix <xs> from <ys>.
+
+    Returns:
+      Optional[List[T]]:
+        None is returned when the <xs> is not the prefix of <ys>.
+        If the list <ys> starts from <xs>, returns the remaining of the prefix <xs>.
+
+    Examples:
+      >>> strip_prefix (["f", "o", "o"], ["f", "o", "o", "b", "a", "r"])
+      ['b', 'a', 'r']
+      >>> strip_prefix (["f", "o", "o"], ["f", "o", "o"])
+      []
+      >>> strip_prefix (["f", "o", "o"], ["b", "a", "r", "f", "o", "o"])
+      >>> strip_prefix (["f", "o", "o"], ["b", "a", "r", "f", "o", "o", "b", "a", "z"])
+      >>> strip_prefix (["f", "o", "o", "b", "a", "r"], ["f", "o", "o"])
+    """
+    if xs == ys[0 : len(xs)]:
+        return ys[len(xs) :]
+    else:
+        return None
+
+
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     Filter out elements from the list <xs> that do not satisfy the predicate <p> .
@@ -908,19 +945,6 @@ def group_by(f: Callable[[T, T], bool], xs: List[T]) -> List[List[T]]:
         else:
             gs.append([x])
     return gs
-
-
-def group(xs: List[T]) -> List[List[T]]:
-    """
-    Equivalent to calling `group_by` on `==`.
-
-    Examples:
-      >>> group ([1,1,1,2,2,3,3,3,3])
-      [[1, 1, 1], [2, 2], [3, 3, 3, 3]]
-      >>> group ([])
-      []
-    """
-    return group_by(lambda x, y: x == y, xs)
 
 
 if __name__ == "__main__":
