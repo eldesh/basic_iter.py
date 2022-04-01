@@ -29,13 +29,12 @@ def load_tests(loader, tests, ignore):
 
 
 class TestPrimList(unittest.TestCase):
-    def test_find(self):
-        self.assertEqual(1, L.find(1, [1, 2, 3]))
-        self.assertIsInstance(L.find(1, [2, 3, 4]), L.NotFound)
+    def test_find_found(self):
+        self.assertEqual(1, L.find(lambda x: x == 1, [1, 2, 3]))
+        self.assertEqual(2, L.find(lambda x: x % 2 == 0, [1, 2, 3]))
 
-    def test_find_if(self):
-        self.assertEqual(2, L.find_if(lambda x: x % 2 == 0, [1, 2, 3]))
-        self.assertIsInstance(L.find(1, [2, 3, 4]), L.NotFound)
+    def test_find_notfound(self):
+        self.assertIsInstance(L.find(lambda x: x == 1, [2, 3, 4]), L.NotFound)
 
     def test_append(self):
         self.assertEqual([4, 5, 6, 1, 2, 3], L.append([4, 5, 6], [1, 2, 3]))

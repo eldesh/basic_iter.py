@@ -95,58 +95,6 @@ def null(xs: List[T]) -> bool:
     return True if not xs else False
 
 
-def find(e: T, xs: List[T]) -> Found[T]:
-    """
-    Search a value in the list <xs> from the left to right.
-    The value is equals to the value <e>.
-
-    Returns:
-      Found[T]:
-        The value found in the list <xs>.
-        If no values equal to the value <e>, returns <NotFound>.
-
-    Example:
-      >>> m = find(42, [0, 1, 15, 42])
-      >>> if m:
-      ...     print('found 42')
-      found 42
-
-      >>> m = find(False, [False])
-      >>> if not isinstance(m, NotFound):
-      ...     print('found False')
-      found False
-    """
-    if e in xs:
-        return e
-    return NotFound(e)
-
-
-def find_if(p: Predicate[T], xs: List[T]) -> Found[T]:
-    """
-    Generalized <find>.
-    Search a value in the list <xs> from the left to right.
-    The value satisfies the predicate <p>.
-
-    Returns:
-      Found[T]:
-        The value found in the list <xs>.
-        If no values satisfies <p>, returns <NotFound>.
-
-    Examples:
-      >>> find (1, [1,2,3])
-      1
-      >>> find (42, [41,42,43])
-      42
-      >>> str(find (5, [0,2,4,6,8,10]))
-      'Not found equals to the value 5'
-
-    """
-    for x in xs:
-        if p(x):
-            return x
-    return NotFound(p)
-
-
 def append(xs: List[T], ys: List[T]) -> List[T]:
     """
     Append xs and ys.
@@ -975,6 +923,34 @@ def lookup(p: Predicate[T], xs: List[Tuple[T, U]]) -> Found[U]:
     for x, y in xs:
         if p(x):
             return y
+    return NotFound(p)
+
+
+def find(p: Predicate[T], xs: List[T]) -> Found[T]:
+    """
+    Search a value in the list <xs> from left to right.
+    The value satisfies the predicate <p>.
+
+    Returns:
+      Found[T]:
+        The value found in the list <xs>.
+        Or if no values satisfies <p>, returns <NotFound>.
+
+    Examples:
+      >>> find (lambda x: x == 1, [1,2,3])
+      1
+      >>> find (lambda x: x == 42, [41,42,43])
+      42
+      >>> str(find (lambda x: x == 5, [0,2,4,6,8,10]))[:9]
+      'Not found'
+      >>> m = find (lambda x: x == False, [False])
+      >>> if not isinstance(m, NotFound):
+      ...     print('found False')
+      found False
+    """
+    for x in xs:
+        if p(x):
+            return x
     return NotFound(p)
 
 
