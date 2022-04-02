@@ -3,6 +3,7 @@ import importlib
 import unittest
 import doctest
 from hypothesis import assume, given, example, strategies as st
+from hypothesis.strategies import composite
 
 import src.basic_iter
 from src.basic_iter import prim_list as L
@@ -29,6 +30,19 @@ def load_tests(loader, tests, ignore):
 
 
 class TestPrimList(unittest.TestCase):
+    @composite
+    def matrix_strategy(draw, elem, min_row=0, max_row=100, min_col=0, max_col=100):
+        """
+        Returns:
+          List[List[K]]:
+            Returns a list of lists that all have the same length.
+        """
+        col = draw(st.integers(min_value=min_col, max_value=max_col))
+        # fixed size line strategy
+        row = st.lists(elem, min_size=col, max_size=col)
+        mat = draw(st.lists(row, min_size=min_row, max_size=max_row))
+        return mat
+
     def test_find_found(self):
         self.assertEqual(1, L.find(lambda x: x == 1, [1, 2, 3]))
         self.assertEqual(2, L.find(lambda x: x % 2 == 0, [1, 2, 3]))
@@ -173,8 +187,13 @@ class TestPrimList(unittest.TestCase):
     @example([])
     @example([[]])
     @example([[], []])
-    def test_transpose(self, xxs):
+    def test_transpose_preserve_size(self, xxs):
         self.assertEqual(sum(map(len, L.transpose(xxs))), sum(map(len, xxs)))
+
+    @given(matrix_strategy(st.integers()))
+    def test_transpose_inv(self, mat):
+        assume(len(mat) == 0 or len(mat[0]) != 0)
+        self.assertEqual(mat, L.transpose(L.transpose(mat)))
 
     @given(st.lists(st.integers(), max_size=13))
     @example([])

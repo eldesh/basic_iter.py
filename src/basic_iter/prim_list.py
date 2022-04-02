@@ -194,7 +194,7 @@ def intercalate(xs: List[T], xxs: List[List[T]]) -> List[T]:
 def transpose(xxs: List[List[T]]) -> List[List[T]]:
     """
     Transpose rows and columns of <xxs>.
-    If some of the rows are shorter than the following rows, their elements are skipped:
+    If some of the rows are shorter than the following rows, their elements are skipped.
 
     Example:
         >>> transpose ([[1,2,3],[4,5,6]])
