@@ -1000,6 +1000,90 @@ def partition(p: Predicate[T], xs: List[T]) -> Tuple[List[T], List[T]]:
     return (ys, zs)
 
 
+def elemIndex(e: T, xs: List[T]) -> Found[int]:
+    """
+    Lookup the value <e> from the list <xs>, returns it's index.
+
+    Returns:
+      Found[int]:
+        Returns index of the first element equals to <e> in <xs>.
+        If it is not found in the list, <NotFound> is returned.
+
+    Examples:
+      >>> elemIndex (3, [1,2,3,4])
+      2
+      >>> str(elemIndex ("apple", ["orange", "banana"]))
+      'Not found equals to the value apple'
+    """
+    for i, x in enumerate(xs):
+        if x == e:
+            return i
+    return NotFound(e)
+
+
+def elemIndicies(e: T, xs: List[T]) -> List[int]:
+    """
+    Lookup all elements equal to the value <e> from the list <xs>, returns theirs indicies in ascending order.
+
+    Returns:
+      List[int]:
+        Returns all indicies of all elements equal to <e> in <xs>.
+
+    Examples:
+      >>> elemIndicies (3, [1,2,3,4,3,5,3])
+      [2, 4, 6]
+      >>> elemIndicies ("apple", ["orange", "banana"])
+      []
+    """
+    res: List[int] = []
+    for i, x in enumerate(xs):
+        if x == e:
+            res.append(i)
+    return res
+
+
+def findIndex(p: Predicate[T], xs: List[T]) -> Found[int]:
+    """
+    Lookup the first element that satisfies the predicate <p> in the list <xs>, returns it's index.
+
+    Returns:
+      Found[int]:
+        The index of the first value in the list <xs> that satisfies <p>.
+        If no element satisfying <p>, returns <NotFound>.
+
+    Examples:
+      >>> findIndex (lambda x: x > 3, [1, 3, 5, 7])
+      2
+      >>> str(findIndex (lambda x: x < 10, [10, 15, 42, 777]))[:9]
+      'Not found'
+    """
+    for i, x in enumerate(xs):
+        if p(x):
+            return i
+    return NotFound(p)
+
+
+def findIndicies(p: Predicate[T], xs: List[T]) -> List[int]:
+    """
+    Lookup all elements that satisfy the predicate <p> in the list <xs>, returns their indicies.
+
+    Returns:
+      List[int]:
+        The list of indicies of all elements satisfy <p> in the list <xs>.
+
+    Examples:
+      >>> findIndicies (lambda x: x > 3, [1, 3, 5, 7, 5, 3, 1])
+      [2, 3, 4]
+      >>> findIndicies (lambda x: x < 10, [10, 15, 42, 777])
+      []
+    """
+    res: List[int] = []
+    for i, x in enumerate(xs):
+        if p(x):
+            res.append(i)
+    return res
+
+
 def zipWith(f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
     """
     Returns:
