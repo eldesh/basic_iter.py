@@ -1389,6 +1389,140 @@ def zipWith7(
     return res
 
 
+def unzip(xs: List[Tuple[T1, T2]]) -> Tuple[List[T1], List[T2]]:
+    """
+    Transforms the list of pairs <xs> into a list of first elements and second elements.
+
+    Examples:
+      >>> unzip([(0,1),(2,3),(4,5)])
+      ([0, 2, 4], [1, 3, 5])
+    """
+    ts1: List[T1] = []
+    ts2: List[T2] = []
+    for t1, t2 in xs:
+        ts1.append(t1)
+        ts2.append(t2)
+    return (ts1, ts2)
+
+
+def unzip3(xs: List[Tuple[T1, T2, T3]]) -> Tuple[List[T1], List[T2], List[T3]]:
+    """
+    Transforms the list of tuples <xs> into a tuple of lists of n-th elements.
+
+    Examples:
+      >>> unzip3([(0,1,2),(3,4,5),(5,6,7)])
+      ([0, 3, 5], [1, 4, 6], [2, 5, 7])
+    """
+    ts1: List[T1] = []
+    ts2: List[T2] = []
+    ts3: List[T3] = []
+    for t1, t2, t3 in xs:
+        ts1.append(t1)
+        ts2.append(t2)
+        ts3.append(t3)
+    return (ts1, ts2, ts3)
+
+
+def unzip4(
+    xs: List[Tuple[T1, T2, T3, T4]]
+) -> Tuple[List[T1], List[T2], List[T3], List[T4]]:
+    """
+    Transforms the list of tuples <xs> into a tuple of lists of n-th elements.
+
+    Examples:
+      >>> unzip4([(0,1,2,3),(1,2,3,4),(2,3,4,5),(3,4,5,6)])
+      ([0, 1, 2, 3], [1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6])
+    """
+    ts1: List[T1] = []
+    ts2: List[T2] = []
+    ts3: List[T3] = []
+    ts4: List[T4] = []
+    for t1, t2, t3, t4 in xs:
+        ts1.append(t1)
+        ts2.append(t2)
+        ts3.append(t3)
+        ts4.append(t4)
+    return (ts1, ts2, ts3, ts4)
+
+
+def unzip5(
+    xs: List[Tuple[T1, T2, T3, T4, T5]]
+) -> Tuple[List[T1], List[T2], List[T3], List[T4], List[T5]]:
+    """
+    Transforms the list of tuples <xs> into a tuple of lists of n-th elements.
+
+    Examples:
+      >>> unzip5([(0,1,2,3,4),(1,2,3,4,5),(2,3,4,5,6),(3,4,5,6,7)])
+      ([0, 1, 2, 3], [1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6], [4, 5, 6, 7])
+    """
+    ts1: List[T1] = []
+    ts2: List[T2] = []
+    ts3: List[T3] = []
+    ts4: List[T4] = []
+    ts5: List[T5] = []
+    for t1, t2, t3, t4, t5 in xs:
+        ts1.append(t1)
+        ts2.append(t2)
+        ts3.append(t3)
+        ts4.append(t4)
+        ts5.append(t5)
+    return (ts1, ts2, ts3, ts4, ts5)
+
+
+def unzip6(
+    xs: List[Tuple[T1, T2, T3, T4, T5, T6]]
+) -> Tuple[List[T1], List[T2], List[T3], List[T4], List[T5], List[T6]]:
+    """
+    Transforms the list of tuples <xs> into a tuple of lists of n-th elements.
+
+    Examples:
+      >>> unzip6([(0,1,2,3,4,5),(1,2,3,4,5,6),(2,3,4,5,6,7),(3,4,5,6,7,8)])
+      ([0, 1, 2, 3], [1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6], [4, 5, 6, 7], [5, 6, 7, 8])
+    """
+    ts1: List[T1] = []
+    ts2: List[T2] = []
+    ts3: List[T3] = []
+    ts4: List[T4] = []
+    ts5: List[T5] = []
+    ts6: List[T6] = []
+    for t1, t2, t3, t4, t5, t6 in xs:
+        ts1.append(t1)
+        ts2.append(t2)
+        ts3.append(t3)
+        ts4.append(t4)
+        ts5.append(t5)
+        ts6.append(t6)
+    return (ts1, ts2, ts3, ts4, ts5, ts6)
+
+
+def unzip7(
+    xs: List[Tuple[T1, T2, T3, T4, T5, T6, T7]]
+) -> Tuple[List[T1], List[T2], List[T3], List[T4], List[T5], List[T6], List[T7]]:
+    """
+    Transforms the list of tuples <xs> into a tuple of lists of n-th elements.
+
+    Examples:
+      >>> unzip7([(0,1,2,3,4,5,6),(1,2,3,4,5,6,7),(2,3,4,5,6,7,8),(3,4,5,6,7,8,9)])
+      ([0, 1, 2, 3], [1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6], [4, 5, 6, 7], [5, 6, 7, 8], [6, 7, 8, 9])
+    """
+    ts1: List[T1] = []
+    ts2: List[T2] = []
+    ts3: List[T3] = []
+    ts4: List[T4] = []
+    ts5: List[T5] = []
+    ts6: List[T6] = []
+    ts7: List[T7] = []
+    for t1, t2, t3, t4, t5, t6, t7 in xs:
+        ts1.append(t1)
+        ts2.append(t2)
+        ts3.append(t3)
+        ts4.append(t4)
+        ts5.append(t5)
+        ts6.append(t6)
+        ts7.append(t7)
+    return (ts1, ts2, ts3, ts4, ts5, ts6, ts7)
+
+
 def group_by(f: Callable[[T, T], bool], xs: List[T]) -> List[List[T]]:
     """
     Examples:
