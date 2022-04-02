@@ -14,6 +14,13 @@ T = TypeVar("T")
 U = TypeVar("U")
 S = TypeVar("S")
 
+T1 = TypeVar("T1")
+T2 = TypeVar("T2")
+T3 = TypeVar("T3")
+T4 = TypeVar("T4")
+T5 = TypeVar("T5")
+T6 = TypeVar("T6")
+T7 = TypeVar("T7")
 
 Predicate = Callable[[T], bool]
 
@@ -1084,6 +1091,106 @@ def findIndicies(p: Predicate[T], xs: List[T]) -> List[int]:
     return res
 
 
+def zip(xs: List[T], ys: List[U]) -> List[Tuple[T, U]]:
+    """
+    Equivalent to calling `zipWith` on a tuple constructor like `lambda x,y: (x,y)`.
+
+    Examples:
+      >>> zip([1,2,3], [4,5,6])
+      [(1, 4), (2, 5), (3, 6)]
+
+    Raises:
+      AssertionError: <xs> and <ys> have different lengths.
+    """
+    return zipWith(lambda x, y: (x, y), xs, ys)
+
+
+def zip3(xs: List[T], ys: List[U], zs: List[S]) -> List[Tuple[T, U, S]]:
+    """
+    Equivalent to calling `zipWith3` on a tuple constructor like `lambda x,y,z: (x,y,z)`.
+
+    Examples:
+      >>> zip3([1,2,3], [4,5,6], [7,8,9])
+      [(1, 4, 7), (2, 5, 8), (3, 6, 9)]
+
+    Raises:
+      AssertionError: <xs>, <ys> and <zs> do not have same lengths.
+    """
+    return zipWith3(lambda x, y, z: (x, y, z), xs, ys, zs)
+
+
+def zip4(
+    t1: List[T1], t2: List[T2], t3: List[T3], t4: List[T4]
+) -> List[Tuple[T1, T2, T3, T4]]:
+    """
+    Equivalent to calling `zipWith4` on a tuple constructor like `lambda a,b,c,d: (a,b,c,d)`.
+
+    Examples:
+      >>> zip4([1,2,3], [4,5,6], [7,8,9], [10,11,12])
+      [(1, 4, 7, 10), (2, 5, 8, 11), (3, 6, 9, 12)]
+
+    Raises:
+      AssertionError: <t1>, <t2>, <t3> and <t4> do not have same lengths.
+    """
+    return zipWith4(lambda a, b, c, d: (a, b, c, d), t1, t2, t3, t4)
+
+
+def zip5(
+    t1: List[T1], t2: List[T2], t3: List[T3], t4: List[T4], t5: List[T5]
+) -> List[Tuple[T1, T2, T3, T4, T5]]:
+    """
+    Equivalent to calling `zipWith5` on a tuple constructor like `lambda a,b,c,d,e: (a,b,c,d,e)`.
+
+    Examples:
+      >>> zip5([1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15])
+      [(1, 4, 7, 10, 13), (2, 5, 8, 11, 14), (3, 6, 9, 12, 15)]
+
+    Raises:
+      AssertionError: <t1>, <t2>, <t3>, <t4> and <t5> do not have same lengths.
+    """
+    return zipWith5(lambda a, b, c, d, e: (a, b, c, d, e), t1, t2, t3, t4, t5)
+
+
+def zip6(
+    t1: List[T1], t2: List[T2], t3: List[T3], t4: List[T4], t5: List[T5], t6: List[T6]
+) -> List[Tuple[T1, T2, T3, T4, T5, T6]]:
+    """
+    Equivalent to calling `zipWith6` on a tuple constructor like `lambda a,b,c,d,e,f: (a,b,c,d,e,f)`.
+
+    Examples:
+      >>> zip6([1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18])
+      [(1, 4, 7, 10, 13, 16), (2, 5, 8, 11, 14, 17), (3, 6, 9, 12, 15, 18)]
+
+    Raises:
+      AssertionError: <t1>, <t2>, <t3>, <t4>, <t5> and <t6> do not have same lengths.
+    """
+    return zipWith6(lambda a, b, c, d, e, f: (a, b, c, d, e, f), t1, t2, t3, t4, t5, t6)
+
+
+def zip7(
+    t1: List[T1],
+    t2: List[T2],
+    t3: List[T3],
+    t4: List[T4],
+    t5: List[T5],
+    t6: List[T6],
+    t7: List[T7],
+) -> List[Tuple[T1, T2, T3, T4, T5, T6, T7]]:
+    """
+    Equivalent to calling `zipWith7` on a tuple constructor like `lambda a,b,c,d,e,f,g: (a,b,c,d,e,f,g)`.
+
+    Examples:
+      >>> zip7([1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18], [19,20,21])
+      [(1, 4, 7, 10, 13, 16, 19), (2, 5, 8, 11, 14, 17, 20), (3, 6, 9, 12, 15, 18, 21)]
+
+    Raises:
+      AssertionError: <t1>, <t2>, <t3>, <t4>, <t5>, <t6> and <t7> do not have same lengths.
+    """
+    return zipWith7(
+        lambda a, b, c, d, e, f, g: (a, b, c, d, e, f, g), t1, t2, t3, t4, t5, t6, t7
+    )
+
+
 def zipWith(f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
     """
     Returns:
@@ -1110,19 +1217,176 @@ def zipWith(f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
         y = ity[0]
         itx = itx[1:]
         ity = ity[1:]
-        res = [f(x, y)] + res
-    res.reverse()
+        res.append(f(x, y))
     return res
 
 
-def zip(xs: List[T], ys: List[U]) -> List[Tuple[T, U]]:
+def zipWith3(
+    f: Callable[[T1, T2, T3], S], t1: List[T1], t2: List[T2], t3: List[T3]
+) -> List[S]:
     """
-    Equivalent to calling `zipWith` on a tuple constructor like `lambda x,y: (x,y)`.
+    Returns:
+      List[S]:
+        A Zipped list from lists <t1>, <t2> and <t3> by the function <f>.
 
     Raises:
-      AssertionError: <xs> and <ys> have different lengths.
+      AssertionError: <t1>, <t2> and <t3> not have same lengths.
+
+    Examples:
+      >>> zipWith3(lambda x,y,z: x+y+z, [1,2,3], [4,5,6], [7,8,9])
+      [12, 15, 18]
     """
-    return zipWith(lambda x, y: (x, y), xs, ys)
+    assert len(t1) == len(t2) == len(t3), "required to be the same length"
+    it1, it2, it3 = (t1, t2, t3)
+    res: List[S] = []
+    while it1:
+        a, b, c = (it1[0], it2[0], it3[0])
+        it1, it2, it3 = (it1[1:], it2[1:], it3[1:])
+        res.append(f(a, b, c))
+    return res
+
+
+def zipWith4(
+    f: Callable[[T1, T2, T3, T4], S],
+    t1: List[T1],
+    t2: List[T2],
+    t3: List[T3],
+    t4: List[T4],
+) -> List[S]:
+    """
+    Returns:
+      List[S]:
+        A Zipped list from lists <t1>, <t2>, <t3> and <t4> by the function <f>.
+
+    Raises:
+      AssertionError: <t1>, <t2>, <t3> and <t4> not have same lengths.
+
+    Examples:
+      >>> zipWith4(lambda w,x,y,z: w+x+y+z, [1,2,3], [4,5,6], [7,8,9], [10,11,12])
+      [22, 26, 30]
+    """
+    assert len(t1) == len(t2) == len(t3) == len(t4), "required to be the same length"
+    it1, it2, it3, it4 = (t1, t2, t3, t4)
+    res: List[S] = []
+    while it1:
+        a, b, c, d = (it1[0], it2[0], it3[0], it4[0])
+        it1, it2, it3, it4 = (it1[1:], it2[1:], it3[1:], it4[1:])
+        res.append(f(a, b, c, d))
+    return res
+
+
+def zipWith5(
+    f: Callable[[T1, T2, T3, T4, T5], S],
+    t1: List[T1],
+    t2: List[T2],
+    t3: List[T3],
+    t4: List[T4],
+    t5: List[T5],
+) -> List[S]:
+    """
+    Returns:
+      List[S]:
+        A Zipped list from lists <t1>, <t2>, <t3>, <t4> and <t5> by the function <f>.
+
+    Raises:
+      AssertionError: <t1>, <t2>, <t3>, <t4> and <t5> do not have same lengths.
+
+    Examples:
+      >>> zipWith5(lambda a,b,c,d,e: a+b+c+d+e, [1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15])
+      [35, 40, 45]
+    """
+    assert (
+        len(t1) == len(t2) == len(t3) == len(t4) == len(t5)
+    ), "required to be the same length"
+    it1, it2, it3, it4, it5 = (t1, t2, t3, t4, t5)
+    res: List[S] = []
+    while it1:
+        a, b, c, d, e = (it1[0], it2[0], it3[0], it4[0], it5[0])
+        it1, it2, it3, it4, it5 = (it1[1:], it2[1:], it3[1:], it4[1:], it5[1:])
+        res.append(f(a, b, c, d, e))
+    return res
+
+
+def zipWith6(
+    t: Callable[[T1, T2, T3, T4, T5, T6], S],
+    t1: List[T1],
+    t2: List[T2],
+    t3: List[T3],
+    t4: List[T4],
+    t5: List[T5],
+    t6: List[T6],
+) -> List[S]:
+    """
+    Returns:
+      List[S]:
+        A Zipped list from lists <t1>, <t2>, <t3>, <t4>, <t5> and <t6> by the function <t>.
+
+    Raises:
+      AssertionError: <t1>, <t2>, <t3>, <t4>, <t5> and <t6> do not have same lengths.
+
+    Examples:
+      >>> zipWith6(lambda a,b,c,d,e,f: a+b+c+d+e+f, [1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18])
+      [51, 57, 63]
+    """
+    assert (
+        len(t1) == len(t2) == len(t3) == len(t4) == len(t5) == len(t6)
+    ), "required to be the same length"
+    it1, it2, it3, it4, it5, it6 = (t1, t2, t3, t4, t5, t6)
+    res: List[S] = []
+    while it1:
+        a, b, c, d, e, f = (it1[0], it2[0], it3[0], it4[0], it5[0], it6[0])
+        it1, it2, it3, it4, it5, it6 = (
+            it1[1:],
+            it2[1:],
+            it3[1:],
+            it4[1:],
+            it5[1:],
+            it6[1:],
+        )
+        res.append(t(a, b, c, d, e, f))
+    return res
+
+
+def zipWith7(
+    t: Callable[[T1, T2, T3, T4, T5, T6, T7], S],
+    t1: List[T1],
+    t2: List[T2],
+    t3: List[T3],
+    t4: List[T4],
+    t5: List[T5],
+    t6: List[T6],
+    t7: List[T7],
+) -> List[S]:
+    """
+    Returns:
+      List[S]:
+        A Zipped list from lists <t1>, <t2>, <t3>, <t4>, <t5>, <t6> and <t7> by the function <t>.
+
+    Raises:
+      AssertionError: <t1>, <t2>, <t3>, <t4>, <t5>, <t6> and <t7> do not have same lengths.
+
+    Examples:
+      >>> zipWith7(lambda a,b,c,d,e,f,g: a+b+c+d+e+f+g, [1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18], [19,20,21])
+      [70, 77, 84]
+    """
+    assert (
+        len(t1) == len(t2) == len(t3) == len(t4) == len(t5) == len(t6) == len(t7)
+    ), "required to be the same length"
+    it1, it2, it3, it4, it5, it6, it7 = (t1, t2, t3, t4, t5, t6, t7)
+    res: List[S] = []
+    while it1:
+        a, b, c, d, e, f, g = (it1[0], it2[0], it3[0], it4[0], it5[0], it6[0], it7[0])
+        it1, it2, it3, it4, it5, it6, it7 = (
+            it1[1:],
+            it2[1:],
+            it3[1:],
+            it4[1:],
+            it5[1:],
+            it6[1:],
+            it7[1:],
+        )
+        res.append(t(a, b, c, d, e, f, g))
+    return res
 
 
 def group_by(f: Callable[[T, T], bool], xs: List[T]) -> List[List[T]]:
