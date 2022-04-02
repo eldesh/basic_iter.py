@@ -292,7 +292,7 @@ def foldl(f: Callable[[U, T], U], e: U, xs: List[T]) -> U:
     return acc
 
 
-def foldl1(f: Callable[[U, T], U], xs: List[T]) -> U:
+def foldl1(f: Callable[[T, T], T], xs: List[T]) -> T:
     """
     A variant of <foldl> that has no base case.
     Thus, this may only be applied to non-empty lists.
@@ -345,7 +345,7 @@ def foldr(f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
     return acc
 
 
-def foldr1(f: Callable[[T, U], U], xs: List[T]) -> U:
+def foldr1(f: Callable[[T, T], T], xs: List[T]) -> T:
     """
     Folding right-to-left the non-empty list <xs> with the function <f>.
     For the list <xs> is [ x0, x1, x2, ... , x(n-1), xn ],
@@ -497,7 +497,7 @@ def scanl(f: Callable[[U, T], U], e: U, xs: List[T]) -> List[U]:
     return reverse(res)
 
 
-def scanl1(f: Callable[[U, T], U], xs: List[T]) -> List[U]:
+def scanl1(f: Callable[[T, T], T], xs: List[T]) -> List[T]:
     """
     scanl1 is a variant of scanl that has no starting value argument
 
@@ -552,10 +552,10 @@ def mapAccumL(f: Callable[[T, U], Tuple[T, S]], e: T, xs: List[U]) -> Tuple[T, L
       (10, ['1', '2', '3', '4'])
     """
     acc: T = e
-    ys: List[V] = []
+    ys: List[S] = []
     for x in xs:
         acc, c = f(acc, x)
-        ys += c
+        ys.append(c)
     return (acc, ys)
 
 
@@ -572,10 +572,10 @@ def mapAccumR(f: Callable[[T, U], Tuple[T, S]], e: T, xs: List[U]) -> Tuple[T, L
       (10, ['4', '3', '2', '1'])
     """
     acc: T = e
-    ys: List[V] = []
+    ys: List[S] = []
     for x in reverse(xs):
         acc, c = f(acc, x)
-        ys += c
+        ys.append(c)
     return (acc, ys)
 
 
