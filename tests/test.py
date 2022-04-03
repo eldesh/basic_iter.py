@@ -219,6 +219,17 @@ class TestPrimList(unittest.TestCase):
             L.all(lambda ps: L.all(lambda p: p in xs, ps), L.permutations(xs))
         )
 
+    @given(st.text(alphabet="abc\n"))
+    def test_unlines_lines_pid(self, ss):
+        if ss == "" or ss.endswith("\n"):
+            self.assertEqual(ss, L.unlines(L.lines(ss)))
+        else:
+            self.assertEqual(ss + "\n", L.unlines(L.lines(ss)))
+
+    @given(st.text(alphabet="abc\n"))
+    def test_words(self, ss):
+        self.assertEqual(ss, L.unwords(L.words(ss)))
+
 
 if __name__ == "__main__":
     unittest.main()

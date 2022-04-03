@@ -1521,6 +1521,89 @@ def unzip7(
     return (ts1, ts2, ts3, ts4, ts5, ts6, ts7)
 
 
+def lines(ss: str) -> List[str]:
+    """
+    Split the given string delimited by line break character.
+
+    Examples:
+      >>> lines('')
+      []
+      >>> lines('\\n')
+      ['']
+      >>> lines('one')
+      ['one']
+      >>> lines('one\\n')
+      ['one']
+      >>> lines('one\\n\\n')
+      ['one', '']
+      >>> lines('one\\ntwo')
+      ['one', 'two']
+      >>> lines('one\\ntwo\\n')
+      ['one', 'two']
+    """
+    return str.splitlines(ss)
+
+
+def words(ss: str) -> List[str]:
+    """
+    Split the given string delimited by line break character.
+
+    Examples:
+      >>> words('')
+      []
+      >>> words(' ')
+      []
+      >>> words('one')
+      ['one']
+      >>> words('one ')
+      ['one']
+      >>> words('one  ')
+      ['one']
+      >>> words('one two')
+      ['one', 'two']
+      >>> words('one two ')
+      ['one', 'two']
+    """
+    res: List[str] = []
+    sep: bool = True
+    for c in ss:
+        if c == " ":
+            sep = True
+        else:
+            if sep:
+                res.append("")
+                sep = False
+            res[-1] += c
+
+    return res
+
+
+def unlines(ss: List[str]) -> str:
+    """
+    It joins lines, after appending a terminating newline to each.
+
+    Examples:
+      >>> unlines([])
+      ''
+      >>> unlines(["foo", "bar", "baz"])
+      'foo\\nbar\\nbaz\\n'
+    """
+    return "".join(s + "\n" for s in ss)
+
+
+def unwords(ss: List[str]) -> str:
+    """
+    It joins words with separating spaces.
+
+    Examples:
+      >>> unwords([])
+      ''
+      >>> unwords(["foo", "bar", "baz"])
+      'foo bar baz'
+    """
+    return " ".join(ss)
+
+
 def group_by(f: Callable[[T, T], bool], xs: List[T]) -> List[List[T]]:
     """
     Examples:
