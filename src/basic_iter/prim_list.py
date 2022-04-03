@@ -6,13 +6,22 @@ Some basic functions on the primitive list are provided.
 
 import copy
 
-from typing import TypeVar, List, Callable, Union, Tuple, Optional, Generic
-from .not_found import NotFound
+from typing import (
+    TypeVar,
+    List,
+    Callable,
+    Union,
+    Tuple,
+    Optional,
+    Generic,
+)
+from .found import Found
 
 
+S = TypeVar("S")
 T = TypeVar("T")
 U = TypeVar("U")
-S = TypeVar("S")
+V = TypeVar("V")
 
 T1 = TypeVar("T1")
 T2 = TypeVar("T2")
@@ -23,9 +32,6 @@ T6 = TypeVar("T6")
 T7 = TypeVar("T7")
 
 Predicate = Callable[[T], bool]
-
-
-Found = Union[T, NotFound[T]]
 
 
 def last(xs: List[T]) -> T:
@@ -913,16 +919,16 @@ def lookup(p: Predicate[T], xs: List[Tuple[T, U]]) -> Found[U]:
 
     Examples:
       >>> lookup (lambda x: x > 2, [(1,"one"), (2,"two"), (3,"three"), (4,"four")])
-      'three'
+      Found('three')
       >>> n = lookup (lambda x: x < 0, [(1,"one"), (2,"two"), (3,"three"), (4,"four")])
-      >>> if isinstance(n, NotFound):
+      >>> if not(n):
       ...     print('not found x (< 0)')
       not found x (< 0)
     """
     for x, y in xs:
         if p(x):
-            return y
-    return NotFound(p)
+            return Found.found(y)
+    return Found.not_found(p)
 
 
 def find(p: Predicate[T], xs: List[T]) -> Found[T]:
@@ -937,20 +943,20 @@ def find(p: Predicate[T], xs: List[T]) -> Found[T]:
 
     Examples:
       >>> find (lambda x: x == 1, [1,2,3])
-      1
+      Found(1)
       >>> find (lambda x: x == 42, [41,42,43])
-      42
-      >>> str(find (lambda x: x == 5, [0,2,4,6,8,10]))[:9]
-      'Not found'
+      Found(42)
+      >>> str(find (lambda x: x == 5, [0,2,4,6,8,10]))[:8]
+      'NotFound'
       >>> m = find (lambda x: x == False, [False])
-      >>> if not isinstance(m, NotFound):
+      >>> if m:
       ...     print('found False')
       found False
     """
     for x in xs:
         if p(x):
-            return x
-    return NotFound(p)
+            return Found.found(x)
+    return Found.not_found(p)
 
 
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
@@ -1010,14 +1016,14 @@ def elemIndex(e: T, xs: List[T]) -> Found[int]:
 
     Examples:
       >>> elemIndex (3, [1,2,3,4])
-      2
-      >>> str(elemIndex ("apple", ["orange", "banana"]))
-      'Not found equals to the value apple'
+      Found(2)
+      >>> elemIndex ("apple", ["orange", "banana"])
+      NotFound('apple')
     """
     for i, x in enumerate(xs):
         if x == e:
-            return i
-    return NotFound(e)
+            return Found.found(i)
+    return Found.not_found(e)
 
 
 def elemIndicies(e: T, xs: List[T]) -> List[int]:
@@ -1052,14 +1058,14 @@ def findIndex(p: Predicate[T], xs: List[T]) -> Found[int]:
 
     Examples:
       >>> findIndex (lambda x: x > 3, [1, 3, 5, 7])
-      2
-      >>> str(findIndex (lambda x: x < 10, [10, 15, 42, 777]))[:9]
-      'Not found'
+      Found(2)
+      >>> str(findIndex (lambda x: x < 10, [10, 15, 42, 777]))[:8]
+      'NotFound'
     """
     for i, x in enumerate(xs):
         if p(x):
-            return i
-    return NotFound(p)
+            return Found.found(i)
+    return Found.not_found(p)
 
 
 def findIndicies(p: Predicate[T], xs: List[T]) -> List[int]:

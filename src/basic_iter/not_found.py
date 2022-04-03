@@ -1,53 +1,24 @@
-from typing import TypeVar, Callable, Union, Generic
-
-T = TypeVar("T")
-
-Predicate = Callable[[T], bool]
+from typing import Any
 
 
-class NotFound(Generic[T]):
+class NotFound:
     """
     Represents that something is not found.
-    It always evaluates to 'False', so unless you have searched for a value that evaluates to 'False', you can naturally inspect whether it was found or not.
-
-    Example:
-      `NotFound(42)` which is not evaluated to 'False'.
-
-      >>> m = NotFound(42)
-      >>> if not m:
-      ...     print(f'not found 42')
-      not found 42
-
-    Example:
-      Not found `False` itself.
-
-      >>> m = False
-      >>> if not isinstance(m, NotFound):
-      ...     print('found False')
-      found False
     """
 
-    def __init__(self, cond: Union[T, Predicate[T]]):
-        self.cond = cond
+    __cond: Any
 
-    def __bool__(self) -> bool:
-        """
-        It always evaluates to 'False'.
-        Then, we can check whether the value was found or not in the if statement.
-
-        Examples:
-          >>> m = NotFound(42)
-          >>> if not m:
-          ...     print('not found')
-          not found
-        """
-        return False
+    def __init__(self, cond: Any):
+        self.__cond = cond
 
     def __str__(self) -> str:
-        if callable(self.cond):
-            return f"Not found satisfies the condition {self.cond}"
+        if callable(self.__cond):
+            return f"Not found items satisfy the condition {self.__cond}"
         else:
-            return f"Not found equals to the value {self.cond}"
+            return f"Not found items equal to the value {self.__cond}"
+
+    def __repr__(self) -> str:
+        return f"NotFound({repr(self.__cond)})"
 
 
 if __name__ == "__main__":
