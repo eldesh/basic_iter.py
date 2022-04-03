@@ -160,22 +160,18 @@ def intersperse(e: T, xs: List[T]) -> List[T]:
     Examples:
       >>> intersperse (',', [])
       []
-      >>> intersperse (',', 'abcde')
-      'a,b,c,d,e'
+      >>> intersperse (',', list('abcde'))
+      ['a', ',', 'b', ',', 'c', ',', 'd', ',', 'e']
       >>> intersperse (',', 'a')
-      'a'
+      ['a']
     """
     if null(xs):
         return []
 
     res: List[T] = [xs[0]]
     for x in xs[1:]:
-        res += [e]
-        res += [x]
-    if isinstance(e, str):
-        return "".join(res)
-    else:
-        return res
+        res.extend([e, x])
+    return res
 
 
 def intercalate(xs: List[T], xxs: List[List[T]]) -> List[T]:
@@ -228,8 +224,8 @@ def subsequences(xs: List[T]) -> List[List[T]]:
     Examples:
       >>> subsequences([])
       [[]]
-      >>> subsequences("abc")
-      ['', 'a', 'ab', 'abc', 'ac', 'b', 'bc', 'c']
+      >>> subsequences(list("abc"))
+      [[], ['a'], ['a', 'b'], ['a', 'b', 'c'], ['a', 'c'], ['b'], ['b', 'c'], ['c']]
     """
 
     def go(xs: List[T]) -> List[List[T]]:
@@ -238,11 +234,7 @@ def subsequences(xs: List[T]) -> List[List[T]]:
             res += map(lambda ys: [x] + ys, go(xs[i + 1 :]))
         return res
 
-    res = go(xs)
-    if len(res) > 1 and len(res[1]) > 0 and isinstance(res[1][0], str):
-        return map(lambda xs: "".join(xs), res)
-    else:
-        return res
+    return go(xs)
 
 
 def permutations(xs: List[T]) -> List[List[T]]:
