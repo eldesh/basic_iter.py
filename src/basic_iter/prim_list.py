@@ -7,6 +7,7 @@ Some basic functions on the primitive list are provided.
 import copy
 
 from typing import (
+    Generator,
     TypeVar,
     List,
     Callable,
@@ -1604,8 +1605,104 @@ def unwords(ss: List[str]) -> str:
     return " ".join(ss)
 
 
+def nub(xs: List[T]) -> List[T]:
+    """
+    Removes duplicate elements from the list <xs>.
+    It keeps only the first occurrence of each element.
+
+    Examples:
+      >>> nub(list("abcabc"))
+      ['a', 'b', 'c']
+      >>> nub([5,3,1,3,5])
+      [5, 3, 1]
+    """
+    res: List[T] = []
+    for x in xs:
+        if not (x in res):
+            res.append(x)
+    return res
+
+
+def delete(x: T, xs: List[T]) -> List[T]:
+    """
+    Removes the first occurrence of <x> from the list <xs>.
+
+    Returns:
+      List[T]:
+        List with the first occurrence of <x> removed.
+
+    Examples:
+      >>> delete ('a', list("banana"))
+      ['b', 'n', 'a', 'n', 'a']
+      >>> delete (1, [2,3,1,4])
+      [2, 3, 4]
+    """
+    for i, e in enumerate(xs):
+        if e == x:
+            return xs[0:i] + xs[i + 1 :]
+    return xs
+
+
+def different(xs: List[T], ys: List[T]) -> List[T]:
+    """
+    Remove each element of <ys> from <xs>.
+    Equals to `(\\\\\\\\) in Haskell <https://hackage.haskell.org/package/base-4.10.1.0/docs/Data-List.html>`_.
+
+    Examples:
+      >>> different ([1,2,3,4,5], [1,2,3])
+      [4, 5]
+      >>> different ([1,2,3,4,5], [3,5])
+      [1, 2, 4]
+      >>> different ([1,2,3], [1,2,3,4,5])
+      []
+      >>> different (list("banana"), list("nana"))
+      ['b', 'a']
+    """
+    res: List[T] = xs
+    for y in ys:
+        res = delete(y, res)
+    return res
+
+
+def union(xs: List[T], ys: List[T]) -> List[T]:
+    """
+    Construct a list from all elements in <xs> and all elements in <ys> that are not exist in <xs>.
+
+    Examples:
+      >>> union([1,2,3], [1,2])
+      [1, 2, 3]
+      >>> union([1,2,3,3], [1,2])
+      [1, 2, 3, 3]
+      >>> union([1,2,3], [1,2,2])
+      [1, 2, 3]
+    """
+    gys: Generator[T, None, None] = (y for y in ys)
+    return xs + list(foldl(lambda acc, e: (x for x in acc if e != x), gys, xs))
+
+
+def intersect(xs: List[T], ys: List[T]) -> List[T]:
+    """
+    The intersection of <xs> and <ys>.
+    But <xs> contains duplicates, so will the result.
+
+    Examples:
+      >>> intersect([1,2,3,4], [2,4,6,8])
+      [2, 4]
+      >>> intersect([1,2,2,3,4], [6,4,4,2])
+      [2, 2, 4]
+    """
+    return filter(lambda x: x in ys, xs)
+
+
 def group_by(f: Callable[[T, T], bool], xs: List[T]) -> List[List[T]]:
     """
+    All the elememts of <xs> are grouped into each lis by the binary predicate <f>.
+    In each group, the predicate <f> holds for all adjacent elements.
+
+    Return:
+      List[List[T]]:
+        A list of group of elements which are grouped by the predicate <f>.
+
     Examples:
       >>> group_by (lambda x,y: x == y, [1,1,1,2,2,3,3,3,3])
       [[1, 1, 1], [2, 2], [3, 3, 3, 3]]

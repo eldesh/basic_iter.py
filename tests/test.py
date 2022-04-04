@@ -220,7 +220,7 @@ class TestPrimList(unittest.TestCase):
         )
 
     @given(st.text(alphabet="abc\n"))
-    def test_unlines_lines_pid(self, ss):
+    def test_unlines_lines_piso(self, ss):
         if ss == "" or ss.endswith("\n"):
             self.assertEqual(ss, L.unlines(L.lines(ss)))
         else:
@@ -229,6 +229,20 @@ class TestPrimList(unittest.TestCase):
     @given(st.text(alphabet="abc\n"))
     def test_words(self, ss):
         self.assertEqual(ss, L.unwords(L.words(ss)))
+
+    @given(st.text(alphabet="abc\n"))
+    def test_nub(self, ss):
+        nub = L.nub(ss)
+        self.assertTrue(L.all(lambda x: nub.count(x) == 1, nub))
+
+    @given(
+        st.lists(st.integers(min_value=0, max_value=3)),
+        st.lists(st.integers(min_value=0, max_value=3)),
+    )
+    def test_intersect(self, xs, ys):
+        self.assertTrue(
+            L.and_list(list(z in xs and z in ys for z in L.intersect(xs, ys)))
+        )
 
 
 if __name__ == "__main__":
