@@ -1643,19 +1643,19 @@ def delete(x: T, xs: List[T]) -> List[T]:
     return xs
 
 
-def different(xs: List[T], ys: List[T]) -> List[T]:
+def delete_firsts(xs: List[T], ys: List[T]) -> List[T]:
     """
     Remove each element of <ys> from <xs>.
     Equals to `(\\\\\\\\) in Haskell <https://hackage.haskell.org/package/base-4.10.1.0/docs/Data-List.html>`_.
 
     Examples:
-      >>> different ([1,2,3,4,5], [1,2,3])
+      >>> delete_firsts ([1,2,3,4,5], [1,2,3])
       [4, 5]
-      >>> different ([1,2,3,4,5], [3,5])
+      >>> delete_firsts ([1,2,3,4,5], [3,5])
       [1, 2, 4]
-      >>> different ([1,2,3], [1,2,3,4,5])
+      >>> delete_firsts ([1,2,3], [1,2,3,4,5])
       []
-      >>> different (list("banana"), list("nana"))
+      >>> delete_firsts (list("banana"), list("nana"))
       ['b', 'a']
     """
     res: List[T] = xs
@@ -1692,6 +1692,90 @@ def intersect(xs: List[T], ys: List[T]) -> List[T]:
       [2, 2, 4]
     """
     return filter(lambda x: x in ys, xs)
+
+
+def nub_by(eq: Callable[[T, T], bool], xs: List[T]) -> List[T]:
+    """
+    Generalized `nub` by the user equality predicate <eq>.
+
+    Examples:
+      >>> nub_by(lambda x,y: x.upper() == y.upper(), list("abcabc"))
+      ['a', 'b', 'c']
+      >>> nub_by(lambda x,y: x%3 == y%3, [5,3,1,3,5])
+      [5, 3, 1]
+    """
+    res: List[T] = []
+    for x in xs:
+        if all(lambda e: not (eq(e, x)), res):
+            res.append(x)
+    return res
+
+
+def delete_by(eq: Callable[[T, T], bool], x: T, xs: List[T]) -> List[T]:
+    """
+    Behaves like `delete` except for taking user equality predicate <eq>.
+
+    Returns:
+      List[T]:
+        List with the first occurrence of <x> removed.
+
+    Examples:
+      >>> delete_by (lambda x,y: x.lower() == y.lower(), 'a', list("bAnAna"))
+      ['b', 'n', 'A', 'n', 'a']
+      >>> delete_by (lambda x,y: x == y, 1, [2,3,1,4])
+      [2, 3, 4]
+    """
+    for i, e in enumerate(xs):
+        if eq(e, x):
+            return xs[0:i] + xs[i + 1 :]
+    return xs
+
+
+def delete_firsts_by(eq: Callable[[T, T], bool], xs: List[T], ys: List[T]) -> List[T]:
+    """
+    The list <xs> with the first occurrence of each element of the list <ys> removed.
+
+    Examples:
+      >>> delete_firsts_by(lambda x,y: x%7==y%7, [1,2,7,8,9], [9,9,9])
+      [1, 7, 8]
+      >>> delete_firsts_by(lambda x,y: x[0]==y[0], [("foo",1),("bar",2),("foo",42)], [("bar",3), ("foo",5)])
+      [('foo', 42)]
+    """
+    res: List[T] = xs
+    for y in ys:
+        res = delete_by(eq, y, res)
+    return res
+
+
+def union_by(eq: Callable[[T, T], bool], xs: List[T], ys: List[T]) -> List[T]:
+    """
+    Generalized `union` by the user defined equality predicate <eq>.
+
+    Examples:
+      >>> group_mod3 = lambda x,y: x%3 == y%3
+      >>> union_by(group_mod3, [1,2,3], [4,8])
+      [1, 2, 3]
+      >>> union_by(group_mod3, [1,32,33,3], [1,2])
+      [1, 32, 33, 3]
+      >>> union_by(group_mod3, [28,2,12], [1,2,2])
+      [28, 2, 12]
+    """
+    gys: Generator[T, None, None] = (y for y in ys)
+    return xs + list(foldl(lambda acc, e: (x for x in acc if not (eq(e, x))), gys, xs))
+
+
+def intersect_by(eq: Callable[[T, T], bool], xs: List[T], ys: List[T]) -> List[T]:
+    """
+    Generalized `intersect` by the user defined equality predicate <eq>.
+
+    Examples:
+      >>> group_mod3 = lambda x,y: x%3 == y%3
+      >>> intersect_by(group_mod3, [1,2,3,4], [2,4,6,8])
+      [1, 2, 3, 4]
+      >>> intersect_by(group_mod3, [1,2,2,3,4], [6,12,0])
+      [3]
+    """
+    return filter(lambda x: find(lambda e: eq(e, x), ys).is_found(), xs)
 
 
 def group_by(f: Callable[[T, T], bool], xs: List[T]) -> List[List[T]]:
