@@ -492,8 +492,8 @@ def scanl(f: Callable[[U, T], U], e: U, xs: List[T]) -> List[U]:
     res = [acc]
     for x in xs:
         acc = f(acc, x)
-        res = [acc] + res
-    return reverse(res)
+        res.append(acc)
+    return res
 
 
 def scanl1(f: Callable[[T, T], T], xs: List[T]) -> List[T]:
@@ -534,7 +534,8 @@ def scanr(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
     res = [acc]
     for x in reverse(xs):
         acc = f(x, acc)
-        res = [acc] + res
+        res.append(acc)
+    res.reverse()
     return res
 
 
