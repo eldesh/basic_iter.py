@@ -1,7 +1,8 @@
 """
-Some basic operators on the primitive lists.
+Some basic operators on the primitive list.
 
-They are defined in the function type style and do not change their arguments.
+These functions behave in the same way as the function of the same name provided in `Data.List <https://hackage.haskell.org/package/base-4.10.1.0/docs/Data-List.html>`_ from Haskell that is a purely functional language.
+All functions are defined in the functional style and do not change their arguments.
 """
 
 import copy
@@ -1632,7 +1633,7 @@ def delete(x: T, xs: List[T]) -> List[T]:
 def delete_firsts(xs: List[T], ys: List[T]) -> List[T]:
     """
     Remove each element of `ys` from `xs`.
-    Equals to `(\\\\\\\\) in Haskell <https://hackage.haskell.org/package/base-4.10.1.0/docs/Data-List.html>`_.
+    Equals to `(\\\\\\\\) in Haskell <https://hackage.haskell.org/package/base-4.10.1.0/docs/Data-List.html#v:-92--92->`_.
 
     Examples:
       >>> delete_firsts ([1,2,3,4,5], [1,2,3])
