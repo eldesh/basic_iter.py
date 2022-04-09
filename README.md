@@ -5,10 +5,13 @@ This package provides basic functions on iterators.
 
 ## Generate documents
 
+To generate documents:
+
 ```sh
-basic_iter$ sphinx-apidoc -o docs/source src
-basic_iter$ make html -C docs
+basic_iter$ make doc
 ```
+
+This will generate documentation under `./docs/build/html`.
 
 
 ## Format Checking
