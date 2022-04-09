@@ -49,7 +49,7 @@ class TestPrimList(unittest.TestCase):
         self.assertEqual(Found.found(2), L.find(lambda x: x % 2 == 0, [1, 2, 3]))
 
     def test_find_notfound(self):
-        self.assertTrue(L.find(lambda x: x == 1, [2, 3, 4]).is_notfound())
+        self.assertTrue(L.find(lambda x: x == 1, [2, 3, 4]).is_notfound)
 
     def test_append(self):
         self.assertEqual([4, 5, 6, 1, 2, 3], L.append([4, 5, 6], [1, 2, 3]))

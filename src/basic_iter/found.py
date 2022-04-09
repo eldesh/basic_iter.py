@@ -89,10 +89,12 @@ class Found(Generic[T]):
         ), "Found instances can only be compared to instances of the same type"
         return self.__kind == other.__kind and self.__value == other.__value
 
+    @property
     def is_found(self) -> bool:
         """Checks that the value is `Found` or not."""
         return self.__kind == Foundness.Found
 
+    @property
     def is_notfound(self) -> bool:
         """Checks that the value is `NotFound <basic_iter.not_found.NotFound>` or not."""
         return self.__kind == Foundness.NotFound
@@ -105,7 +107,7 @@ class Found(Generic[T]):
         Raises:
           AssertionError: the value is not found
         """
-        if self.is_found():
+        if self.is_found:
             return cast(T, self.__value)
 
         assert False, "the value should be 'Found'"
@@ -150,12 +152,12 @@ class Found(Generic[T]):
           Found(42)
 
         Example:
-          When __kind is :const:`Foundness.NotFound` the constructor name is omitted because __value is always :const:`NotFound`.
+          When the value `is_notfound` (equals to `True`), the constructor name is omitted because the name `NotFound` is redundant.
 
           >>> Found.not_found(42)
           NotFound(42)
         """
-        if self.is_found():
+        if self.is_found:
             return f"{self.__kind.name}({repr(self.__value)})"
         else:
             return repr(self.__value)

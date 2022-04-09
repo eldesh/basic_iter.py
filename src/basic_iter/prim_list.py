@@ -1762,7 +1762,7 @@ def intersect_by(eq: Callable[[T, T], bool], xs: List[T], ys: List[T]) -> List[T
       >>> intersect_by(group_mod3, [1,2,2,3,4], [6,12,0])
       [3]
     """
-    return filter(lambda x: find(lambda e: eq(e, x), ys).is_found(), xs)
+    return filter(lambda x: find(lambda e: eq(e, x), ys).is_found, xs)
 
 
 def group_by(f: Callable[[T, T], bool], xs: List[T]) -> List[List[T]]:
