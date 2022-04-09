@@ -42,6 +42,9 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
+# The name of a reST role for using as a default role
+default_role = 'py:obj'
+
 # -- Options for napoleon -------------------------------------------------
 
 napoleon_include_special_with_doc = True

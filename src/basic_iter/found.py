@@ -36,29 +36,40 @@ class Foundness(Enum):
 
 class Found(Generic[T]):
     """
-    Represents the direct sum of T and NotFound.
+    Represents the direct sum of `T` and `not_found.NotFound <basic_iter.not_found.NotFound>`.
     It evaluates to True or False depending on whether it was found or not.
     This allows for a natural test to see if something was found.
 
-    Invariant:
+    Note:
       __kind = Foundness.Found -> __value:T
       __kind = Foundness.NotFound -> __value:NotFound
     """
 
     __value: Union[T, NotFound]
+    """The actual value.
+
+    When its value is found, this `__value` is an instance of type `T`.
+    Otherwise, it is `NotFound`.
+    """
+
     __kind: Foundness
+    """The tag of the value.
+
+    When its value is found, this `__kind` is equals to `Foundness.Found`.
+    Otherwise, it is `Foundness.NotFound`.
+    """
 
     @classmethod
     def found(cls, value: T) -> "Found[T]":
         """
-        `Found` value constructor.
+        Found value constructor.
         """
         return cls(Foundness.Found, value)
 
     @classmethod
     def not_found(cls, value: Any) -> "Found[T]":
         """
-        `NotFound` value constructor.
+        NotFound value constructor.
         """
         return cls(Foundness.NotFound, NotFound(value))
 
@@ -77,17 +88,20 @@ class Found(Generic[T]):
         return self.__kind == other.__kind and self.__value == other.__value
 
     def is_found(self) -> bool:
+        """Checks that the value is `Found` or not."""
         return self.__kind == Foundness.Found
 
     def is_notfound(self) -> bool:
+        """Checks that the value is `NotFound <basic_iter.not_found.NotFound>` or not."""
         return self.__kind == Foundness.NotFound
 
     def unwrap(self) -> T:
         """
-        Unwrap a constructor and returns the body only when the value is `Found`.
+        Unwrap a constructor and returns the body only when the value is found.
+        If the value is ``NotFound``, raises `AssertionError`.
 
         Raises:
-          AssertionError: the value is not `Found`
+          AssertionError: the value is not found
         """
         if self.is_found():
             return cast(T, self.__value)
@@ -96,11 +110,11 @@ class Found(Generic[T]):
 
     def __bool__(self) -> bool:
         """
-        It can be used in an if statement to check if the value is `Found` or not.
-        Then always return True if the value is `Found` and always return False if the value is `NotFound`.
+        It can be used in an if statement to check if the value is found or not.
+        Then always return `True` if the value is found and always return `False` if the value is `not found <basic_iter.not_found.NotFound>`.
 
         Examples:
-          If any value is found, it evaluates to True.
+          If any value is found, it evaluates to `True`.
 
           >>> m = Found.found(42)
           >>> if m:
@@ -134,7 +148,7 @@ class Found(Generic[T]):
           Found(42)
 
         Example:
-          When __kind is `Foundness.NotFound` the constructor name is omitted because __value is always `NotFound`.
+          When __kind is :const:`Foundness.NotFound` the constructor name is omitted because __value is always :const:`NotFound`.
 
           >>> Found.not_found(42)
           NotFound(42)
