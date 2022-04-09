@@ -15,6 +15,8 @@ from .type import T
 
 @unique
 class Foundness(Enum):
+    """Value tag of the `Found` class."""
+
     Found = auto()
     NotFound = auto()
 
