@@ -10,12 +10,7 @@ from typing import (
 )
 
 from .not_found import NotFound
-
-
-T = TypeVar("T")
-U = TypeVar("U")
-
-Predicate = Callable[[T], bool]
+from .type import T
 
 
 @unique

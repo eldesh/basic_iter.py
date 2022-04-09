@@ -1,7 +1,7 @@
 """
-This is the primitive list module.
+Some basic operators on the primitive lists.
 
-Some basic functions on the primitive list are provided.
+They are defined in the function type style and do not change their arguments.
 """
 
 import copy
@@ -17,22 +17,7 @@ from typing import (
     Generic,
 )
 from .found import Found
-
-
-S = TypeVar("S")
-T = TypeVar("T")
-U = TypeVar("U")
-V = TypeVar("V")
-
-T1 = TypeVar("T1")
-T2 = TypeVar("T2")
-T3 = TypeVar("T3")
-T4 = TypeVar("T4")
-T5 = TypeVar("T5")
-T6 = TypeVar("T6")
-T7 = TypeVar("T7")
-
-Predicate = Callable[[T], bool]
+from .type import *
 
 
 def last(xs: List[T]) -> T:
