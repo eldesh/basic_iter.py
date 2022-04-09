@@ -41,11 +41,11 @@ class Found(Generic[T]):
     Represents the direct sum of `T` and `not_found.NotFound <basic_iter.not_found.NotFound>`.
     It evaluates to True or False depending on whether it was found or not.
     This allows for a natural test to see if something was found.
-
-    Note:
-      __kind = Foundness.Found -> __value:T
-      __kind = Foundness.NotFound -> __value:NotFound
     """
+
+    # Invariant:
+    #   __kind = Foundness.Found -> __value:T /\
+    #   __kind = Foundness.NotFound -> __value:NotFound
 
     __value: Union[T, NotFound]
     """The actual value.
