@@ -1,3 +1,5 @@
+"""Type variables and aliases used in basic_iter."""
+
 from typing import (
     TypeVar,
     Callable,

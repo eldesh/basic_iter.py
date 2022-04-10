@@ -1,8 +1,17 @@
 """
 Some basic operators on the primitive list.
 
-These functions behave in the same way as the function of the same name provided in `Data.List <https://hackage.haskell.org/package/base-4.10.1.0/docs/Data-List.html>`_ from Haskell that is a purely functional language.
-All functions are defined in the functional style and do not change their arguments.
+Almost functions behave on the primitive list in the same way as the function of the same name provided in `Data.List <https://hackage.haskell.org/package/base-4.10.1.0/docs/Data-List.html>`_ from Haskell that is a purely functional language.
+Therefore, all functions are defined in the functional style and do not change their arguments.
+
+However, some functions are not exactly the same as in Haskell.
+
+- `and_list` function is defined as `and` in Haskell, but is renamed because it is a keyword in Python.
+  `or_list` is renamed from `or` for the same reason as `and_list`.
+
+- Find-family functions (e.g. `find`, `lookup`, etc...) returns a value of `Found[T] <basic_iter.found.Found>` instead of `Optional[T]`.
+  This is because `Optional` cannot distinguish whether nothing was found or `None` was found.
+  That is, if it returns `Optional`, :code:`find(lambda x: x is None, xs)` always returns `None`.
 """
 
 import copy
@@ -97,7 +106,7 @@ def null(xs: List[T]) -> bool:
 
 def append(xs: List[T], ys: List[T]) -> List[T]:
     """
-    Append xs and ys.
+    A list of appended `xs` and `ys`.
 
     Returns:
       A list where `xs` is followed by `ys`.
@@ -254,9 +263,10 @@ def permutations(xs: List[T]) -> List[List[T]]:
 def foldl(f: Callable[[U, T], U], e: U, xs: List[T]) -> U:
     """
     Folding left-to-right the list `xs` with the function `f` start from `e`.
-    For the list `xs` is [ x0, x1, x2, ... , x(n-1), xn ],
-    a calculation equivalent to the following expression is performed:
-    f (xn, f (x(n-1), ... f (x2, f (x1, f (x0, e)))))
+    For the list `xs` is ``[ x0, x1, x2, ... , x(n-1), xn ]``,
+    a calculation equivalent to the following expression is performed::
+
+      f (xn, f (x(n-1), ... f (x2, f (x1, f (x0, e)))))
 
     Returns:
       A left-to-right folding of the list `xs` with the function `f`.
@@ -291,6 +301,10 @@ def foldl1(f: Callable[[T, T], T], xs: List[T]) -> T:
       55
       >>> foldl1 (lambda acc, x: [x] + ([acc] if 1 == acc else acc), list(range(1, 6)))
       [5, 4, 3, 2, 1]
+
+    Example:
+      This fragment cause type errors, it is showed to help you understand behaviour.
+
       >>> foldl1 (lambda acc, x: [x] + [acc], list(range(1, 6)))
       [5, [4, [3, [2, 1]]]]
     """
@@ -301,9 +315,10 @@ def foldl1(f: Callable[[T, T], T], xs: List[T]) -> T:
 def foldr(f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
     """
     Folding right-to-left the list `xs` with the function `f` start from `e`.
-    For the list `xs` is [ x0, x1, x2, ... , x(n-1), xn ],
-    a calculation equivalent to the following expression is performed:
-    f (x0, f (x1, ... f (x(n-2), f (x(n-1), f (xn, e)))))
+    For the list `xs` is ``[ x0, x1, x2, ... , x(n-1), xn ]``,
+    a calculation equivalent to the following expression is performed::
+
+      f (x0, f (x1, ... f (x(n-2), f (x(n-1), f (xn, e)))))
 
     Returns:
       A right-to-left folding of the list `xs` with the function `f`.
@@ -329,9 +344,10 @@ def foldr(f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
 def foldr1(f: Callable[[T, T], T], xs: List[T]) -> T:
     """
     Folding right-to-left the non-empty list `xs` with the function `f`.
-    For the list `xs` is [ x0, x1, x2, ... , x(n-1), xn ],
-    a calculation equivalent to the following expression is performed:
-    f (x0, f (x1, ... f (x(n-2), f (x(n-1), f (xn, e)))))
+    For the list `xs` is ``[ x0, x1, x2, ... , x(n-1), xn ]``,
+    a calculation equivalent to the following expression is performed::
+
+      f (x0, f (x1, ... f (x(n-2), f (x(n-1), f (xn, e)))))
 
     Returns:
       A right-to-left folding of the list `xs` with the function `f`.
@@ -454,7 +470,7 @@ def all(p: Predicate[T], xs: List[T]) -> bool:
 def scanl(f: Callable[[U, T], U], e: U, xs: List[T]) -> List[U]:
     """
     Folding left-to-right the list and returns a list of the intermediate values.
-    For the input list `xs` and the result list are [ x0, x1, x2, ... , x(n-1), xn ] and [ r0, r1, ..., r(n-1), rn, r(n+1) ]::
+    For the input list `xs` and the result list are ``[ x0, x1, x2, ... , x(n-1), xn ]`` and ``[ r0, r1, ..., r(n-1), rn, r(n+1) ]``::
 
       r0     is calculated from foldl f e      [  ]
       r1     is calculated from foldl f r0     [x0]
@@ -493,7 +509,7 @@ def scanl1(f: Callable[[T, T], T], xs: List[T]) -> List[T]:
 def scanr(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
     """
     Folding right-to-left the list and returns a list of the intermediate values.
-    For the input list `xs` and the result list are [ x0, x1, x2, ... , x(n-1), xn ] and [ r0, r1, ..., r(n-1), rn, r(n+1) ]::
+    For the input list `xs` and the result list are ``[ x0, x1, x2, ... , x(n-1), xn ]`` and ``[ r0, r1, ..., r(n-1), rn, r(n+1) ]``::
 
       r0     is calculated from foldr f r1     [x0]
       r1     is calculated from foldr f r2     [x1]
@@ -588,7 +604,10 @@ def replicate(n: int, x: T) -> List[T]:
 def unfoldr(f: Callable[[T], Optional[Tuple[U, T]]], init: T) -> List[U]:
     """
     Builds a list from the seed value `init` with `f`.
-    The function `f` takes a seed value and returns None if it is done producing the list or tuple (u, t), in which case, the `u` value is next element of a list and the `t` is the seed value for the next element generating.
+    The function `f` takes a seed value and returns `None` if it is done producing the list or tuple :code:`(u, t)`, in which case, the `u` value is next element of a list and the `t` is the seed value for the next element generating.
+
+    Returns:
+      The generated list from the `init` with `f`.
 
     Examples:
       >>> unfoldr (lambda x: None if x > 5 else (x, x+1), 0)
