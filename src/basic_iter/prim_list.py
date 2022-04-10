@@ -67,12 +67,12 @@ def init(xs: List[T]) -> List[T]:
 
 def uncons(xs: List[T]) -> Optional[Tuple[T, List[T]]]:
     """
-    Decompose a list into its head and tail. If the list is empty, returns Nothing. If the list is non-empty, returns (x, xs), where x is the head of the list and xs its tail.
+    Decompose a list into its head and tail.
+    If the list is empty, returns `None`. If the list is non-empty, returns :code:`(x, xs)`, where `x` is the head of the list and `xs` its tail.
 
     Returns:
-      Optional[Tuple[T, List[T]]]:
-        If the list is empty, returns `None`.
-        If the list is non-empty, returns `(head(x), tail(xs))`.
+      If the list is empty, returns `None`.
+      If the list is non-empty, returns :code:`(head(x), tail(xs))`.
 
     Examples:
       >>> uncons([])
@@ -90,7 +90,7 @@ def null(xs: List[T]) -> bool:
     Checks if the list `xs` is empty.
 
     Returns:
-      bool: the list is empty or not.
+      the list is empty or not.
     """
     return True if not xs else False
 
@@ -100,8 +100,7 @@ def append(xs: List[T], ys: List[T]) -> List[T]:
     Append xs and ys.
 
     Returns:
-      List[T]:
-        A list where `xs` is followed by `ys`.
+      A list where `xs` is followed by `ys`.
 
     Examples:
       >>> xs = [1,2,3]; ys = [4,5,6]; append (xs, ys)
@@ -134,8 +133,7 @@ def reverse(xs: List[T]) -> List[T]:
     Reverse the list `xs`.
 
     Returns:
-      List[T]:
-        A list of `xs` elements in reverse order.
+      A list of `xs` elements in reverse order.
 
     Examples:
       >>> reverse([1,2,3])
@@ -232,9 +230,10 @@ def subsequences(xs: List[T]) -> List[List[T]]:
 
 def permutations(xs: List[T]) -> List[List[T]]:
     """
+    Create a list of all permutations combinations of the given list `xs`.
+
     Returns:
-      List[List[T]]:
-        The list of permutations of the list `xs`.
+      The list of permutations of the list `xs`.
 
     Examples:
       >>> permutations([1,2,3])
@@ -260,8 +259,7 @@ def foldl(f: Callable[[U, T], U], e: U, xs: List[T]) -> U:
     f (xn, f (x(n-1), ... f (x2, f (x1, f (x0, e)))))
 
     Returns:
-      U:
-        A left-to-right folding of the list `xs` with the function `f`.
+      A left-to-right folding of the list `xs` with the function `f`.
 
     Examples:
       >>> foldl (lambda acc, x: x + acc, 0, list(range(1, 11)))
@@ -283,8 +281,7 @@ def foldl1(f: Callable[[T, T], T], xs: List[T]) -> T:
     Thus, this may only be applied to non-empty lists.
 
     Returns:
-      U:
-        A left-to-right folding of the list `xs` with the function `f`.
+      A left-to-right folding of the list `xs` with the function `f`.
 
     Raises:
       AssertionError: `xs` is empty.
@@ -309,8 +306,7 @@ def foldr(f: Callable[[T, U], U], e: U, xs: List[T]) -> U:
     f (x0, f (x1, ... f (x(n-2), f (x(n-1), f (xn, e)))))
 
     Returns:
-      U:
-        A right-to-left folding of the list `xs` with the function `f`.
+      A right-to-left folding of the list `xs` with the function `f`.
 
     Example:
       Sum all values in a list.
@@ -338,8 +334,7 @@ def foldr1(f: Callable[[T, T], T], xs: List[T]) -> T:
     f (x0, f (x1, ... f (x(n-2), f (x(n-1), f (xn, e)))))
 
     Returns:
-      U:
-        A right-to-left folding of the list `xs` with the function `f`.
+      A right-to-left folding of the list `xs` with the function `f`.
 
     Raises:
       AssertionError: `xs` is empty.
@@ -350,9 +345,10 @@ def foldr1(f: Callable[[T, T], T], xs: List[T]) -> T:
       >>> foldr1 (lambda x, acc: x + acc, list(range(10)))
       45
 
-    Examples:
-      >>> foldr1 (lambda x, acc: [x] + [acc], list(range(5)))
-      [0, [1, [2, [3, 4]]]]
+    Example:
+      >>> # 0 - (1 - (2 - (3 - 4)))
+      >>> foldr1 (lambda x, acc: x - acc, list(range(5)))
+      2
     """
     assert xs, "required to be a non-empty list"
     return foldr(f, last(xs), init(xs))
@@ -364,8 +360,7 @@ def concat(xxs: List[List[T]]) -> List[T]:
     This is a directly concatenated list of elements of the list `xxs`.
 
     Returns:
-      List[T]:
-        A concatenated list of elements of the list `xxs`.
+      A concatenated list of elements of the list `xxs`.
 
     Examples:
       >>> concat([[1,2,3], [4,5,6], [7,8,9]])
@@ -382,8 +377,7 @@ def concat_map(f: Callable[[T], List[U]], xs: List[T]) -> List[U]:
     Map the function `f` over all elements of the list `xs`, and concatenate the resulting lists.
 
     Returns:
-      List[U]:
-        A concatinated list of mapped elements of the list `xs`.
+      A concatinated list of mapped elements of the list `xs`.
 
     Examples:
       >>> concat_map(lambda x: [x, x+1], [1,2,3,4,5])
@@ -397,9 +391,11 @@ def concat_map(f: Callable[[T], List[U]], xs: List[T]) -> List[U]:
 
 def and_list(xs: List[bool]) -> bool:
     """
+    This is provided as `and` in `Data.List <https://hackage.haskell.org/package/base-4.10.1.0/docs/Data-List.html>`_.
+    Since this is the keyword in Python, it is renamed.
+
     Returns:
-      bool:
-        Whether the all elements of the list `xs` is True.
+      Whether the all elements of the list `xs` is `True`.
     """
     for x in xs:
         if not x:
@@ -409,9 +405,11 @@ def and_list(xs: List[bool]) -> bool:
 
 def or_list(xs: List[bool]) -> bool:
     """
+    This is provided as `or` in `Data.List <https://hackage.haskell.org/package/base-4.10.1.0/docs/Data-List.html>`_.
+    Since this is the keyword in Python, it is renamed.
+
     Returns:
-      bool:
-        Whether any elements of the list `xs` is True.
+      Whether any elements of the list `xs` is `True`.
     """
     for x in xs:
         if x:
@@ -465,8 +463,7 @@ def scanl(f: Callable[[U, T], U], e: U, xs: List[T]) -> List[U]:
       r(n+1) is calculated from foldl f rn     [xn].
 
     Returns:
-      List[U]:
-        A list of intermediate foldl values with the function `f`.
+      A list of intermediate foldl values with the function `f`.
 
     Examples:
       >>> scanl (lambda acc, x: x + acc, 0, list(range(1, 6)))
@@ -505,8 +502,7 @@ def scanr(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
       r(n+1) is calculated from foldr f e      [  ]
 
     Returns:
-      List[U]:
-        A list of intermediate foldr values with the function `f`.
+      A list of intermediate foldr values with the function `f`.
 
     Examples:
       >>> scanr (lambda x, acc: x + acc, 5, list(range(1, 5)))
@@ -530,8 +526,7 @@ def mapAccumL(f: Callable[[T, U], Tuple[T, S]], e: T, xs: List[U]) -> Tuple[T, L
     mapAccumL transforms the list `xs` with `f` and simultaneously accumulates its elements from left-to-right into a value of `T`.
 
     Returns:
-      Tuple[T, List[S]]:
-        A tuple of the accumulated value and the transformed list.
+      A tuple of the accumulated value and the transformed list.
 
     Examples:
       >>> mapAccumL(lambda acc, x: (x+acc, str(x)), 0, range(1,5))
@@ -550,8 +545,7 @@ def mapAccumR(f: Callable[[T, U], Tuple[T, S]], e: T, xs: List[U]) -> Tuple[T, L
     mapAccumR transforms the list `xs` with `f` and simultaneously accumulates its elements from right-to-left into a value of `T`.
 
     Returns:
-      Tuple[T, List[S]]:
-        A tuple of the accumulated value and the transformed list.
+      A tuple of the accumulated value and the transformed list.
 
     Examples:
       >>> mapAccumR(lambda acc, x: (x+acc, str(x)), 0, range(1,5))
@@ -571,8 +565,7 @@ def replicate(n: int, x: T) -> List[T]:
     When the value of `n` is less than 0, an empty list is returned.
 
     Returns:
-      List[T]:
-        The list of length `n` with `x` the value of every element.
+      The list of length `n` with `x` the value of every element.
 
     Examples:
       >>> replicate (0, 1)
@@ -617,8 +610,7 @@ def unfoldr(f: Callable[[T], Optional[Tuple[U, T]]], init: T) -> List[U]:
 def take(n: int, xs: List[T]) -> List[T]:
     """
     Returns:
-      List[T]:
-        The prefix of `xs` of length `n`.
+      The prefix of `xs` of length `n`.
 
     Examples:
       >>> take (3, [1,2,3,4,5])
@@ -636,8 +628,7 @@ def take(n: int, xs: List[T]) -> List[T]:
 def drop(n: int, xs: List[T]) -> List[T]:
     """
     Returns:
-      List[T]:
-        The suffix of `xs` after the first `n` elements.
+      The suffix of `xs` after the first `n` elements.
 
     Examples:
       >>> drop (3, [1,2,3,4,5])
@@ -770,9 +761,8 @@ def strip_prefix(xs: List[T], ys: List[T]) -> Optional[List[T]]:
     Strip of the prefix `xs` from `ys`.
 
     Returns:
-      Optional[List[T]]:
-        None is returned when the `xs` is not the prefix of `ys`.
-        If the list `ys` starts from `xs`, returns the remaining of the prefix `xs`.
+      None is returned when the `xs` is not the prefix of `ys`.
+      If the list `ys` starts from `xs`, returns the remaining of the prefix `xs`.
 
     Examples:
       >>> strip_prefix (["f", "o", "o"], ["f", "o", "o", "b", "a", "r"])
@@ -792,8 +782,7 @@ def strip_prefix(xs: List[T], ys: List[T]) -> Optional[List[T]]:
 def inits(xs: List[T]) -> List[List[T]]:
     """
     Returns:
-      List[List[T]]:
-        A list of the prefix of the list `xs`, shortest first.
+      A list of the prefix of the list `xs`, shortest first.
 
     Examples:
       >>> inits(['a', 'b', 'c'])
@@ -808,8 +797,7 @@ def inits(xs: List[T]) -> List[List[T]]:
 def tails(xs: List[T]) -> List[List[T]]:
     """
     Returns:
-      List[List[T]]:
-        A list of all final segments of the list `xs`, longest first.
+      A list of all final segments of the list `xs`, longest first.
 
     Examples:
       >>> tails(['a', 'b', 'c'])
@@ -856,8 +844,7 @@ def is_infix_of(xs: List[T], ys: List[T]) -> bool:
     Check the list `xs` is contained in the list `ys`.
 
     Returns:
-      bool:
-        Returns True when the list `xs` is contained, wholly and intact, anywhere within the list `ys`.
+      Returns True when the list `xs` is contained, wholly and intact, anywhere within the list `ys`.
 
     Examples:
       >>> is_infix_of ([1,2], [1,2,3,4,5])
@@ -925,9 +912,8 @@ def find(p: Predicate[T], xs: List[T]) -> Found[T]:
     The value satisfies the predicate `p`.
 
     Returns:
-      Found[T]:
-        The value found in the list `xs`.
-        Or if no values satisfies `p`, returns `NotFound`.
+      The value found in the list `xs`.
+      Or if no values satisfies `p`, returns `NotFound`.
 
     Examples:
       >>> find (lambda x: x == 1, [1,2,3])
@@ -952,8 +938,7 @@ def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     Filter out elements from the list `xs` that do not satisfy the predicate `p` .
 
     Returns:
-      List[T]:
-        List of elements satisfy `p`.
+      List of elements satisfy `p`.
 
     Examples:
       >>> filter (lambda x: x % 2 == 0, list(range(10)))
@@ -972,8 +957,7 @@ def partition(p: Predicate[T], xs: List[T]) -> Tuple[List[T], List[T]]:
     All elements of the first list satisfy `p` and all elements of the second list do not satisfy `p`.
 
     Returns:
-      Tuple[List[T], List[T]]:
-        A pair of lists of elements which do and do not satisfy the predicate `p`.
+      A pair of lists of elements which do and do not satisfy the predicate `p`.
 
     Examples:
       >>> partition(lambda x: x < 4, [0, 3, 1, 4, 6, 5, 2])
@@ -998,9 +982,8 @@ def elemIndex(e: T, xs: List[T]) -> Found[int]:
     Lookup the value `e` from the list `xs`, returns it's index.
 
     Returns:
-      Found[int]:
-        Returns index of the first element equals to `e` in `xs`.
-        If it is not found in the list, `NotFound` is returned.
+      Returns index of the first element equals to `e` in `xs`.
+      If it is not found in the list, `NotFound` is returned.
 
     Examples:
       >>> elemIndex (3, [1,2,3,4])
@@ -1019,8 +1002,7 @@ def elemIndicies(e: T, xs: List[T]) -> List[int]:
     Lookup all elements equal to the value `e` from the list `xs`, returns theirs indicies in ascending order.
 
     Returns:
-      List[int]:
-        Returns all indicies of all elements equal to `e` in `xs`.
+      Returns all indicies of all elements equal to `e` in `xs`.
 
     Examples:
       >>> elemIndicies (3, [1,2,3,4,3,5,3])
@@ -1040,9 +1022,8 @@ def findIndex(p: Predicate[T], xs: List[T]) -> Found[int]:
     Lookup the first element that satisfies the predicate `p` in the list `xs`, returns it's index.
 
     Returns:
-      Found[int]:
-        The index of the first value in the list `xs` that satisfies `p`.
-        If no element satisfying `p`, returns `NotFound`.
+      The index of the first value in the list `xs` that satisfies `p`.
+      If no element satisfying `p`, returns `NotFound`.
 
     Examples:
       >>> findIndex (lambda x: x > 3, [1, 3, 5, 7])
@@ -1061,8 +1042,7 @@ def findIndicies(p: Predicate[T], xs: List[T]) -> List[int]:
     Lookup all elements that satisfy the predicate `p` in the list `xs`, returns their indicies.
 
     Returns:
-      List[int]:
-        The list of indicies of all elements satisfy `p` in the list `xs`.
+      The list of indicies of all elements satisfy `p` in the list `xs`.
 
     Examples:
       >>> findIndicies (lambda x: x > 3, [1, 3, 5, 7, 5, 3, 1])
@@ -1180,8 +1160,7 @@ def zip7(
 def zipWith(f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
     """
     Returns:
-      List[S]:
-        A Zipped list from lists `xs` and `ys` by the function `f`.
+      A Zipped list from lists `xs` and `ys` by the function `f`.
 
     Raises:
       AssertionError: `xs` and `ys` have different lengths.
@@ -1212,8 +1191,7 @@ def zipWith3(
 ) -> List[S]:
     """
     Returns:
-      List[S]:
-        A Zipped list from lists `t1`, `t2` and `t3` by the function `f`.
+      A Zipped list from lists `t1`, `t2` and `t3` by the function `f`.
 
     Raises:
       AssertionError: `t1`, `t2` and `t3` not have same lengths.
@@ -1241,8 +1219,7 @@ def zipWith4(
 ) -> List[S]:
     """
     Returns:
-      List[S]:
-        A Zipped list from lists `t1`, `t2`, `t3` and `t4` by the function `f`.
+      A Zipped list from lists `t1`, `t2`, `t3` and `t4` by the function `f`.
 
     Raises:
       AssertionError: `t1`, `t2`, `t3` and `t4` not have same lengths.
@@ -1271,8 +1248,7 @@ def zipWith5(
 ) -> List[S]:
     """
     Returns:
-      List[S]:
-        A Zipped list from lists `t1`, `t2`, `t3`, `t4` and `t5` by the function `f`.
+      A Zipped list from lists `t1`, `t2`, `t3`, `t4` and `t5` by the function `f`.
 
     Raises:
       AssertionError: `t1`, `t2`, `t3`, `t4` and `t5` do not have same lengths.
@@ -1304,8 +1280,7 @@ def zipWith6(
 ) -> List[S]:
     """
     Returns:
-      List[S]:
-        A Zipped list from lists `t1`, `t2`, `t3`, `t4`, `t5` and `t6` by the function `t`.
+      A Zipped list from lists `t1`, `t2`, `t3`, `t4`, `t5` and `t6` by the function `t`.
 
     Raises:
       AssertionError: `t1`, `t2`, `t3`, `t4`, `t5` and `t6` do not have same lengths.
@@ -1345,8 +1320,7 @@ def zipWith7(
 ) -> List[S]:
     """
     Returns:
-      List[S]:
-        A Zipped list from lists `t1`, `t2`, `t3`, `t4`, `t5`, `t6` and `t7` by the function `t`.
+      A Zipped list from lists `t1`, `t2`, `t3`, `t4`, `t5`, `t6` and `t7` by the function `t`.
 
     Raises:
       AssertionError: `t1`, `t2`, `t3`, `t4`, `t5`, `t6` and `t7` do not have same lengths.
@@ -1615,8 +1589,7 @@ def delete(x: T, xs: List[T]) -> List[T]:
     Removes the first occurrence of `x` from the list `xs`.
 
     Returns:
-      List[T]:
-        List with the first occurrence of `x` removed.
+      List with the first occurrence of `x` removed.
 
     Examples:
       >>> delete ('a', list("banana"))
@@ -1703,8 +1676,7 @@ def delete_by(eq: Callable[[T, T], bool], x: T, xs: List[T]) -> List[T]:
     Behaves like `delete` except for taking user equality predicate `eq`.
 
     Returns:
-      List[T]:
-        List with the first occurrence of `x` removed.
+      List with the first occurrence of `x` removed.
 
     Examples:
       >>> delete_by (lambda x,y: x.lower() == y.lower(), 'a', list("bAnAna"))
