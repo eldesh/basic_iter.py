@@ -14,8 +14,11 @@ from .type import T
 
 
 @unique
-class Foundness(Enum):
-    """Value tag of the `Found` class."""
+class _Foundness(Enum):
+    """Value tag of the `Found` class.
+
+    This tag is only for internal use because it is an implementation details of the `Found` class.
+    """
 
     Found = auto()
     NotFound = auto()
@@ -28,12 +31,12 @@ class Foundness(Enum):
         Just name of the constructor returns, because the value of each constructor is not meaningful.
 
         Examples:
-          >>> Foundness.Found
-          Foundness.Found
-          >>> Foundness.NotFound
-          Foundness.NotFound
+          >>> _Foundness.Found
+          _Foundness.Found
+          >>> _Foundness.NotFound
+          _Foundness.NotFound
         """
-        return f"Foundness.{self.name}"
+        return f"_Foundness.{self.name}"
 
 
 class Found(Generic[T]):
@@ -44,8 +47,8 @@ class Found(Generic[T]):
     """
 
     # Invariant:
-    #   __kind = Foundness.Found -> __value:T /\
-    #   __kind = Foundness.NotFound -> __value:NotFound
+    #   __kind = _Foundness.Found -> __value:T /\
+    #   __kind = _Foundness.NotFound -> __value:NotFound
 
     __value: Union[T, NotFound]
     """The actual value.
@@ -54,11 +57,11 @@ class Found(Generic[T]):
     Otherwise, it is `NotFound`.
     """
 
-    __kind: Foundness
+    __kind: _Foundness
     """The tag of the value.
 
-    When its value is found, this `__kind` is equals to `Foundness.Found`.
-    Otherwise, it is `Foundness.NotFound`.
+    When its value is found, this `__kind` is equals to `_Foundness.Found`.
+    Otherwise, it is `_Foundness.NotFound`.
     """
 
     @classmethod
@@ -66,16 +69,16 @@ class Found(Generic[T]):
         """
         Found value constructor.
         """
-        return cls(Foundness.Found, value)
+        return cls(_Foundness.Found, value)
 
     @classmethod
     def not_found(cls, value: Any) -> "Found[T]":
         """
         NotFound value constructor.
         """
-        return cls(Foundness.NotFound, NotFound(value))
+        return cls(_Foundness.NotFound, NotFound(value))
 
-    def __init__(self, kind: Foundness, value: Union[T, NotFound]):
+    def __init__(self, kind: _Foundness, value: Union[T, NotFound]):
         """
         General constructor of `Found`, it should not be used directly.
         Instead, use `found` or `not_found`.
@@ -92,12 +95,12 @@ class Found(Generic[T]):
     @property
     def is_found(self) -> bool:
         """Checks that the value is `Found` or not."""
-        return self.__kind == Foundness.Found
+        return self.__kind == _Foundness.Found
 
     @property
     def is_notfound(self) -> bool:
         """Checks that the value is `NotFound <basic_iter.not_found.NotFound>` or not."""
-        return self.__kind == Foundness.NotFound
+        return self.__kind == _Foundness.NotFound
 
     def unwrap(self) -> T:
         """
@@ -135,7 +138,7 @@ class Found(Generic[T]):
           ...     print('not found 42')
           not found 42
         """
-        return self.__kind == Foundness.Found
+        return self.__kind == _Foundness.Found
 
     def __str__(self) -> str:
         """
