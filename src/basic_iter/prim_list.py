@@ -212,7 +212,7 @@ def transpose(xxs: List[List[T]]) -> List[List[T]]:
         rs: List[T] = []
         for xs in filter(lambda xs: len(xs) > i, xxs):
             rs.append(xs[i])
-        rss += [rs]
+        rss.append(rs)
     return rss
 
 
