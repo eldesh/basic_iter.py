@@ -179,7 +179,7 @@ def intercalate(xs: List[T], xxs: List[List[T]]) -> List[T]:
     Intercalate `xs` between member lists in `xxs`.
 
     Examples:
-      >>> intercalate(" and ", ["apple", "orange", "grape"])
+      >>> "".join(intercalate(list(" and "), map(list, ["apple", "orange", "grape"])))
       'apple and orange and grape'
     """
     if null(xxs):
@@ -188,10 +188,7 @@ def intercalate(xs: List[T], xxs: List[List[T]]) -> List[T]:
     for ys in xxs[1:]:
         res += xs
         res += ys
-    if isinstance(xs, str):
-        return "".join(res)
-    else:
-        return res
+    return res
 
 
 def transpose(xxs: List[List[T]]) -> List[List[T]]:
