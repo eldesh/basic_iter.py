@@ -5,9 +5,9 @@ import doctest
 from hypothesis import assume, given, example, strategies as st
 from hypothesis.strategies import composite
 
-import src.basic_iter
-from src.basic_iter import prim_list as L
-from src.basic_iter.found import Found
+import basic_iter
+from basic_iter import prim_list as L
+from basic_iter.found import Found
 
 import pkgutil
 
@@ -23,7 +23,7 @@ def load_tests(loader, tests, ignore):
     """
     Scan and register all test cases defined as doctests in the `src.basic_iter` module.
     """
-    for (_, name, _) in test_targets(src.basic_iter):
+    for (_, name, _) in test_targets(basic_iter):
         print(f"loading doctests in {name}...")
         importlib.import_module(name)
         tests.addTests(doctest.DocTestSuite(name))

@@ -1,6 +1,7 @@
 # Basic Iterator Operators for Python
 
 This package provides basic functions on iterators.
+All these provided functions are defined in functional way and do not update given arguments, but return newly constructed values.
 
 
 ## Generate documents
