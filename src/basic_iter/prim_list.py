@@ -218,20 +218,18 @@ def transpose(xxs: List[List[T]]) -> List[List[T]]:
 
 def subsequences(xs: List[T]) -> List[List[T]]:
     """
+    Enumerates all subsequences of the given list `xs`.
+
     Examples:
       >>> subsequences([])
       [[]]
       >>> subsequences(list("abc"))
       [[], ['a'], ['a', 'b'], ['a', 'b', 'c'], ['a', 'c'], ['b'], ['b', 'c'], ['c']]
     """
-
-    def go(xs: List[T]) -> List[List[T]]:
-        res: List[List[T]] = [[]]
-        for i, x in enumerate(xs):
-            res += map(lambda ys: [x] + ys, go(xs[i + 1 :]))
-        return res
-
-    return go(xs)
+    res: List[List[T]] = [[]]
+    for i, x in enumerate(xs):
+        res += map(lambda ys: [x] + ys, subsequences(xs[i + 1 :]))
+    return res
 
 
 def permutations(xs: List[T]) -> List[List[T]]:
