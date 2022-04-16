@@ -532,15 +532,15 @@ def scanr(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
     return res
 
 
-def mapAccumL(f: Callable[[T, U], Tuple[T, S]], e: T, xs: List[U]) -> Tuple[T, List[S]]:
+def map_accuml(f: Callable[[T, U], Tuple[T, S]], e: T, xs: List[U]) -> Tuple[T, List[S]]:
     """
-    mapAccumL transforms the list `xs` with `f` and simultaneously accumulates its elements from left-to-right into a value of `T`.
+    map_accuml transforms the list `xs` with `f` and simultaneously accumulates its elements from left-to-right into a value of `T`.
 
     Returns:
       A tuple of the accumulated value and the transformed list.
 
     Examples:
-      >>> mapAccumL(lambda acc, x: (x+acc, str(x)), 0, range(1,5))
+      >>> map_accuml(lambda acc, x: (x+acc, str(x)), 0, range(1,5))
       (10, ['1', '2', '3', '4'])
     """
     acc: T = e
@@ -551,15 +551,15 @@ def mapAccumL(f: Callable[[T, U], Tuple[T, S]], e: T, xs: List[U]) -> Tuple[T, L
     return (acc, ys)
 
 
-def mapAccumR(f: Callable[[T, U], Tuple[T, S]], e: T, xs: List[U]) -> Tuple[T, List[S]]:
+def map_accumr(f: Callable[[T, U], Tuple[T, S]], e: T, xs: List[U]) -> Tuple[T, List[S]]:
     """
-    mapAccumR transforms the list `xs` with `f` and simultaneously accumulates its elements from right-to-left into a value of `T`.
+    map_accumr transforms the list `xs` with `f` and simultaneously accumulates its elements from right-to-left into a value of `T`.
 
     Returns:
       A tuple of the accumulated value and the transformed list.
 
     Examples:
-      >>> mapAccumR(lambda acc, x: (x+acc, str(x)), 0, range(1,5))
+      >>> map_accumr(lambda acc, x: (x+acc, str(x)), 0, range(1,5))
       (10, ['4', '3', '2', '1'])
     """
     acc: T = e
@@ -657,31 +657,31 @@ def drop(n: int, xs: List[T]) -> List[T]:
     return xs[n:]
 
 
-def splitAt(n: int, xs: List[T]) -> Tuple[List[T], List[T]]:
+def split_at(n: int, xs: List[T]) -> Tuple[List[T], List[T]]:
     """
     Split the list `xs` into a tuple where first element is `xs` prefix of length `n` and second element is suffix of `xs` after the first `n` elements.
 
     Examples:
-      >>> splitAt (3, [1,2,3,4,5])
+      >>> split_at (3, [1,2,3,4,5])
       ([1, 2, 3], [4, 5])
-      >>> splitAt (6, [1,2,3,4,5])
+      >>> split_at (6, [1,2,3,4,5])
       ([1, 2, 3, 4, 5], [])
-      >>> splitAt (-1, [1,2,3,4,5])
+      >>> split_at (-1, [1,2,3,4,5])
       ([], [1, 2, 3, 4, 5])
     """
     return (take(n, xs), drop(n, xs))
 
 
-def takeWhile(p: Predicate[T], xs: List[T]) -> List[T]:
+def take_while(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     The longest prefix of the list `xs` of elements that satisfy `p`.
 
     Examples:
-      >>> takeWhile (lambda n: n >= 10, [13, 12, 11, 10, 9, 8])
+      >>> take_while (lambda n: n >= 10, [13, 12, 11, 10, 9, 8])
       [13, 12, 11, 10]
-      >>> takeWhile (lambda n: n%2 == 0, [12, 10, 9, 8, 7])
+      >>> take_while (lambda n: n%2 == 0, [12, 10, 9, 8, 7])
       [12, 10]
-      >>> takeWhile (lambda n: n < 0, [0, 3, -3, 5, -5])
+      >>> take_while (lambda n: n < 0, [0, 3, -3, 5, -5])
       []
     """
     for i, x in enumerate(xs):
@@ -690,16 +690,16 @@ def takeWhile(p: Predicate[T], xs: List[T]) -> List[T]:
     return xs
 
 
-def dropWhile(p: Predicate[T], xs: List[T]) -> List[T]:
+def drop_while(p: Predicate[T], xs: List[T]) -> List[T]:
     """
-    The suffix of the list `xs` remaining after `takeWhile(p, xs) <takeWhile>`.
+    The suffix of the list `xs` remaining after `take_while(p, xs) <take_while>`.
 
     Examples:
-      >>> dropWhile (lambda n: n >= 10, [13, 12, 11, 10, 9, 8])
+      >>> drop_while (lambda n: n >= 10, [13, 12, 11, 10, 9, 8])
       [9, 8]
-      >>> dropWhile (lambda n: n%2 == 0, [12, 10, 9, 8, 7])
+      >>> drop_while (lambda n: n%2 == 0, [12, 10, 9, 8, 7])
       [9, 8, 7]
-      >>> dropWhile (lambda n: n < 0, [0, 3, -3, 5, -5])
+      >>> drop_while (lambda n: n < 0, [0, 3, -3, 5, -5])
       [0, 3, -3, 5, -5]
     """
     for i, x in enumerate(xs):
@@ -708,16 +708,16 @@ def dropWhile(p: Predicate[T], xs: List[T]) -> List[T]:
     return []
 
 
-def dropWhileEnd(p: Predicate[T], xs: List[T]) -> List[T]:
+def drop_while_end(p: Predicate[T], xs: List[T]) -> List[T]:
     """
-    The suffix of the list `xs` remaining after `takeWhile(p, xs) <takeWhile>`.
+    The suffix of the list `xs` remaining after `take_while(p, xs) <take_while>`.
 
     Examples:
-      >>> dropWhileEnd (lambda n: n >= 10, [13, 12, 11, 10, 9, 8])
+      >>> drop_while_end (lambda n: n >= 10, [13, 12, 11, 10, 9, 8])
       [13, 12, 11, 10, 9, 8]
-      >>> dropWhileEnd (lambda n: n%2 != 0, [12, 10, 9, 8, 7])
+      >>> drop_while_end (lambda n: n%2 != 0, [12, 10, 9, 8, 7])
       [12, 10, 9, 8]
-      >>> dropWhileEnd (lambda n: n < 0, [0, 3, -3, 5, -5])
+      >>> drop_while_end (lambda n: n < 0, [0, 3, -3, 5, -5])
       [0, 3, -3, 5]
     """
     n: int = len(xs)
@@ -739,7 +739,7 @@ def span(p: Predicate[T], xs: List[T]) -> Tuple[List[T], List[T]]:
       >>> span (lambda n: abs(n) < 10, [0, 3, -3, 5, -5])
       ([0, 3, -3, 5, -5], [])
     """
-    return (takeWhile(p, xs), dropWhile(p, xs))
+    return (take_while(p, xs), drop_while(p, xs))
 
 
 def break_to(p: Predicate[T], xs: List[T]) -> Tuple[List[T], List[T]]:
@@ -991,7 +991,7 @@ def partition(p: Predicate[T], xs: List[T]) -> Tuple[List[T], List[T]]:
     return (ys, zs)
 
 
-def elemIndex(e: T, xs: List[T]) -> Found[int]:
+def elem_index(e: T, xs: List[T]) -> Found[int]:
     """
     Lookup the value `e` from the list `xs`, returns it's index.
 
@@ -1000,9 +1000,9 @@ def elemIndex(e: T, xs: List[T]) -> Found[int]:
       If it is not found in the list, `NotFound` is returned.
 
     Examples:
-      >>> elemIndex (3, [1,2,3,4])
+      >>> elem_index (3, [1,2,3,4])
       Found(2)
-      >>> elemIndex ("apple", ["orange", "banana"])
+      >>> elem_index ("apple", ["orange", "banana"])
       NotFound('apple')
     """
     for i, x in enumerate(xs):
@@ -1011,7 +1011,7 @@ def elemIndex(e: T, xs: List[T]) -> Found[int]:
     return Found.not_found(e)
 
 
-def elemIndicies(e: T, xs: List[T]) -> List[int]:
+def elem_indicies(e: T, xs: List[T]) -> List[int]:
     """
     Lookup all elements equal to the value `e` from the list `xs`, returns theirs indicies in ascending order.
 
@@ -1019,9 +1019,9 @@ def elemIndicies(e: T, xs: List[T]) -> List[int]:
       Returns all indicies of all elements equal to `e` in `xs`.
 
     Examples:
-      >>> elemIndicies (3, [1,2,3,4,3,5,3])
+      >>> elem_indicies (3, [1,2,3,4,3,5,3])
       [2, 4, 6]
-      >>> elemIndicies ("apple", ["orange", "banana"])
+      >>> elem_indicies ("apple", ["orange", "banana"])
       []
     """
     res: List[int] = []
@@ -1031,7 +1031,7 @@ def elemIndicies(e: T, xs: List[T]) -> List[int]:
     return res
 
 
-def findIndex(p: Predicate[T], xs: List[T]) -> Found[int]:
+def find_index(p: Predicate[T], xs: List[T]) -> Found[int]:
     """
     Lookup the first element that satisfies the predicate `p` in the list `xs`, returns it's index.
 
@@ -1040,9 +1040,9 @@ def findIndex(p: Predicate[T], xs: List[T]) -> Found[int]:
       If no element satisfying `p`, returns `NotFound`.
 
     Examples:
-      >>> findIndex (lambda x: x > 3, [1, 3, 5, 7])
+      >>> find_index (lambda x: x > 3, [1, 3, 5, 7])
       Found(2)
-      >>> str(findIndex (lambda x: x < 10, [10, 15, 42, 777]))[:8]
+      >>> str(find_index (lambda x: x < 10, [10, 15, 42, 777]))[:8]
       'NotFound'
     """
     for i, x in enumerate(xs):
@@ -1051,7 +1051,7 @@ def findIndex(p: Predicate[T], xs: List[T]) -> Found[int]:
     return Found.not_found(p)
 
 
-def findIndicies(p: Predicate[T], xs: List[T]) -> List[int]:
+def find_indicies(p: Predicate[T], xs: List[T]) -> List[int]:
     """
     Lookup all elements that satisfy the predicate `p` in the list `xs`, returns their indicies.
 
@@ -1059,9 +1059,9 @@ def findIndicies(p: Predicate[T], xs: List[T]) -> List[int]:
       The list of indicies of all elements satisfy `p` in the list `xs`.
 
     Examples:
-      >>> findIndicies (lambda x: x > 3, [1, 3, 5, 7, 5, 3, 1])
+      >>> find_indicies (lambda x: x > 3, [1, 3, 5, 7, 5, 3, 1])
       [2, 3, 4]
-      >>> findIndicies (lambda x: x < 10, [10, 15, 42, 777])
+      >>> find_indicies (lambda x: x < 10, [10, 15, 42, 777])
       []
     """
     res: List[int] = []
@@ -1073,7 +1073,7 @@ def findIndicies(p: Predicate[T], xs: List[T]) -> List[int]:
 
 def zip(xs: List[T], ys: List[U]) -> List[Tuple[T, U]]:
     """
-    Equivalent to calling `zipWith` on a tuple constructor like :code:`lambda x,y: (x,y)`.
+    Equivalent to calling `zip_with` on a tuple constructor like :code:`lambda x,y: (x,y)`.
 
     Examples:
       >>> zip([1,2,3], [4,5,6])
@@ -1082,12 +1082,12 @@ def zip(xs: List[T], ys: List[U]) -> List[Tuple[T, U]]:
     Raises:
       AssertionError: `xs` and `ys` have different lengths.
     """
-    return zipWith(lambda x, y: (x, y), xs, ys)
+    return zip_with(lambda x, y: (x, y), xs, ys)
 
 
 def zip3(xs: List[T], ys: List[U], zs: List[S]) -> List[Tuple[T, U, S]]:
     """
-    Equivalent to calling `zipWith3` on a tuple constructor like :code:`lambda x,y,z: (x,y,z)`.
+    Equivalent to calling `zip_with3` on a tuple constructor like :code:`lambda x,y,z: (x,y,z)`.
 
     Examples:
       >>> zip3([1,2,3], [4,5,6], [7,8,9])
@@ -1096,14 +1096,14 @@ def zip3(xs: List[T], ys: List[U], zs: List[S]) -> List[Tuple[T, U, S]]:
     Raises:
       AssertionError: `xs`, `ys` and `zs` do not have same lengths.
     """
-    return zipWith3(lambda x, y, z: (x, y, z), xs, ys, zs)
+    return zip_with3(lambda x, y, z: (x, y, z), xs, ys, zs)
 
 
 def zip4(
     t1: List[T1], t2: List[T2], t3: List[T3], t4: List[T4]
 ) -> List[Tuple[T1, T2, T3, T4]]:
     """
-    Equivalent to calling `zipWith4` on a tuple constructor like :code:`lambda a,b,c,d: (a,b,c,d)`.
+    Equivalent to calling `zip_with4` on a tuple constructor like :code:`lambda a,b,c,d: (a,b,c,d)`.
 
     Examples:
       >>> zip4([1,2,3], [4,5,6], [7,8,9], [10,11,12])
@@ -1112,14 +1112,14 @@ def zip4(
     Raises:
       AssertionError: `t1`, `t2`, `t3` and `t4` do not have same lengths.
     """
-    return zipWith4(lambda a, b, c, d: (a, b, c, d), t1, t2, t3, t4)
+    return zip_with4(lambda a, b, c, d: (a, b, c, d), t1, t2, t3, t4)
 
 
 def zip5(
     t1: List[T1], t2: List[T2], t3: List[T3], t4: List[T4], t5: List[T5]
 ) -> List[Tuple[T1, T2, T3, T4, T5]]:
     """
-    Equivalent to calling `zipWith5` on a tuple constructor like :code:`lambda a,b,c,d,e: (a,b,c,d,e)`.
+    Equivalent to calling `zip_with5` on a tuple constructor like :code:`lambda a,b,c,d,e: (a,b,c,d,e)`.
 
     Examples:
       >>> zip5([1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15])
@@ -1128,14 +1128,14 @@ def zip5(
     Raises:
       AssertionError: `t1`, `t2`, `t3`, `t4` and `t5` do not have same lengths.
     """
-    return zipWith5(lambda a, b, c, d, e: (a, b, c, d, e), t1, t2, t3, t4, t5)
+    return zip_with5(lambda a, b, c, d, e: (a, b, c, d, e), t1, t2, t3, t4, t5)
 
 
 def zip6(
     t1: List[T1], t2: List[T2], t3: List[T3], t4: List[T4], t5: List[T5], t6: List[T6]
 ) -> List[Tuple[T1, T2, T3, T4, T5, T6]]:
     """
-    Equivalent to calling `zipWith6` on a tuple constructor like :code:`lambda a,b,c,d,e,f: (a,b,c,d,e,f)`.
+    Equivalent to calling `zip_with6` on a tuple constructor like :code:`lambda a,b,c,d,e,f: (a,b,c,d,e,f)`.
 
     Examples:
       >>> zip6([1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18])
@@ -1144,7 +1144,7 @@ def zip6(
     Raises:
       AssertionError: `t1`, `t2`, `t3`, `t4`, `t5` and `t6` do not have same lengths.
     """
-    return zipWith6(lambda a, b, c, d, e, f: (a, b, c, d, e, f), t1, t2, t3, t4, t5, t6)
+    return zip_with6(lambda a, b, c, d, e, f: (a, b, c, d, e, f), t1, t2, t3, t4, t5, t6)
 
 
 def zip7(
@@ -1157,7 +1157,7 @@ def zip7(
     t7: List[T7],
 ) -> List[Tuple[T1, T2, T3, T4, T5, T6, T7]]:
     """
-    Equivalent to calling `zipWith7` on a tuple constructor like :code:`lambda a,b,c,d,e,f,g: (a,b,c,d,e,f,g)`.
+    Equivalent to calling `zip_with7` on a tuple constructor like :code:`lambda a,b,c,d,e,f,g: (a,b,c,d,e,f,g)`.
 
     Examples:
       >>> zip7([1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18], [19,20,21])
@@ -1166,12 +1166,12 @@ def zip7(
     Raises:
       AssertionError: `t1`, `t2`, `t3`, `t4`, `t5`, `t6` and `t7` do not have same lengths.
     """
-    return zipWith7(
+    return zip_with7(
         lambda a, b, c, d, e, f, g: (a, b, c, d, e, f, g), t1, t2, t3, t4, t5, t6, t7
     )
 
 
-def zipWith(f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
+def zip_with(f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
     """
     Returns:
       A Zipped list from lists `xs` and `ys` by the function `f`.
@@ -1180,10 +1180,10 @@ def zipWith(f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
       AssertionError: `xs` and `ys` have different lengths.
 
     Examples:
-      >>> zipWith (lambda x, y: x + y, [1,2,3], [4,5,6])
+      >>> zip_with (lambda x, y: x + y, [1,2,3], [4,5,6])
       [5, 7, 9]
       >>> import re
-      >>> zipWith (lambda r,p: re.search(r,p) is None
+      >>> zip_with (lambda r,p: re.search(r,p) is None
       ...         , [r'abc',r'^192',r'txt$'], ['ABC','192.168.1.1','note.txt'])
       [True, False, False]
     """
@@ -1200,7 +1200,7 @@ def zipWith(f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
     return res
 
 
-def zipWith3(
+def zip_with3(
     f: Callable[[T1, T2, T3], S], t1: List[T1], t2: List[T2], t3: List[T3]
 ) -> List[S]:
     """
@@ -1211,7 +1211,7 @@ def zipWith3(
       AssertionError: `t1`, `t2` and `t3` not have same lengths.
 
     Examples:
-      >>> zipWith3(lambda x,y,z: x+y+z, [1,2,3], [4,5,6], [7,8,9])
+      >>> zip_with3(lambda x,y,z: x+y+z, [1,2,3], [4,5,6], [7,8,9])
       [12, 15, 18]
     """
     assert len(t1) == len(t2) == len(t3), "required to be the same length"
@@ -1224,7 +1224,7 @@ def zipWith3(
     return res
 
 
-def zipWith4(
+def zip_with4(
     f: Callable[[T1, T2, T3, T4], S],
     t1: List[T1],
     t2: List[T2],
@@ -1239,7 +1239,7 @@ def zipWith4(
       AssertionError: `t1`, `t2`, `t3` and `t4` not have same lengths.
 
     Examples:
-      >>> zipWith4(lambda w,x,y,z: w+x+y+z, [1,2,3], [4,5,6], [7,8,9], [10,11,12])
+      >>> zip_with4(lambda w,x,y,z: w+x+y+z, [1,2,3], [4,5,6], [7,8,9], [10,11,12])
       [22, 26, 30]
     """
     assert len(t1) == len(t2) == len(t3) == len(t4), "required to be the same length"
@@ -1252,7 +1252,7 @@ def zipWith4(
     return res
 
 
-def zipWith5(
+def zip_with5(
     f: Callable[[T1, T2, T3, T4, T5], S],
     t1: List[T1],
     t2: List[T2],
@@ -1268,7 +1268,7 @@ def zipWith5(
       AssertionError: `t1`, `t2`, `t3`, `t4` and `t5` do not have same lengths.
 
     Examples:
-      >>> zipWith5(lambda a,b,c,d,e: a+b+c+d+e, [1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15])
+      >>> zip_with5(lambda a,b,c,d,e: a+b+c+d+e, [1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15])
       [35, 40, 45]
     """
     assert (
@@ -1283,7 +1283,7 @@ def zipWith5(
     return res
 
 
-def zipWith6(
+def zip_with6(
     t: Callable[[T1, T2, T3, T4, T5, T6], S],
     t1: List[T1],
     t2: List[T2],
@@ -1300,7 +1300,7 @@ def zipWith6(
       AssertionError: `t1`, `t2`, `t3`, `t4`, `t5` and `t6` do not have same lengths.
 
     Examples:
-      >>> zipWith6(lambda a,b,c,d,e,f: a+b+c+d+e+f, [1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18])
+      >>> zip_with6(lambda a,b,c,d,e,f: a+b+c+d+e+f, [1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18])
       [51, 57, 63]
     """
     assert (
@@ -1322,7 +1322,7 @@ def zipWith6(
     return res
 
 
-def zipWith7(
+def zip_with7(
     t: Callable[[T1, T2, T3, T4, T5, T6, T7], S],
     t1: List[T1],
     t2: List[T2],
@@ -1340,7 +1340,7 @@ def zipWith7(
       AssertionError: `t1`, `t2`, `t3`, `t4`, `t5`, `t6` and `t7` do not have same lengths.
 
     Examples:
-      >>> zipWith7(lambda a,b,c,d,e,f,g: a+b+c+d+e+f+g, [1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18], [19,20,21])
+      >>> zip_with7(lambda a,b,c,d,e,f,g: a+b+c+d+e+f+g, [1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18], [19,20,21])
       [70, 77, 84]
     """
     assert (
