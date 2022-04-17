@@ -100,7 +100,7 @@ def null(xs: List[T]) -> bool:
     Returns:
       the list is empty or not.
     """
-    return True if not xs else False
+    return not xs
 
 
 def append(xs: List[T], ys: List[T]) -> List[T]:
