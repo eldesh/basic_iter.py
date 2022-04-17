@@ -84,9 +84,7 @@ class Found(Generic[T]):
         self.__value = value
 
     def __eq__(self, other: object) -> bool:
-        assert isinstance(
-            other, Found
-        ), "Found instances can only be compared to instances of the same type"
+        assert isinstance(other, Found), "Found instances can only be compared to instances of the same type"
         # pylint: disable-next=protected-access
         return self.__kind == other.__kind and self.__value == other.__value
 

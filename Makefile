@@ -14,7 +14,7 @@ test:
 
 .PHONY: format_check
 format_check:
-	$(POETRY) run black --check basic_iter tests
+	$(POETRY) run yapf --recursive --diff basic_iter tests
 
 
 .PHONY: type_check
@@ -31,6 +31,11 @@ lint_check:
 doc:
 	sphinx-apidoc -f -o docs/source basic_iter
 	$(MAKE) html -C docs
+
+
+.PHONY: format
+format:
+	$(POETRY) run yapf --recursive --in-place basic_iter tests
 
 
 .PHONY: clean

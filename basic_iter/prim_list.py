@@ -69,7 +69,7 @@ def init(xs: List[T]) -> List[T]:
       AssertionError: `xs` is not empty.
     """
     assert not (null(xs)), "must not to be empty"
-    return xs[0 : len(xs) - 1]
+    return xs[0:len(xs) - 1]
 
 
 def uncons(xs: List[T]) -> Optional[Tuple[T, List[T]]]:
@@ -150,7 +150,7 @@ def reverse(xs: List[T]) -> List[T]:
       >>> reverse('foobarbaz')
       'zabraboof'
     """
-    return xs[-1 : -len(xs) - 1 : -1]
+    return xs[-1:-len(xs) - 1:-1]
 
 
 def intersperse(e: T, xs: List[T]) -> List[T]:
@@ -230,7 +230,7 @@ def subsequences(xs: List[T]) -> List[List[T]]:
     res: List[List[T]] = [[]]
     for i, x in enumerate(xs):
         # pylint: disable-next=cell-var-from-loop
-        res += map(lambda ys: [x] + ys, subsequences(xs[i + 1 :]))
+        res += map(lambda ys: [x] + ys, subsequences(xs[i + 1:]))
     return res
 
 
@@ -751,7 +751,7 @@ def drop_while_end(p: Predicate[T], xs: List[T]) -> List[T]:
     n: int = len(xs)
     for i, x in enumerate(reverse(xs)):
         if not p(x):
-            return xs[0 : n - i]
+            return xs[0:n - i]
     return []
 
 
@@ -817,8 +817,8 @@ def strip_prefix(xs: List[T], ys: List[T]) -> Optional[List[T]]:
       >>> strip_prefix (["f", "o", "o"], ["b", "a", "r", "f", "o", "o", "b", "a", "z"])
       >>> strip_prefix (["f", "o", "o", "b", "a", "r"], ["f", "o", "o"])
     """
-    if xs == ys[0 : len(xs)]:
-        return ys[len(xs) :]
+    if xs == ys[0:len(xs)]:
+        return ys[len(xs):]
     else:
         return None
 
@@ -865,7 +865,7 @@ def is_prefix_of(xs: List[T], ys: List[T]) -> bool:
       >>> is_prefix_of ([3,42,5], [3,42])
       False
     """
-    return len(ys) >= len(xs) and ys[0 : len(xs)] == xs
+    return len(ys) >= len(xs) and ys[0:len(xs)] == xs
 
 
 def is_suffix_of(xs: List[T], ys: List[T]) -> bool:
@@ -880,7 +880,7 @@ def is_suffix_of(xs: List[T], ys: List[T]) -> bool:
       >>> is_suffix_of ([], [3,42])
       True
     """
-    return len(ys) >= len(xs) and ys[len(ys) - len(xs) : len(ys)] == xs
+    return len(ys) >= len(xs) and ys[len(ys) - len(xs):len(ys)] == xs
 
 
 def is_infix_of(xs: List[T], ys: List[T]) -> bool:
@@ -903,7 +903,7 @@ def is_infix_of(xs: List[T], ys: List[T]) -> bool:
     if len(xs) > len(ys):
         return False
     for i in range(len(ys) - len(xs) + 1):
-        if xs == ys[i : i + len(xs)]:
+        if xs == ys[i:i + len(xs)]:
             return True
     return False
 
@@ -1131,9 +1131,7 @@ def zip3(xs: List[T], ys: List[U], zs: List[S]) -> List[Tuple[T, U, S]]:
     return zip_with3(lambda x, y, z: (x, y, z), xs, ys, zs)
 
 
-def zip4(
-    t1: List[T1], t2: List[T2], t3: List[T3], t4: List[T4]
-) -> List[Tuple[T1, T2, T3, T4]]:
+def zip4(t1: List[T1], t2: List[T2], t3: List[T3], t4: List[T4]) -> List[Tuple[T1, T2, T3, T4]]:
     """
     Equivalent to calling `zip_with4` on a tuple constructor like :code:`lambda a,b,c,d: (a,b,c,d)`.
 
@@ -1147,9 +1145,7 @@ def zip4(
     return zip_with4(lambda a, b, c, d: (a, b, c, d), t1, t2, t3, t4)
 
 
-def zip5(
-    t1: List[T1], t2: List[T2], t3: List[T3], t4: List[T4], t5: List[T5]
-) -> List[Tuple[T1, T2, T3, T4, T5]]:
+def zip5(t1: List[T1], t2: List[T2], t3: List[T3], t4: List[T4], t5: List[T5]) -> List[Tuple[T1, T2, T3, T4, T5]]:
     """
     Equivalent to calling `zip_with5` on a tuple constructor like :code:`lambda a,b,c,d,e: (a,b,c,d,e)`.
 
@@ -1163,9 +1159,8 @@ def zip5(
     return zip_with5(lambda a, b, c, d, e: (a, b, c, d, e), t1, t2, t3, t4, t5)
 
 
-def zip6(
-    t1: List[T1], t2: List[T2], t3: List[T3], t4: List[T4], t5: List[T5], t6: List[T6]
-) -> List[Tuple[T1, T2, T3, T4, T5, T6]]:
+def zip6(t1: List[T1], t2: List[T2], t3: List[T3], t4: List[T4], t5: List[T5],
+         t6: List[T6]) -> List[Tuple[T1, T2, T3, T4, T5, T6]]:
     """
     Equivalent to calling `zip_with6` on a tuple constructor like :code:`lambda a,b,c,d,e,f: (a,b,c,d,e,f)`.
 
@@ -1198,9 +1193,7 @@ def zip7(
     Raises:
       AssertionError: `t1`, `t2`, `t3`, `t4`, `t5`, `t6` and `t7` do not have same lengths.
     """
-    return zip_with7(
-        lambda a, b, c, d, e, f, g: (a, b, c, d, e, f, g), t1, t2, t3, t4, t5, t6, t7
-    )
+    return zip_with7(lambda a, b, c, d, e, f, g: (a, b, c, d, e, f, g), t1, t2, t3, t4, t5, t6, t7)
 
 
 def zip_with(f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
@@ -1232,9 +1225,7 @@ def zip_with(f: Callable[[T, U], S], xs: List[T], ys: List[U]) -> List[S]:
     return res
 
 
-def zip_with3(
-    f: Callable[[T1, T2, T3], S], t1: List[T1], t2: List[T2], t3: List[T3]
-) -> List[S]:
+def zip_with3(f: Callable[[T1, T2, T3], S], t1: List[T1], t2: List[T2], t3: List[T3]) -> List[S]:
     """
     Returns:
       A Zipped list from lists `t1`, `t2` and `t3` by the function `f`.
@@ -1303,9 +1294,7 @@ def zip_with5(
       >>> zip_with5(lambda a,b,c,d,e: a+b+c+d+e, [1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15])
       [35, 40, 45]
     """
-    assert (
-        len(t1) == len(t2) == len(t3) == len(t4) == len(t5)
-    ), "required to be the same length"
+    assert (len(t1) == len(t2) == len(t3) == len(t4) == len(t5)), "required to be the same length"
     it1, it2, it3, it4, it5 = (t1, t2, t3, t4, t5)
     res: List[S] = []
     while it1:
@@ -1335,9 +1324,7 @@ def zip_with6(
       >>> zip_with6(lambda a,b,c,d,e,f: a+b+c+d+e+f, [1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18])
       [51, 57, 63]
     """
-    assert (
-        len(t1) == len(t2) == len(t3) == len(t4) == len(t5) == len(t6)
-    ), "required to be the same length"
+    assert (len(t1) == len(t2) == len(t3) == len(t4) == len(t5) == len(t6)), "required to be the same length"
     it1, it2, it3, it4, it5, it6 = (t1, t2, t3, t4, t5, t6)
     res: List[S] = []
     while it1:
@@ -1376,9 +1363,7 @@ def zip_with7(
       ... [1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18], [19,20,21])
       [70, 77, 84]
     """
-    assert (
-        len(t1) == len(t2) == len(t3) == len(t4) == len(t5) == len(t6) == len(t7)
-    ), "required to be the same length"
+    assert (len(t1) == len(t2) == len(t3) == len(t4) == len(t5) == len(t6) == len(t7)), "required to be the same length"
     it1, it2, it3, it4, it5, it6, it7 = (t1, t2, t3, t4, t5, t6, t7)
     res: List[S] = []
     while it1:
@@ -1430,9 +1415,7 @@ def unzip3(xs: List[Tuple[T1, T2, T3]]) -> Tuple[List[T1], List[T2], List[T3]]:
     return (ts1, ts2, ts3)
 
 
-def unzip4(
-    xs: List[Tuple[T1, T2, T3, T4]]
-) -> Tuple[List[T1], List[T2], List[T3], List[T4]]:
+def unzip4(xs: List[Tuple[T1, T2, T3, T4]]) -> Tuple[List[T1], List[T2], List[T3], List[T4]]:
     """
     Transforms the list of tuples `xs` into a tuple of lists of n-th elements.
 
@@ -1452,9 +1435,7 @@ def unzip4(
     return (ts1, ts2, ts3, ts4)
 
 
-def unzip5(
-    xs: List[Tuple[T1, T2, T3, T4, T5]]
-) -> Tuple[List[T1], List[T2], List[T3], List[T4], List[T5]]:
+def unzip5(xs: List[Tuple[T1, T2, T3, T4, T5]]) -> Tuple[List[T1], List[T2], List[T3], List[T4], List[T5]]:
     """
     Transforms the list of tuples `xs` into a tuple of lists of n-th elements.
 
@@ -1477,8 +1458,7 @@ def unzip5(
 
 
 def unzip6(
-    xs: List[Tuple[T1, T2, T3, T4, T5, T6]]
-) -> Tuple[List[T1], List[T2], List[T3], List[T4], List[T5], List[T6]]:
+        xs: List[Tuple[T1, T2, T3, T4, T5, T6]]) -> Tuple[List[T1], List[T2], List[T3], List[T4], List[T5], List[T6]]:
     """
     Transforms the list of tuples `xs` into a tuple of lists of n-th elements.
 
@@ -1646,7 +1626,7 @@ def delete(x: T, xs: List[T]) -> List[T]:
     """
     for i, e in enumerate(xs):
         if e == x:
-            return xs[0:i] + xs[i + 1 :]
+            return xs[0:i] + xs[i + 1:]
     return xs
 
 
@@ -1706,7 +1686,7 @@ def nub_by(eq: Callable[[T, T], bool], xs: List[T]) -> List[T]:
     Generalized `nub` by the user equality predicate `eq`.
 
     Examples:
-      >>> nub_by(lambda x,y: x.upper() == y.upper(), list("abcabc"))
+      >>> nub_by(lambda x,y: x.upper() == y.upper(), list("abcABC"))
       ['a', 'b', 'c']
       >>> nub_by(lambda x,y: x%3 == y%3, [5,3,1,3,5])
       [5, 3, 1]
@@ -1734,7 +1714,7 @@ def delete_by(eq: Callable[[T, T], bool], x: T, xs: List[T]) -> List[T]:
     """
     for i, e in enumerate(xs):
         if eq(e, x):
-            return xs[0:i] + xs[i + 1 :]
+            return xs[0:i] + xs[i + 1:]
     return xs
 
 

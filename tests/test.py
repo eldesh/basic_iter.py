@@ -32,6 +32,7 @@ def load_tests(loader, tests, ignore):
 
 
 class TestPrimList(unittest.TestCase):
+
     @composite
     def matrix_strategy(draw, elem, min_row=0, max_row=100, min_col=0, max_col=100):
         """
@@ -67,6 +68,7 @@ class TestPrimList(unittest.TestCase):
 
     @given(st.lists(st.integers()))
     def test_scanl_is_foldl_trace(self, xs):
+
         def add(x, y):
             return x + y
 
@@ -77,6 +79,7 @@ class TestPrimList(unittest.TestCase):
 
     @given(st.lists(st.integers()))
     def test_scanl_last_is_foldl(self, xs):
+
         def sub(x, y):
             return x - y
 
@@ -84,6 +87,7 @@ class TestPrimList(unittest.TestCase):
 
     @given(st.lists(st.integers()))
     def test_scanr_head_is_foldr(self, xs):
+
         def add(x, y):
             return x - y
 
@@ -99,12 +103,11 @@ class TestPrimList(unittest.TestCase):
             self.assertEqual(n, len(L.replicate(n, v)))
 
     def test_unfoldr_trivial(self):
-        self.assertEqual(
-            list(range(10)), L.unfoldr(lambda x: None if x > 9 else (x, x + 1), 0)
-        )
+        self.assertEqual(list(range(10)), L.unfoldr(lambda x: None if x > 9 else (x, x + 1), 0))
 
     @given(st.integers(), st.lists(st.integers()))
     def test_split_at(self, n, xs):
+
         def app(xy):
             return L.append(xy[0], xy[1])
 
@@ -118,9 +121,7 @@ class TestPrimList(unittest.TestCase):
 
     @given(st.integers(max_value=100), st.lists(st.integers(max_value=100)))
     def test_break_to(self, p, xs):
-        self.assertEqual(
-            L.break_to(lambda x: x > p, xs), L.span(lambda x: not (x > p), xs)
-        )
+        self.assertEqual(L.break_to(lambda x: x > p, xs), L.span(lambda x: not (x > p), xs))
 
     @given(st.lists(st.booleans()), st.lists(st.booleans()))
     def test_strip_prefix(self, xs, ys):
@@ -200,13 +201,12 @@ class TestPrimList(unittest.TestCase):
     @given(st.lists(st.integers(), max_size=13))
     @example([])
     def test_subsequences(self, xs):
-        self.assertTrue(
-            L.all(lambda ss: L.is_subsequence_of(ss, xs), L.subsequences(xs))
-        )
+        self.assertTrue(L.all(lambda ss: L.is_subsequence_of(ss, xs), L.subsequences(xs)))
 
     @given(st.lists(st.integers(), max_size=5))
     @example([])
     def test_permutations_size(self, xs):
+
         def fact(n):
             return 1 if n <= 1 else n * fact(n - 1)
 
@@ -216,9 +216,7 @@ class TestPrimList(unittest.TestCase):
     @example([])
     @example([0])
     def test_permutations_elem(self, xs):
-        self.assertTrue(
-            L.all(lambda ps: L.all(lambda p: p in xs, ps), L.permutations(xs))
-        )
+        self.assertTrue(L.all(lambda ps: L.all(lambda p: p in xs, ps), L.permutations(xs)))
 
     @given(st.text(alphabet="abc\n"))
     def test_unlines_lines_piso(self, ss):
@@ -241,9 +239,7 @@ class TestPrimList(unittest.TestCase):
         st.lists(st.integers(min_value=0, max_value=3)),
     )
     def test_intersect(self, xs, ys):
-        self.assertTrue(
-            L.and_list(list(z in xs and z in ys for z in L.intersect(xs, ys)))
-        )
+        self.assertTrue(L.and_list(list(z in xs and z in ys for z in L.intersect(xs, ys))))
 
 
 if __name__ == "__main__":

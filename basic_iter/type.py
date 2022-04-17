@@ -1,9 +1,6 @@
 """Type variables and aliases used in basic_iter."""
 
-from typing import (
-    TypeVar,
-    Callable,
-)
+from typing import (TypeVar, Callable)
 
 S = TypeVar("S")
 """A type variable identified by 'S'."""
