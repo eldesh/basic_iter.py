@@ -209,6 +209,7 @@ def transpose(xxs: List[List[T]]) -> List[List[T]]:
     for i in range(col):
         # construct i-th line vector from i-th column elements
         rs: List[T] = []
+        # pylint: disable-next=cell-var-from-loop
         for xs in filter(lambda xs: len(xs) > i, xxs):
             rs.append(xs[i])
         rss.append(rs)
@@ -227,6 +228,7 @@ def subsequences(xs: List[T]) -> List[List[T]]:
     """
     res: List[List[T]] = [[]]
     for i, x in enumerate(xs):
+        # pylint: disable-next=cell-var-from-loop
         res += map(lambda ys: [x] + ys, subsequences(xs[i + 1 :]))
     return res
 
@@ -249,6 +251,7 @@ def permutations(xs: List[T]) -> List[List[T]]:
     ys: List[T] = copy.copy(xs)
     for i in range(len(xs)):
         y = ys.pop(i)
+        # pylint: disable-next=cell-var-from-loop
         res += map(lambda xs: [y] + xs, permutations(ys))
         ys.insert(i, y)
     return res
@@ -1704,7 +1707,8 @@ def nub_by(eq: Callable[[T, T], bool], xs: List[T]) -> List[T]:
     """
     res: List[T] = []
     for x in xs:
-        if all(lambda e: not (eq(e, x)), res):
+        # pylint: disable-next=cell-var-from-loop
+        if all(lambda e: not eq(e, x), res):
             res.append(x)
     return res
 
