@@ -123,6 +123,7 @@ def append(xs: List[T], ys: List[T]) -> List[T]:
     return xs + ys
 
 
+# pylint: disable-next=redefined-builtin
 def map(f: Callable[[T], U], xs: List[T]) -> List[U]:
     """
     Mapping all elements in the list `xs` to the result list with a mapping function `f`.
@@ -430,6 +431,7 @@ def or_list(xs: List[bool]) -> bool:
     return False
 
 
+# pylint: disable-next=redefined-builtin
 def any(p: Predicate[T], xs: List[T]) -> bool:
     """
     Check any elements of the list `xs` satisfy the predicate `p`.
@@ -447,6 +449,7 @@ def any(p: Predicate[T], xs: List[T]) -> bool:
     return False
 
 
+# pylint: disable-next=redefined-builtin
 def all(p: Predicate[T], xs: List[T]) -> bool:
     """
     Check all elements of the list `xs` satisfy the predicate `p`.
@@ -602,6 +605,7 @@ def replicate(n: int, x: T) -> List[T]:
     return xs
 
 
+# pylint: disable-next=redefined-outer-name
 def unfoldr(f: Callable[[T], Optional[Tuple[U, T]]], init: T) -> List[U]:
     """
     Builds a list from the seed value `init` with `f`.
@@ -973,6 +977,7 @@ def find(p: Predicate[T], xs: List[T]) -> Found[T]:
     return Found.not_found(p)
 
 
+# pylint: disable-next=redefined-builtin
 def filter(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     Filter out elements from the list `xs` that do not satisfy the predicate `p` .
@@ -1097,6 +1102,7 @@ def find_indicies(p: Predicate[T], xs: List[T]) -> List[int]:
     return res
 
 
+# pylint: disable-next=redefined-builtin
 def zip(xs: List[T], ys: List[U]) -> List[Tuple[T, U]]:
     """
     Equivalent to calling `zip_with` on a tuple constructor like :code:`lambda x,y: (x,y)`.
