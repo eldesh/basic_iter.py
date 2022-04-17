@@ -1,7 +1,8 @@
 """
 Some basic operators on the primitive list.
 
-Almost functions behave on the primitive list in the same way as the function of the same name provided in `Data.List <https://hackage.haskell.org/package/base-4.10.1.0/docs/Data-List.html>`_ from Haskell that is a purely functional language.
+Almost functions behave on the primitive list in the same way as the function of the same name
+provided in `Data.List <https://hackage.haskell.org/package/base-4.10.1.0/docs/Data-List.html>`_ from Haskell that is a purely functional language.
 Therefore, all functions are defined in the functional style and do not change their arguments.
 
 However, some functions are not exactly the same as in Haskell.
@@ -77,7 +78,8 @@ def init(xs: List[T]) -> List[T]:
 def uncons(xs: List[T]) -> Optional[Tuple[T, List[T]]]:
     """
     Decompose a list into its head and tail.
-    If the list is empty, returns `None`. If the list is non-empty, returns :code:`(x, xs)`, where `x` is the head of the list and `xs` its tail.
+    If the list is empty, returns `None`.
+    If non-empty, returns :code:`(x, xs)`, where `x` is the head of the list and `xs` its tail.
 
     Returns:
       If the list is empty, returns `None`.
@@ -465,7 +467,8 @@ def all(p: Predicate[T], xs: List[T]) -> bool:
 def scanl(f: Callable[[U, T], U], e: U, xs: List[T]) -> List[U]:
     """
     Folding left-to-right the list and returns a list of the intermediate values.
-    For the input list `xs` and the result list are ``[ x0, x1, x2, ... , x(n-1), xn ]`` and ``[ r0, r1, ..., r(n-1), rn, r(n+1) ]``::
+    For the input list `xs` and the result list are
+    ``[ x0, x1, x2, ... , x(n-1), xn ]`` and ``[ r0, r1, ..., r(n-1), rn, r(n+1) ]``::
 
       r0     is calculated from foldl f e      [  ]
       r1     is calculated from foldl f r0     [x0]
@@ -504,7 +507,8 @@ def scanl1(f: Callable[[T, T], T], xs: List[T]) -> List[T]:
 def scanr(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
     """
     Folding right-to-left the list and returns a list of the intermediate values.
-    For the input list `xs` and the result list are ``[ x0, x1, x2, ... , x(n-1), xn ]`` and ``[ r0, r1, ..., r(n-1), rn, r(n+1) ]``::
+    For the input list `xs` and the result list are
+    ``[ x0, x1, x2, ... , x(n-1), xn ]`` and ``[ r0, r1, ..., r(n-1), rn, r(n+1) ]``::
 
       r0     is calculated from foldr f r1     [x0]
       r1     is calculated from foldr f r2     [x1]
@@ -534,7 +538,8 @@ def scanr(f: Callable[[T, U], U], e: U, xs: List[T]) -> List[U]:
 
 def map_accuml(f: Callable[[T, U], Tuple[T, S]], e: T, xs: List[U]) -> Tuple[T, List[S]]:
     """
-    map_accuml transforms the list `xs` with `f` and simultaneously accumulates its elements from left-to-right into a value of `T`.
+    map_accuml transforms the list `xs` with `f` and
+    simultaneously accumulates its elements from left-to-right into a value of `T`.
 
     Returns:
       A tuple of the accumulated value and the transformed list.
@@ -553,7 +558,8 @@ def map_accuml(f: Callable[[T, U], Tuple[T, S]], e: T, xs: List[U]) -> Tuple[T, 
 
 def map_accumr(f: Callable[[T, U], Tuple[T, S]], e: T, xs: List[U]) -> Tuple[T, List[S]]:
     """
-    map_accumr transforms the list `xs` with `f` and simultaneously accumulates its elements from right-to-left into a value of `T`.
+    map_accumr transforms the list `xs` with `f` and
+    simultaneously accumulates its elements from right-to-left into a value of `T`.
 
     Returns:
       A tuple of the accumulated value and the transformed list.
@@ -599,14 +605,31 @@ def replicate(n: int, x: T) -> List[T]:
 def unfoldr(f: Callable[[T], Optional[Tuple[U, T]]], init: T) -> List[U]:
     """
     Builds a list from the seed value `init` with `f`.
-    The function `f` takes a seed value and returns `None` if it is done producing the list or tuple :code:`(u, t)`, in which case, the `u` value is next element of a list and the `t` is the seed value for the next element generating.
+    The function `f` takes a seed value and returns `None`
+    if it is done producing the list or tuple :code:`(u, t)`, in which case,
+    the `u` value is next element of a list and
+    the `t` is the seed value for the next element generating.
+
+    Execution steps is as follows::
+
+      unfoldr (\\x: None if x > 5 else (x*2,x+1), 0)
+      ==> [0] + unfoldr (\\x: None if x > 5 else (x*2,x+1), 1) by not 0 > 5
+      ==> [0,2] + unfoldr (\\x: None if x > 5 else (x*2,x+1), 2) by not 1 > 5
+      ==> [0,2,4] + unfoldr (\\x: None if x > 5 else (x*2,x+1), 3) by not 2 > 5
+      ==> [0,2,4,6] + unfoldr (\\x: None if x > 5 else (x*2,x+1), 4) by not 3 > 5
+      ==> [0,2,4,6,8] + unfoldr (\\x: None if x > 5 else (x*2,x+1), 5) by not 4 > 5
+      ==> [0,2,4,6,8,10] + unfoldr (\\x: None if x > 5 else (x*2,x+1), 6) by not 5 > 5
+      ==> [0,2,4,6,8,10] + [] by 6 > 5
+
 
     Returns:
       The generated list from the `init` with `f`.
 
     Examples:
-      >>> unfoldr (lambda x: None if x > 5 else (x, x+1), 0)
-      [0, 1, 2, 3, 4, 5]
+      >>> unfoldr (lambda x: None if x > 5 else (x*2, x+1), 0)
+      [0, 2, 4, 6, 8, 10]
+      >>> unfoldr (lambda x: (x,x+1) if x < 5 else None, 0)
+      [0, 1, 2, 3, 4]
     """
     res: List[U] = []
     elm = init
@@ -659,7 +682,8 @@ def drop(n: int, xs: List[T]) -> List[T]:
 
 def split_at(n: int, xs: List[T]) -> Tuple[List[T], List[T]]:
     """
-    Split the list `xs` into a tuple where first element is `xs` prefix of length `n` and second element is suffix of `xs` after the first `n` elements.
+    Split the list `xs` into a tuple where first element is `xs` prefix of length `n`
+    and second element is suffix of `xs` after the first `n` elements.
 
     Examples:
       >>> split_at (3, [1,2,3,4,5])
@@ -729,7 +753,8 @@ def drop_while_end(p: Predicate[T], xs: List[T]) -> List[T]:
 
 def span(p: Predicate[T], xs: List[T]) -> Tuple[List[T], List[T]]:
     """
-    A tuple where first element is the longest prefix of `xs` of elements that satisfy `p` and second element is the remainder of the list.
+    A tuple where first element is the longest prefix of `xs` of elements
+    that satisfy `p` and second element is the remainder of the list.
 
     Examples:
       >>> span (lambda n: n >= 10, [13, 12, 11, 10, 9, 8])
@@ -744,7 +769,8 @@ def span(p: Predicate[T], xs: List[T]) -> Tuple[List[T], List[T]]:
 
 def break_to(p: Predicate[T], xs: List[T]) -> Tuple[List[T], List[T]]:
     """
-    A tuple where first element is the longest prefix of `xs` of elements that do not satisfy `p` and second element is the remainder of the list.
+    A tuple where first element is the longest prefix of `xs` of elements
+    that do not satisfy `p` and second element is the remainder of the list.
 
     Examples:
       >>> break_to (lambda x: x > 3, [1, 2, 3, 4, 1, 2, 3, 4])
@@ -1340,7 +1366,8 @@ def zip_with7(
       AssertionError: `t1`, `t2`, `t3`, `t4`, `t5`, `t6` and `t7` do not have same lengths.
 
     Examples:
-      >>> zip_with7(lambda a,b,c,d,e,f,g: a+b+c+d+e+f+g, [1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18], [19,20,21])
+      >>> zip_with7(lambda a,b,c,d,e,f,g: a+b+c+d+e+f+g,
+      ... [1,2,3], [4,5,6], [7,8,9], [10,11,12], [13,14,15], [16,17,18], [19,20,21])
       [70, 77, 84]
     """
     assert (

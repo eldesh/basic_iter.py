@@ -117,8 +117,9 @@ class Found(Generic[T]):
 
     def __bool__(self) -> bool:
         """
-        It can be used in an if statement to check if the value is found or not.
-        Then always return `True` if the value is found and always return `False` if the value is `not found <basic_iter.not_found.NotFound>`.
+        It can be used in an if-statement to check if the value is found or not.
+        Then always return `True` if the value is found
+        and always return `False` if the value is `not found <basic_iter.not_found.NotFound>`.
 
         Examples:
           If any value is found, it evaluates to `True`.
@@ -155,7 +156,8 @@ class Found(Generic[T]):
           Found(42)
 
         Example:
-          When the value `is_notfound` (equals to `True`), the constructor name is omitted because the name `NotFound` is redundant.
+          When the value `is_notfound` (equals to `True`),
+          the constructor name is omitted because the name `NotFound` is redundant.
 
           >>> Found.not_found(42)
           NotFound(42)
