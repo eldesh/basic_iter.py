@@ -1,9 +1,15 @@
+"""
+This module provides `NotFound` represents that something is not found.
+"""
 from typing import Any
 
 
 class NotFound:
     """
-    Represents that something is not found.
+    Represents that something was not found.
+
+    An instance of this class indicates that something was not found.
+    These values are constructed by functions that look for the values of something such like `find <basic_iter.prim_list.find>`.
     """
 
     __cond: Any

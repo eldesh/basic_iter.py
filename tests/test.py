@@ -1,3 +1,6 @@
+"""
+Unit test cases of the ``basic_iter`` package.
+"""
 import importlib
 
 import unittest
@@ -21,7 +24,7 @@ def test_targets(pkg) -> pkgutil.ModuleInfo:
 
 def load_tests(loader, tests, ignore):
     """
-    Scan and register all test cases defined as doctests in the `src.basic_iter` module.
+    Scan and register all test cases defined as doctests in the `basic_iter` module.
     """
     del loader, ignore  # Unused
     for (_, name, _) in test_targets(basic_iter):
@@ -37,8 +40,7 @@ class TestPrimList(unittest.TestCase):
     def matrix_strategy(draw, elem, min_row=0, max_row=100, min_col=0, max_col=100):
         """
         Returns:
-          List[List[K]]:
-            Returns a list of lists that all have the same length.
+          Returns a list of lists that all have the same length.
         """
         col = draw(st.integers(min_value=min_col, max_value=max_col))
         # fixed size line strategy

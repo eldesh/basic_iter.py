@@ -1075,6 +1075,12 @@ def find_index(p: Predicate[T], xs: List[T]) -> Found[int]:
       Found(2)
       >>> str(find_index (lambda x: x < 10, [10, 15, 42, 777]))[:8]
       'NotFound'
+
+    Example:
+      The found value can be retrieved by `Found.unwrap <basic_iter.found.Found.unwrap>`.
+
+      >>> find_index (lambda x: x > 40, [12, 22, 32, 42]).unwrap()
+      3
     """
     for i, x in enumerate(xs):
         if p(x):
