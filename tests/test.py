@@ -107,7 +107,7 @@ class TestPrimList(unittest.TestCase):
         def app(xy):
             return L.append(xy[0], xy[1])
 
-        self.assertEqual(xs, app(L.splitAt(n, xs)))
+        self.assertEqual(xs, app(L.split_at(n, xs)))
 
     @given(st.integers(max_value=100), st.lists(st.integers(max_value=100)))
     def test_span(self, p, xs):
