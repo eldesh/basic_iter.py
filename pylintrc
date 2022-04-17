@@ -215,6 +215,9 @@ argument-rgx=^[a-z][a-z0-9_]*$
 # Regular expression matching correct class attribute names
 class-attribute-rgx=^(_?[A-Z][A-Z0-9_]*|__[a-z0-9_]+__|(__|_?)[a-z][a-z0-9_]*)$
 
+# PascalCase naming style is accepted as correct class constant names
+class-const-naming-style=PascalCase
+
 # Regular expression matching correct inline iteration names
 inlinevar-rgx=^[a-z][a-z0-9_]*$
 
