@@ -87,6 +87,7 @@ class Found(Generic[T]):
         assert isinstance(
             other, Found
         ), "Found instances can only be compared to instances of the same type"
+        # pylint: disable-next=protected-access
         return self.__kind == other.__kind and self.__value == other.__value
 
     @property
