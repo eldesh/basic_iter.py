@@ -596,7 +596,7 @@ def replicate(n: int, x: T) -> List[T]:
         return []
 
     xs: List[T] = []
-    for i in range(n):
+    for _ in range(n):
         xs.append(x)
 
     return xs
