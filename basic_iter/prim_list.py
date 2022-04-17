@@ -19,13 +19,10 @@ import copy
 
 from typing import (
     Generator,
-    TypeVar,
     List,
     Callable,
-    Union,
     Tuple,
     Optional,
-    Generic,
 )
 from .found import Found
 from .type import *
