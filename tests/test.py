@@ -35,6 +35,9 @@ def load_tests(loader, tests, ignore):
 
 
 class TestPrimList(unittest.TestCase):
+    """
+    Test cases for the `basic_iter.prim_list` module.
+    """
 
     @composite
     def matrix_strategy(draw, elem, min_row=0, max_row=100, min_col=0, max_col=100):
