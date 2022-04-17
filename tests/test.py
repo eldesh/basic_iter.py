@@ -47,10 +47,8 @@ def matrix_strategy(draw, elem, min_row=0, max_row=100, min_col=0, max_col=100):
     return mat
 
 
-class TestPrimList(unittest.TestCase):
-    """
-    Test cases for the `basic_iter.prim_list` module.
-    """
+class PrimListTest(unittest.TestCase):
+
     def test_find_found(self):
         self.assertEqual(Found.found(1), L.find(lambda x: x == 1, [1, 2, 3]))
         self.assertEqual(Found.found(2), L.find(lambda x: x % 2 == 0, [1, 2, 3]))
