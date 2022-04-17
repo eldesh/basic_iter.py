@@ -4,7 +4,7 @@ POETRY ?= poetry
 
 
 .PHONY: all
-all: format_check type_check test
+all: format_check type_check lint_check test
 
 
 .PHONY: test
@@ -20,6 +20,11 @@ format_check:
 .PHONY: type_check
 type_check:
 	$(POETRY) run mypy --strict basic_iter
+
+
+.PHONY: lint_check
+lint_check:
+	$(POETRY) run pylint --recursive=yes basic_iter tests
 
 
 .PHONY: doc
