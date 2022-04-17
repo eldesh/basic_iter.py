@@ -23,6 +23,7 @@ def load_tests(loader, tests, ignore):
     """
     Scan and register all test cases defined as doctests in the `src.basic_iter` module.
     """
+    del loader, ignore  # Unused
     for (_, name, _) in test_targets(basic_iter):
         print(f"loading doctests in {name}...")
         importlib.import_module(name)
