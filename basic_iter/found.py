@@ -1,3 +1,6 @@
+"""
+This module provides `Found` represents that something is found.
+"""
 from enum import Enum, auto, unique
 from typing import (
     Any,
