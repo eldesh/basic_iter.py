@@ -459,7 +459,7 @@ def all(p: Predicate[T], xs: List[T]) -> bool:
       True
     """
     for x in xs:
-        if not (p(x)):
+        if not p(x):
             return False
     return True
 
@@ -709,7 +709,7 @@ def take_while(p: Predicate[T], xs: List[T]) -> List[T]:
       []
     """
     for i, x in enumerate(xs):
-        if not (p(x)):
+        if not p(x):
             return xs[0:i]
     return xs
 
@@ -727,7 +727,7 @@ def drop_while(p: Predicate[T], xs: List[T]) -> List[T]:
       [0, 3, -3, 5, -5]
     """
     for i, x in enumerate(xs):
-        if not (p(x)):
+        if not p(x):
             return xs[i:]
     return []
 
@@ -746,7 +746,7 @@ def drop_while_end(p: Predicate[T], xs: List[T]) -> List[T]:
     """
     n: int = len(xs)
     for i, x in enumerate(reverse(xs)):
-        if not (p(x)):
+        if not p(x):
             return xs[0 : n - i]
     return []
 
@@ -780,7 +780,7 @@ def break_to(p: Predicate[T], xs: List[T]) -> Tuple[List[T], List[T]]:
       >>> break_to (lambda x: x > 9, [1, 2, 3])
       ([1, 2, 3], [])
     """
-    return span(lambda x: not (p(x)), xs)
+    return span(lambda x: not p(x), xs)
 
 
 def group(xs: List[T]) -> List[List[T]]:
@@ -1620,7 +1620,7 @@ def nub(xs: List[T]) -> List[T]:
     """
     res: List[T] = []
     for x in xs:
-        if not (x in res):
+        if not x in res:
             res.append(x)
     return res
 
@@ -1761,7 +1761,7 @@ def union_by(eq: Callable[[T, T], bool], xs: List[T], ys: List[T]) -> List[T]:
       [28, 2, 12]
     """
     gys: Generator[T, None, None] = (y for y in ys)
-    return xs + list(foldl(lambda acc, e: (x for x in acc if not (eq(e, x))), gys, xs))
+    return xs + list(foldl(lambda acc, e: (x for x in acc if not eq(e, x)), gys, xs))
 
 
 def intersect_by(eq: Callable[[T, T], bool], xs: List[T], ys: List[T]) -> List[T]:

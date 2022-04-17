@@ -124,7 +124,7 @@ class TestPrimList(unittest.TestCase):
     @given(st.lists(st.booleans()), st.lists(st.booleans()))
     def test_strip_prefix(self, xs, ys):
         zs = L.strip_prefix(xs, ys)
-        if not (zs is None):
+        if not zs is None:
             self.assertEqual(xs + zs, ys)
 
     def test_group_empty_id(self):
