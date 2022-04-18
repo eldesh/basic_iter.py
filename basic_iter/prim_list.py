@@ -147,7 +147,7 @@ def reverse(xs: List[T]) -> List[T]:
     Examples:
       >>> reverse([1,2,3])
       [3, 2, 1]
-      >>> reverse('foobarbaz')
+      >>> "".join(reverse(list('foobarbaz')))
       'zabraboof'
     """
     return xs[-1:-len(xs) - 1:-1]
