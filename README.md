@@ -20,7 +20,7 @@ This will generate documentation under `./docs/build/html`.
 For format checking by black:
 
 ```sh
-basic_iter$ poetry run black --check src tests
+basic_iter$ make format_check
 ```
 
 
@@ -29,7 +29,7 @@ basic_iter$ poetry run black --check src tests
 For type checking by mypy:
 
 ```sh
-basic_iter$ poetry run mypy --strict src
+basic_iter$ make type_check
 ```
 
 
@@ -38,7 +38,7 @@ basic_iter$ poetry run mypy --strict src
 For executing unit tests:
 
 ```sh
-basic_iter$ python3 -m unittest discover -s tests
+basic_iter$ make test
 ```
 
 
