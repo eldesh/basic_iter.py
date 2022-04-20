@@ -1,10 +1,25 @@
 # Basic Iterator Operators for Python
 
-This package provides basic functions on iterators.
+This package provides basic functions on sequences (now only `list` is supported).
 All these provided functions are defined in functional way and do not update given arguments, but return newly constructed values.
 
 
-## Generate documents
+## Install
+
+```sh
+$ pip install basic_iter
+```
+
+## Develop
+
+## Install dependencies for developing
+
+```sh
+basic_iter$ poetry install --no-root
+```
+
+
+### Generate documents
 
 To generate documents:
 
