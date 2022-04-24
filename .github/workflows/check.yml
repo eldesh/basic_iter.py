@@ -86,3 +86,6 @@ jobs:
       - name: Run check suite
         run: make
 
+      - name: Generate documents
+        run: make doc
+
