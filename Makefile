@@ -29,8 +29,8 @@ lint_check:
 
 .PHONY: doc
 doc:
-	sphinx-apidoc -f -o docs/source basic_iter
-	$(MAKE) html -C docs
+	$(POETRY) run sphinx-apidoc -f -o docs/source basic_iter
+	$(POETRY) run $(MAKE) html -C docs
 
 
 .PHONY: format
