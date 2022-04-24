@@ -1,0 +1,64 @@
+name: deploy
+
+on:
+  push:
+    tags:
+      - release-v*
+
+env:
+  POETRY_VERSION: 1.1.13
+  PYTHON_VERSION: 3.7.1
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    name: Build the basic_iter package
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Validate the tag and the repository configurations
+        run: |
+          TAG=${GITHUB_REF##*/}
+          PYPROJECT=release-v$(grep -E '^version = ".*"' pyproject.toml)
+          DOC=release-v$(grep -E '^release = ".*"' ./docs/source/conf.py)
+          [ "${TAG}" = "${PYPROJECT}" -a "${PYPROJECT}" = "${DOC}" ] || exit 1
+
+      - name: Set default python version to 3
+        run: |
+          sudo update-alternatives --remove python /usr/bin/python2
+          sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 0
+
+      - name: Supress needless warning from pip
+        run: |
+          mkdir -p $HOME/.config/pip
+          echo '[global]'                          > $HOME/.config/pip/pip.conf
+          echo 'disable-pip-version-check = True' >> $HOME/.config/pip/pip.conf
+
+      - name: Install poetry
+        run: |
+          sudo apt-get install python3-setuptools
+          pip install --upgrade pip
+          pip install wheel
+          pip install poetry==${POETRY_VERSION}
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'poetry'
+
+      - name: Set the python version with poetry
+        run: poetry env use ${PYTHON_VERSION}
+
+      - name: Build the basic_iter package
+        run: poetry build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-18.04
+    name: Deploy the basic_iter package
+    env:
+      POETRY_PYPI_TOKEN_PYPI: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
+    steps:
+      - name: Deploy the basic_iter package
+        run: poetry publish
+
