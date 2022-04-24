@@ -1,0 +1,88 @@
+name: check
+
+on: [push]
+
+env:
+  POETRY_VERSION: 1.1.13
+
+jobs:
+  test:
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        python-version: [
+          '3.7.1',
+          '3.7.5',
+          '3.7.6',
+          '3.7.7',
+          '3.7.8',
+          '3.7.9',
+          '3.7.10',
+          '3.7.11',
+          '3.7.12',
+          '3.8.0',
+          '3.8.1',
+          '3.8.2',
+          '3.8.3',
+          '3.8.4',
+          '3.8.5',
+          '3.8.6',
+          '3.8.7',
+          '3.8.8',
+          '3.8.9',
+          '3.8.10',
+          '3.8.11',
+          '3.8.12',
+          '3.9.0',
+          '3.9.1',
+          '3.9.2',
+          '3.9.4',
+          '3.9.5',
+          '3.9.6',
+          '3.9.7',
+          '3.9.8',
+          '3.9.9',
+          '3.9.10',
+          '3.9.11',
+          '3.9.12',
+          '3.10.0',
+          '3.10.1',
+          '3.10.2',
+          '3.10.3',
+          '3.10.4'
+        ]
+    name: Validate the basic_iter package
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set default python version to 3
+        run: |
+          sudo update-alternatives --remove python /usr/bin/python2
+          sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 0
+
+      - name: Supress needless warning from pip
+        run: |
+          mkdir -p $HOME/.config/pip
+          echo '[global]'                          > $HOME/.config/pip/pip.conf
+          echo 'disable-pip-version-check = True' >> $HOME/.config/pip/pip.conf
+
+      - name: Install poetry
+        run: |
+          sudo apt-get install python3-setuptools
+          pip install --upgrade pip
+          pip install wheel
+          pip install poetry==${POETRY_VERSION}
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'poetry'
+
+      - name: Install dependent packages
+        run: |
+          poetry env use ${{ matrix.python-version }}
+          poetry install --no-root
+
+      - name: Run check suite
+        run: make
+
