@@ -9,7 +9,7 @@ all: format_check type_check lint_check test
 
 .PHONY: test
 test:
-	$(PYTHON) -m unittest discover -s tests
+	$(POETRY) run $(PYTHON) -m unittest discover -s tests
 
 
 .PHONY: format_check
