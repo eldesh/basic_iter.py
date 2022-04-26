@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "basic_iter"
-version = "0.0.3"
+version = "0.0.4"
 description = "A basic set of functions on iterators"
 authors = ["Takayuki Goto <nephits@gmail.com>"]
 maintainers = ["Takayuki Goto <nephits@gmail.com>"]
