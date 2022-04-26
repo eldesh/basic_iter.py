@@ -1,9 +1,11 @@
 name: deploy
 
 on:
-  push:
-    tags:
-      - release-v*
+  pull_request:
+    types:
+      - closed
+    branches:
+      - master
 
 env:
   POETRY_VERSION: 1.1.13
@@ -11,6 +13,7 @@ env:
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release-v')
     runs-on: ubuntu-18.04
     name: Build the basic_iter package
     steps:
@@ -18,10 +21,12 @@ jobs:
 
       - name: Validate the tag and the repository configurations
         run: |
-          TAG=${GITHUB_REF##*/}
-          PYPROJECT=release-v$(grep -E '^version = ".*"' pyproject.toml)
-          DOC=release-v$(grep -E '^release = ".*"' ./docs/source/conf.py)
-          [ "${TAG}" = "${PYPROJECT}" -a "${PYPROJECT}" = "${DOC}" ] || exit 1
+          set -x
+          BRANCH=${GITHUB_HEAD_REF##*/}
+          PYPROJECT=release-v$(sed -n -e "s/^version = \"\(.*\)\"/\1/p"  pyproject.toml)
+          DOC=release-v$(sed -n -e "s/^release = '\(.*\)'/\1/p"  ./docs/source/conf.py)
+
+          [ "${BRANCH}" = "${PYPROJECT}" -a "${PYPROJECT}" = "${DOC}" ] || exit 1
 
       - name: Set default python version to 3
         run: |
