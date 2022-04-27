@@ -21,6 +21,7 @@ jobs:
 
       - name: Validate the tag and the repository configurations
         run: |
+          set -x
           BRANCH=${GITHUB_REF##*/}
           PYPROJECT=release-v$(sed -n -e "s/^version = \"\(.*\)\"/\1/p"  pyproject.toml)
           DOC=release-v$(sed -n -e "s/^release = '\(.*\)'/\1/p"  ./docs/source/conf.py)
